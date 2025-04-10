@@ -1,3 +1,5 @@
+import 'package:ecom/contollers/google_sgnin_controller.dart';
+import 'package:ecom/screens/auth-ui/register_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:lottie/lottie.dart';
@@ -6,7 +8,9 @@ import 'package:get/get.dart';
 import '../../utils/constants/app_constraint.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({super.key});
+
+
+  final GoogleSignInController _googleSignInController=Get.put(GoogleSignInController());
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +43,9 @@ class WelcomeScreen extends StatelessWidget {
               child: TextButton.icon(
                 icon: Image.asset('assets/icons/google.png',width: Get.width/12,height: Get.height/12,),
                 label: Text('Sign in with Google',style: TextStyle(color: AppConstant.appTextColor),),
-                onPressed: (){},
+                onPressed: (){
+                  _googleSignInController.signInwithGoogle();
+                },
               ),
             ),),
             SizedBox(height: Get.height/50,),
@@ -53,7 +59,9 @@ class WelcomeScreen extends StatelessWidget {
               child: TextButton.icon(
                 icon: Image.asset('assets/icons/email.png',color: Colors.white,width: Get.width/12,height: Get.height/12,),
                 label: Text('Sign in with Email',style: TextStyle(color: AppConstant.appTextColor),),
-                onPressed: (){},
+                onPressed: (){
+                  Get.to(RegisterScreen());
+                },
               ),
             ),),
           ],
