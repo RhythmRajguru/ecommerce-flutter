@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecom/contollers/get_device_token_controller.dart';
 import 'package:ecom/models/userModel.dart';
 import 'package:ecom/screens/auth-ui/welcome_screen.dart';
 import 'package:ecom/screens/user-panel/main_screen.dart';
+import 'package:ecom/utils/constants/app_constraint.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -14,6 +16,7 @@ class GoogleSignInController extends GetxController{
   final FirebaseAuth _auth=FirebaseAuth.instance;
 
   Future<void> signInwithGoogle()async{
+    final GetDeviceTokenController getDeviceTokenController=Get.put(GetDeviceTokenController());
     try{
       final GoogleSignInAccount? googleSignInAccount=await googleSignIn.signIn();
 
@@ -38,7 +41,7 @@ class GoogleSignInController extends GetxController{
               email: user.email.toString(),
               phone: user.phoneNumber.toString(),
               userImg: user.photoURL.toString(),
-              userDeviceToken: '',
+              userDeviceToken: getDeviceTokenController.deviceToken.toString(),
               country: '',
               city: "",
               userAddress: '',
@@ -55,7 +58,8 @@ class GoogleSignInController extends GetxController{
 
     }catch(e){
       EasyLoading.dismiss();
-      Get.snackbar("Error", "$e");
+      Get.snackbar("Error", "$e",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+
     }
   }
 }

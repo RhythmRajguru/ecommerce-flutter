@@ -1,4 +1,4 @@
-import 'package:ecom/contollers/google_sgnin_controller.dart';
+import 'package:ecom/contollers/google_signin_controller.dart';
 import 'package:ecom/screens/auth-ui/login_screen.dart';
 import 'package:ecom/screens/auth-ui/register_screen.dart';
 import 'package:flutter/material.dart';
