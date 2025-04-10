@@ -34,7 +34,7 @@ class MainScreen extends StatelessWidget {
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Icon(Icons.logout),
+              child: Icon(Icons.logout,color: Colors.white,),
             ),
           )
         ],

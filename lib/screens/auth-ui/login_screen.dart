@@ -1,4 +1,5 @@
 import 'package:ecom/contollers/login_controller.dart';
+import 'package:ecom/screens/auth-ui/forgot_password_Screen.dart';
 import 'package:ecom/screens/auth-ui/register_screen.dart';
 import 'package:ecom/screens/user-panel/main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,7 +19,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  var _passwordVisibility=true;
+
 
   final LoginController loginController=Get.put(LoginController());
 
@@ -91,14 +92,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),)
               )),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 15.0),
-            alignment: Alignment.centerRight,
-            child: Text("Forgot Password?",
-            style: TextStyle(
-              color: AppConstant.appSecondaryColor,
-              fontWeight: FontWeight.bold,
-            ),),
+          InkWell(
+            onTap: (){
+              Get.to(ForgotPasswordScreen());
+            },
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 15.0),
+              alignment: Alignment.centerRight,
+              child: Text("Forgot Password?",
+              style: TextStyle(
+                color: AppConstant.appSecondaryColor,
+                fontWeight: FontWeight.bold,
+              ),),
+            ),
           ),
           SizedBox(height: Get.height/20,),
           Material(child: Container(
