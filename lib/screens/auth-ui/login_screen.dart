@@ -1,4 +1,7 @@
+import 'package:ecom/contollers/login_controller.dart';
 import 'package:ecom/screens/auth-ui/register_screen.dart';
+import 'package:ecom/screens/user-panel/main_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -16,6 +19,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   var _passwordVisibility=true;
+
+  final LoginController loginController=Get.put(LoginController());
 
   final emailController=TextEditingController();
   final passwordController=TextEditingController();
@@ -65,25 +70,26 @@ class _LoginScreenState extends State<LoginScreen> {
               width: Get.width,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: TextFormField(
+                child: Obx(()=>TextFormField(
                   controller: passwordController,
                   cursorColor: AppConstant.appSecondaryColor,
                   keyboardType: TextInputType.emailAddress,
-                  obscureText: _passwordVisibility,
+                  obscureText: loginController.isPasswordVisible.value,
                   decoration: InputDecoration(
                       hintText: 'Password',
                       contentPadding: EdgeInsets.only(top: 2.0,left: 8.0),
                       prefixIcon: Icon(Icons.password),
-                      suffixIcon: IconButton(onPressed: (){
-                        setState(() {
-                          _passwordVisibility = !_passwordVisibility;
-                        });
-                      }, icon: _passwordVisibility?Icon(Icons.visibility_off):Icon(Icons.visibility_sharp)),
+                      suffixIcon: InkWell(
+                        onTap: (){
+                          loginController.isPasswordVisible.toggle();
+                        },
+                        child: loginController.isPasswordVisible.value?Icon(Icons.visibility_off):Icon(Icons.visibility_sharp),
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       )
                   ),
-                ),
+                ),)
               )),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 15.0),
@@ -104,7 +110,31 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             child: TextButton(
               child: Text('Sign In',style: TextStyle(color: AppConstant.appTextColor),),
-              onPressed: (){},
+              onPressed: ()async{
+                final email=emailController.text.trim();
+                final password=passwordController.text.trim();
+                if(email.isEmpty || password.isEmpty){
+                  Get.snackbar("Error", "Please enter all details",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+                }else{
+                 UserCredential? userCredential=await loginController.LoginMethod(email,password);
+
+                 if(userCredential!=null){
+                   if(userCredential.user!.emailVerified){
+                     Get.offAll(()=>MainScreen());
+                     Get.snackbar("Success", "login successfully",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+                   }else{
+                     Get.snackbar("Error", "Please verify your email before login",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+
+                   }
+                 }
+                 else{
+                   Get.snackbar("Error", "Please try again",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+
+                 }
+
+                }
+
+              },
             ),
           ),),
           SizedBox(height: Get.height/30,),

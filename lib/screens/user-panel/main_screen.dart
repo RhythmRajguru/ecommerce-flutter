@@ -1,4 +1,5 @@
 import 'package:ecom/screens/auth-ui/welcome_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,6 +25,9 @@ class MainScreen extends StatelessWidget {
           InkWell(
             onTap: ()async{
               GoogleSignIn googleSignIn=GoogleSignIn();
+              FirebaseAuth _auth=FirebaseAuth.instance;
+
+              await _auth.signOut();
 
               await googleSignIn.signOut();
               Get.offAll(()=>WelcomeScreen());
