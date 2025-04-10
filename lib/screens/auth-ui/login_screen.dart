@@ -16,6 +16,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   var _passwordVisibility=true;
+
+  final emailController=TextEditingController();
+  final passwordController=TextEditingController();
   @override
   Widget build(BuildContext context) {
     return KeyboardVisibilityBuilder(builder: (p0, isKeyboardVisible) {
@@ -43,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: TextFormField(
+                  controller: emailController,
                   cursorColor: AppConstant.appSecondaryColor,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
@@ -62,6 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: TextFormField(
+                  controller: passwordController,
                   cursorColor: AppConstant.appSecondaryColor,
                   keyboardType: TextInputType.emailAddress,
                   obscureText: _passwordVisibility,

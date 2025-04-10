@@ -1,4 +1,5 @@
 import 'package:ecom/contollers/google_sgnin_controller.dart';
+import 'package:ecom/screens/auth-ui/login_screen.dart';
 import 'package:ecom/screens/auth-ui/register_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +61,7 @@ class WelcomeScreen extends StatelessWidget {
                 icon: Image.asset('assets/icons/email.png',color: Colors.white,width: Get.width/12,height: Get.height/12,),
                 label: Text('Sign in with Email',style: TextStyle(color: AppConstant.appTextColor),),
                 onPressed: (){
-                  Get.to(RegisterScreen());
+                  Get.to(LoginScreen());
                 },
               ),
             ),),

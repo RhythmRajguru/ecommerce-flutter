@@ -1,3 +1,5 @@
+import 'package:ecom/contollers/register_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +18,14 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  var _passwordVisibility=true;
+
+  final RegisterController registerController=Get.put(RegisterController());
+
+  final nameController=TextEditingController();
+  final emailController=TextEditingController();
+  final phoneController=TextEditingController();
+  final cityController=TextEditingController();
+  final passwordController=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +49,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: TextFormField(
+                        controller: nameController,
                         cursorColor: AppConstant.appSecondaryColor,
                         keyboardType: TextInputType.name,
                         decoration: InputDecoration(
@@ -59,6 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: TextFormField(
+                        controller: emailController,
                         cursorColor: AppConstant.appSecondaryColor,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
@@ -78,6 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: TextFormField(
+                        controller: phoneController,
                         cursorColor: AppConstant.appSecondaryColor,
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
@@ -97,6 +109,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: TextFormField(
+                        controller: cityController,
                         cursorColor: AppConstant.appSecondaryColor,
                         keyboardType: TextInputType.streetAddress,
                         decoration: InputDecoration(
@@ -115,24 +128,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     width: Get.width,
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: TextFormField(
+                      child: Obx(() => TextFormField(
+                        controller: passwordController,
                         cursorColor: AppConstant.appSecondaryColor,
                         keyboardType: TextInputType.emailAddress,
-                        obscureText: _passwordVisibility,
+                        obscureText: registerController.isPasswordVisible.value,
                         decoration: InputDecoration(
                             hintText: 'Password',
                             contentPadding: EdgeInsets.only(top: 2.0,left: 8.0),
                             prefixIcon: Icon(Icons.password),
-                            suffixIcon: IconButton(onPressed: (){
-                                 setState(() {
-                                   _passwordVisibility = !_passwordVisibility;
-                                 });
-                            }, icon: _passwordVisibility?Icon(Icons.visibility_off):Icon(Icons.visibility_sharp)),
+                            suffixIcon: InkWell(
+                              onTap: (){
+                                registerController.isPasswordVisible.toggle();
+                              },
+                              child: registerController.isPasswordVisible.value?Icon(Icons.visibility_off):Icon(Icons.visibility_sharp),
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             )
                         ),
-                      ),
+                      ),)
                     )),
                 SizedBox(height: Get.height/20,),
                 Material(child: Container(
@@ -144,7 +159,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   child: TextButton(
                     child: Text('Sign Up',style: TextStyle(color: AppConstant.appTextColor),),
-                    onPressed: (){},
+                    onPressed: ()async{
+                      String name=nameController.text.trim();
+                      String email=emailController.text.trim();
+                      String phone=phoneController.text.trim();
+                      String city=cityController.text.trim();
+                      String password=passwordController.text.trim();
+                      String userDeviceToken='';
+                    if(name.isEmpty || email.isEmpty || phone.isEmpty || city.isEmpty || password.isEmpty){
+                      Get.snackbar("Error", "Please enter all details",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+                    }else{
+                      UserCredential? userCredential=await registerController.RegisterMethod(
+                          name,
+                          email,
+                          phone,
+                          city,
+                          password,
+                          userDeviceToken);
+                      if(userCredential!=null){
+                        Get.snackbar("Verification email sent", "Please check your email",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+                     FirebaseAuth.instance.signOut();
+
+                     Get.offAll(()=>LoginScreen());
+
+                      }
+                    }
+                    },
                   ),
                 ),),
                 SizedBox(height: Get.height/20,),

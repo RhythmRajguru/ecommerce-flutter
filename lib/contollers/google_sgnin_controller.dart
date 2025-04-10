@@ -40,6 +40,7 @@ class GoogleSignInController extends GetxController{
               userImg: user.photoURL.toString(),
               userDeviceToken: '',
               country: '',
+              city: "",
               userAddress: '',
               street: '',
               isAdmin: false,
@@ -54,7 +55,7 @@ class GoogleSignInController extends GetxController{
 
     }catch(e){
       EasyLoading.dismiss();
-      print("this is error $e");
+      Get.snackbar("Error", "$e");
     }
   }
 }
