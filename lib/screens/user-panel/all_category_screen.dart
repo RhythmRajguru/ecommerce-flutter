@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecom/models/category_model.dart';
+import 'package:ecom/screens/user-panel/single_category_product.dart';
 import 'package:ecom/utils/constants/app_constraint.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -46,15 +47,20 @@ class AllCategoryScreen extends StatelessWidget {
                 return Row(
                     children: [
                 Padding(padding: EdgeInsets.all(8.0),
-                child: Container(
-                child: FillImageCard(
-                imageProvider: CachedNetworkImageProvider(categoryModel.categoryImg),
-                width: Get.width/2.3,
-                heightImage: Get.height/10,
-                borderRadius: 20.0,
-                title: Center(child: Text(categoryModel.categoryName,style: TextStyle(fontSize: 12.0,fontWeight: FontWeight.w800),)),
-                ),
-              ),),
+                child: InkWell(
+                  onTap: (){
+                    Get.to(SingleCategoryProduct(categoryId:categoryModel.categoryId,categoryName: categoryModel.categoryName,));
+                  },
+                  child: Container(
+                  child: FillImageCard(
+                  imageProvider: CachedNetworkImageProvider(categoryModel.categoryImg),
+                  width: Get.width/2.3,
+                  heightImage: Get.height/10,
+                  borderRadius: 20.0,
+                  title: Center(child: Text(categoryModel.categoryName,style: TextStyle(fontSize: 12.0,fontWeight: FontWeight.w800),)),
+                  ),
+                                ),
+                ),),
                   ],
                 );
               },itemCount: snapshot.data!.docs.length,shrinkWrap: true,
