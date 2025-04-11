@@ -1,5 +1,7 @@
 import 'package:ecom/common/widgets/banner_widget.dart';
+import 'package:ecom/common/widgets/category_item_widget.dart';
 import 'package:ecom/common/widgets/custom_drawer_widget.dart';
+import 'package:ecom/common/widgets/flash_sale_widget.dart';
 import 'package:ecom/common/widgets/heading_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +36,11 @@ class MainScreen extends StatelessWidget {
                   margin: EdgeInsets.symmetric(horizontal: 10.0),
                   child: BannerWidget()
               ),
-              HeadingWidget(headingTitle: 'Categories', headingSubTitle: 'Low Price', onTap: () {  }, buttonText: 'See More >',),
+              HeadingWidget(headingTitle: 'Categories', headingSubTitle: 'According to your budget', onTap: () {  }, buttonText: 'See More >',),
+              CategoryItemWidget(),
+
+              HeadingWidget(headingTitle: 'Flash Sale', headingSubTitle: 'Low Price', onTap: () {  }, buttonText: 'See More >',),
+              FlashSaleWidget(),
             ],
           ),
         ),
