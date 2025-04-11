@@ -1,4 +1,6 @@
+import 'package:ecom/contollers/get_user_data_controller.dart';
 import 'package:ecom/contollers/login_controller.dart';
+import 'package:ecom/screens/admin-panel/admin_main_screen.dart';
 import 'package:ecom/screens/auth-ui/forgot_password_Screen.dart';
 import 'package:ecom/screens/auth-ui/register_screen.dart';
 import 'package:ecom/screens/user-panel/main_screen.dart';
@@ -22,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
   final LoginController loginController=Get.put(LoginController());
+  final GetUserDataController getUserDataController=Get.put(GetUserDataController());
 
   final emailController=TextEditingController();
   final passwordController=TextEditingController();
@@ -124,10 +127,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 }else{
                  UserCredential? userCredential=await loginController.LoginMethod(email,password);
 
+                 var userData=await getUserDataController.getUserData(userCredential!.user!.uid);
+
                  if(userCredential!=null){
                    if(userCredential.user!.emailVerified){
-                     Get.offAll(()=>MainScreen());
-                     Get.snackbar("Success", "login successfully",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+                      if(userData[0]['isAdmin']==true){
+                        Get.offAll(()=>AdminMainScreen());
+                        Get.snackbar("Success admin login", "login successfully",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+
+                      }else{
+                        Get.offAll(()=>MainScreen());
+                        Get.snackbar("Success user login", "login successfully",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+
+                      }
+
                    }else{
                      Get.snackbar("Error", "Please verify your email before login",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
 

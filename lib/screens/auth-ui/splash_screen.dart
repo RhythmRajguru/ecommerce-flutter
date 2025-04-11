@@ -1,6 +1,10 @@
 import 'dart:async';
 
+import 'package:ecom/contollers/get_user_data_controller.dart';
+import 'package:ecom/screens/admin-panel/admin_main_screen.dart';
 import 'package:ecom/screens/auth-ui/welcome_screen.dart';
+import 'package:ecom/screens/user-panel/main_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:get/get.dart';
@@ -16,11 +20,29 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
+  User? user=FirebaseAuth.instance.currentUser;
   @override
   void initState() {
     Timer(Duration(seconds: 3), (){
-      Get.offAll(()=>WelcomeScreen());
+      skipLogin(context);
     });
+  }
+  Future<void> skipLogin(BuildContext context)async{
+
+if(user!=null){
+
+  final GetUserDataController getUserDataController=Get.put(GetUserDataController());
+  var userData=await getUserDataController.getUserData(user!.uid);
+
+  if(userData[0]['isAdmin']==true){
+    Get.offAll(()=>AdminMainScreen());
+  }else{
+    Get.offAll(()=>MainScreen());
+  }
+
+}else{
+  Get.offAll(()=>WelcomeScreen());
+}
   }
   @override
   Widget build(BuildContext context) {

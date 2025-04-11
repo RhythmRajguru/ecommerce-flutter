@@ -1,25 +1,25 @@
 import 'package:ecom/screens/auth-ui/welcome_screen.dart';
+import 'package:ecom/utils/constants/app_constraint.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:get/get.dart';
-import '../../utils/constants/app_constraint.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
+class AdminMainScreen extends StatelessWidget {
+  const AdminMainScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: AppConstant.appSecondaryColor,
           statusBarIconBrightness: Brightness.light,
         ),
         backgroundColor: AppConstant.appMainColor,
-        title: Text(AppConstant.appMainName),
+        title: Text('Admin Panel'),
         centerTitle: true,
         actions: [
           InkWell(
