@@ -1,8 +1,10 @@
+import 'package:ecom/common/widgets/all_product_widget.dart';
 import 'package:ecom/common/widgets/banner_widget.dart';
 import 'package:ecom/common/widgets/category_item_widget.dart';
 import 'package:ecom/common/widgets/custom_drawer_widget.dart';
 import 'package:ecom/common/widgets/flash_sale_widget.dart';
 import 'package:ecom/common/widgets/heading_widget.dart';
+import 'package:ecom/screens/user-panel/all+products.dart';
 import 'package:ecom/screens/user-panel/all_category_screen.dart';
 import 'package:ecom/screens/user-panel/all_flash_sale_product.dart';
 import 'package:flutter/cupertino.dart';
@@ -47,6 +49,11 @@ class MainScreen extends StatelessWidget {
                 Get.to(AllFlashSaleProduct());
               }, buttonText: 'See More >',),
               FlashSaleWidget(),
+
+              HeadingWidget(headingTitle: 'All Products', headingSubTitle: 'According to your budget', onTap: () {
+                Get.to(AllProducts());
+              }, buttonText: 'See More >',),
+              AllProductWidget(),
             ],
           ),
         ),

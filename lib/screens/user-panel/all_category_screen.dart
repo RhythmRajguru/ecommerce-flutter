@@ -16,7 +16,8 @@ class AllCategoryScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppConstant.appMainColor,
-        title: Text('All Categories'),
+        title: Text('All Categories',style: TextStyle(color: AppConstant.appTextColor),),
+        iconTheme: IconThemeData(color: AppConstant.appTextColor),
       ),
       body: FutureBuilder(
         future: FirebaseFirestore.instance.collection('categories').get(),
