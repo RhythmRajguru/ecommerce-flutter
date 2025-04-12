@@ -4,7 +4,7 @@ import 'package:ecom/common/widgets/category_item_widget.dart';
 import 'package:ecom/common/widgets/custom_drawer_widget.dart';
 import 'package:ecom/common/widgets/flash_sale_widget.dart';
 import 'package:ecom/common/widgets/heading_widget.dart';
-import 'package:ecom/screens/user-panel/all+products.dart';
+import 'package:ecom/screens/user-panel/all_products.dart';
 import 'package:ecom/screens/user-panel/all_category_screen.dart';
 import 'package:ecom/screens/user-panel/all_flash_sale_product.dart';
 import 'package:flutter/cupertino.dart';
