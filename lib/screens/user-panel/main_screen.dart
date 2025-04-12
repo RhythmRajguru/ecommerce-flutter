@@ -7,6 +7,7 @@ import 'package:ecom/common/widgets/heading_widget.dart';
 import 'package:ecom/screens/user-panel/all_products.dart';
 import 'package:ecom/screens/user-panel/all_category_screen.dart';
 import 'package:ecom/screens/user-panel/all_flash_sale_product.dart';
+import 'package:ecom/screens/user-panel/cart_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,7 +30,9 @@ class MainScreen extends StatelessWidget {
         title: Text(AppConstant.appMainName,style: TextStyle(color: AppConstant.appTextColor),),
         centerTitle: true,
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.shopping_cart)),
+          IconButton(onPressed: (){
+            Get.to(CartScreen());
+          }, icon: Icon(Icons.shopping_cart)),
         ],
       ),
       drawer: CustomDrawerWidget(),
