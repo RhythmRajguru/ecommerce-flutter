@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecom/models/category_model.dart';
 import 'package:ecom/models/product_model.dart';
+import 'package:ecom/screens/user-panel/product_detail.dart';
 import 'package:ecom/screens/user-panel/single_category_product.dart';
 import 'package:ecom/utils/constants/app_constraint.dart';
 import 'package:flutter/cupertino.dart';
@@ -58,6 +59,7 @@ class AllFlashSaleProduct extends StatelessWidget {
                   children: [
                     Padding(padding: EdgeInsets.all(8.0),
                       child: InkWell(
+                        onTap: ()=>Get.to(ProductDetail(productModel: productModel)),
                         child: Container(
                           child: FillImageCard(
                             imageProvider: CachedNetworkImageProvider(productModel.productImages[0]),

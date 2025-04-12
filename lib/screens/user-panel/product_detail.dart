@@ -22,19 +22,22 @@ class ProductDetail extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: Get.height/60,),
-        CarouselSlider(
-        items: productModel.productImages.map((imageUrls)=>
-          ClipRRect(borderRadius: BorderRadius.circular(10.0),
-           child: CachedNetworkImage(imageUrl: imageUrls,fit: BoxFit.cover,width: Get.width-10,
-            placeholder: (context,url)=>ColoredBox(color: Colors.white,child: Center(child: CupertinoActivityIndicator(),),),
-            errorWidget: (context,url,error)=>Icon(Icons.error),
-            ),),).toList(),
-            options: CarouselOptions(
-            scrollDirection: Axis.horizontal,
-            autoPlay: true,
-            aspectRatio: 2.5,
-              viewportFraction: 1,
-            ),),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 10.0),
+          child: CarouselSlider(
+          items: productModel.productImages.map((imageUrls)=>
+            ClipRRect(borderRadius: BorderRadius.circular(10.0),
+             child: CachedNetworkImage(imageUrl: imageUrls,fit: BoxFit.cover,width: Get.width-10,
+              placeholder: (context,url)=>ColoredBox(color: Colors.white,child: Center(child: CupertinoActivityIndicator(),),),
+              errorWidget: (context,url,error)=>Icon(Icons.error),
+              ),),).toList(),
+              options: CarouselOptions(
+              scrollDirection: Axis.horizontal,
+              autoPlay: true,
+              aspectRatio: 2.5,
+                viewportFraction: 1,
+              ),),
+        ),
 
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -67,7 +70,18 @@ class ProductDetail extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
                           alignment: Alignment.topLeft,
-                          child: Text("Rs."+productModel.fullPrice)),
+                          child:
+                             productModel.isSale==true&&productModel.salePrice!=''
+                                 ? Row(
+                               children: [
+                                 Text("Rs."+productModel.salePrice),
+                                 SizedBox(width: 10,),
+                                 Text(productModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: AppConstant.appMainColor),),
+                               ],
+                             )
+                                 : Text("Rs."+productModel.fullPrice)
+
+                    ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),

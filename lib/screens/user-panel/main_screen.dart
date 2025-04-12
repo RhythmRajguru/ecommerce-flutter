@@ -28,6 +28,9 @@ class MainScreen extends StatelessWidget {
         backgroundColor: AppConstant.appMainColor,
         title: Text(AppConstant.appMainName,style: TextStyle(color: AppConstant.appTextColor),),
         centerTitle: true,
+        actions: [
+          IconButton(onPressed: (){}, icon: Icon(Icons.shopping_cart)),
+        ],
       ),
       drawer: CustomDrawerWidget(),
       body: SingleChildScrollView(

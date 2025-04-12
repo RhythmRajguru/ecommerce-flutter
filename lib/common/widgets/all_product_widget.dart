@@ -60,7 +60,7 @@ class AllProductWidget extends StatelessWidget {
                             heightImage: Get.height/6,
                             borderRadius: 20.0,
                             title: Center(child: Text(productModel.productName,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12.0,fontWeight: FontWeight.w800),)),
-                            footer: Center(child: Text("Rs."+productModel.salePrice,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12.0,fontWeight: FontWeight.w800),)),
+                            footer: Center(child: Text("Rs."+productModel.fullPrice,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12.0,fontWeight: FontWeight.w800),)),
 
 
                           ),
