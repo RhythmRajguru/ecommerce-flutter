@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecom/contollers/cart_price_controller.dart';
 import 'package:ecom/models/cart_model.dart';
 import 'package:ecom/models/product_model.dart';
 import 'package:ecom/screens/user-panel/product_detail.dart';
@@ -15,6 +16,7 @@ class CartScreen extends StatelessWidget {
 
   User? user=FirebaseAuth.instance.currentUser;
 
+  final CartPriceController cartPriceController=Get.put(CartPriceController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,6 +65,10 @@ class CartScreen extends StatelessWidget {
                         updatedAt: cartData['updatedAt'],
                         productQuantity: cartData['productQuantity'],
                         productTotalPrice: cartData['productTotalPrice']);
+
+                    //calculate price
+                    cartPriceController.fetchProductPrice();
+
                   return SwipeActionCell
                     (key: ObjectKey(cartModel.productId),
                       trailingActions: [
@@ -130,7 +136,9 @@ class CartScreen extends StatelessWidget {
           children: [
             Container(
                 margin: EdgeInsets.symmetric(horizontal: 10.0),
-                child: Text('Total '+'Rs.'+'1200.00',style: TextStyle(fontWeight: FontWeight.bold),)),
+                child: Obx(() {
+                 return Text('Total '+'Rs.'+cartPriceController.totalPrice.value.toStringAsFixed(1),style: TextStyle(fontWeight: FontWeight.bold),);
+                },)),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Material(child: Container(
