@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecom/models/cart_model.dart';
 import 'package:ecom/models/product_model.dart';
+import 'package:ecom/screens/user-panel/cart_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:ecom/utils/constants/app_constraint.dart';
@@ -22,6 +23,11 @@ class ProductDetail extends StatelessWidget {
       backgroundColor: AppConstant.appMainColor,
       title: Text('Product Details',style: TextStyle(color: AppConstant.appTextColor),),
       iconTheme: IconThemeData(color: AppConstant.appTextColor),
+      actions: [
+        IconButton(onPressed: (){
+          Get.to(CartScreen());
+        }, icon: Icon(Icons.shopping_cart)),
+      ],
     ),
       body: Container(
         child: Column(
@@ -176,7 +182,10 @@ class ProductDetail extends StatelessWidget {
               createdAt: DateTime.now(),
               updatedAt: DateTime.now(),
               productQuantity: 1,
-              productTotalPrice: double.parse(productModel.isSale?productModel.salePrice:productModel.fullPrice));
+              productTotalPrice: double.parse(productModel.isSale?productModel.salePrice:productModel.fullPrice)
+
+          );
+
 
           await documentReference.set(cartModel.toMap());
 

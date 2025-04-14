@@ -21,7 +21,7 @@ class CartModel{
 
   Map<String,dynamic> toMap(){
     return {
-      "productId":categoryId,
+      "productId":productId,
       "categoryId":categoryId,
       "productName":productName,
       "categoryName":categoryName,
@@ -34,7 +34,7 @@ class CartModel{
       "createdAt":createdAt,
       "updatedAt":updatedAt,
       "productQuantity":productQuantity,
-      "createdAt":createdAt,
+      "productTotalPrice":productTotalPrice,
 
     };
   }
