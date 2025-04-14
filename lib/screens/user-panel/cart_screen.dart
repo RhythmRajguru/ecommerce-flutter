@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecom/contollers/cart_price_controller.dart';
 import 'package:ecom/models/cart_model.dart';
 import 'package:ecom/models/product_model.dart';
+import 'package:ecom/screens/user-panel/checkout_screen.dart';
 import 'package:ecom/screens/user-panel/product_detail.dart';
 import 'package:ecom/utils/constants/app_constraint.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -151,7 +152,7 @@ class CartScreen extends StatelessWidget {
                 child: TextButton(
                   child: Text('Checkout',style: TextStyle(color: AppConstant.appTextColor),),
                   onPressed: (){
-
+                      Get.to(CheckoutScreen());
                   },
                 ),
               ),),
