@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecom/contollers/cart_price_controller.dart';
 import 'package:ecom/models/cart_model.dart';
 import 'package:ecom/models/product_model.dart';
+import 'package:ecom/screens/user-panel/cart_screen.dart';
+import 'package:ecom/screens/user-panel/main_screen.dart';
 import 'package:ecom/screens/user-panel/product_detail.dart';
 import 'package:ecom/utils/constants/app_constraint.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,11 +14,18 @@ import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
 
+import '../../contollers/cutomer_devicetoken_controller.dart';
+import '../../services/placeorder_service.dart';
+
 class CheckoutScreen extends StatelessWidget {
 
   User? user=FirebaseAuth.instance.currentUser;
 
   final CartPriceController cartPriceController=Get.put(CartPriceController());
+
+  final nameController=TextEditingController();
+  final phoneController=TextEditingController();
+  final addressController=TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,7 +128,7 @@ class CheckoutScreen extends StatelessWidget {
                 child: TextButton(
                   child: Text('Confirm Order',style: TextStyle(color: AppConstant.appTextColor),),
                   onPressed: (){
-                    showCustomBottomSheet();
+                    showCustomBottomSheet(context);
                   },
                 ),
               ),),
@@ -130,7 +139,7 @@ class CheckoutScreen extends StatelessWidget {
     );
   }
 
-  void showCustomBottomSheet() {
+  void showCustomBottomSheet(BuildContext context) {
     Get.bottomSheet(
       Container(height: 350,
       decoration: BoxDecoration(
@@ -147,6 +156,7 @@ class CheckoutScreen extends StatelessWidget {
                     maxLines: 1,
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.next,
+                    controller: nameController,
                     decoration: InputDecoration(
                       labelText: 'Name',
                       prefixIcon: Icon(Icons.person),
@@ -166,6 +176,7 @@ class CheckoutScreen extends StatelessWidget {
                     maxLength: 10,
                     keyboardType: TextInputType.phone,
                     textInputAction: TextInputAction.next,
+                    controller: phoneController,
                     decoration: InputDecoration(
                       labelText: 'Phone',
                       prefixIcon: Icon(Icons.phone),
@@ -184,13 +195,14 @@ class CheckoutScreen extends StatelessWidget {
                     maxLines: 3,
                     keyboardType: TextInputType.streetAddress,
                     textInputAction: TextInputAction.next,
+                    controller: addressController,
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.location_pin),
                       labelText: 'Address',
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10)
                       ),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
                       hintStyle: TextStyle(fontSize: 12),
                     ),
                   ),
@@ -203,8 +215,25 @@ class CheckoutScreen extends StatelessWidget {
                     backgroundColor: AppConstant.appMainColor,
                     padding: EdgeInsets.fromLTRB(10,10,10,10)
                   ),
-                    onPressed: (){
+                    onPressed: ()async{
+                    if(nameController.text!='' && phoneController.text!='' && addressController.text!=''){
+                      String name=nameController.text.trim();
+                      String phone=phoneController.text.trim();
+                      String address=addressController.text.trim();
 
+                      String customerToken=await getCustomerDeviceToken();
+
+                      placeOrder(
+                        context:context,
+                        customerName:name,
+                        customerPhone:phone,
+                        customerAddress:address,
+                        customerDeviceToken:customerToken,
+                      );
+
+                    }else{
+                      Get.snackbar('Error', 'Please fill all details');
+                    }
                 }, child: Text('Place Order',style: TextStyle(color: AppConstant.appTextColor),)),
               ),
             ],
