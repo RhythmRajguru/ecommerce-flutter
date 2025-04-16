@@ -29,4 +29,17 @@ class NotificationService{
     }
 
       }
+      //get device token
+Future<String> getDeviceToken()async{
+
+    NotificationSettings settings=await messaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    String? token=await messaging.getToken();
+    print('token $token');
+    return token!;
+  }
 }

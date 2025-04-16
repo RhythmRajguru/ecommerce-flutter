@@ -8,6 +8,7 @@ import 'package:ecom/screens/user-panel/all_products.dart';
 import 'package:ecom/screens/user-panel/all_category_screen.dart';
 import 'package:ecom/screens/user-panel/all_flash_sale_product.dart';
 import 'package:ecom/screens/user-panel/cart_screen.dart';
+import 'package:ecom/services/fcm_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,6 +30,8 @@ class _MainScreenState extends State<MainScreen> {
     // TODO: implement initState
     super.initState();
     notificationService.requestNotificationPermission();
+    notificationService.getDeviceToken();
+    FcmService.firebaseInit();
   }
   @override
   Widget build(BuildContext context) {

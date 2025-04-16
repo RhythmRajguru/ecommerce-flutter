@@ -1,4 +1,5 @@
 import 'package:ecom/contollers/register_controller.dart';
+import 'package:ecom/services/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -160,12 +161,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: TextButton(
                     child: Text('Sign Up',style: TextStyle(color: AppConstant.appTextColor),),
                     onPressed: ()async{
+
+                      NotificationService notificationService=NotificationService();
+
                       String name=nameController.text.trim();
                       String email=emailController.text.trim();
                       String phone=phoneController.text.trim();
                       String city=cityController.text.trim();
                       String password=passwordController.text.trim();
-                      String userDeviceToken='';
+                      String userDeviceToken=await notificationService.getDeviceToken();
                     if(name.isEmpty || email.isEmpty || phone.isEmpty || city.isEmpty || password.isEmpty){
                       Get.snackbar("Error", "Please enter all details",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
                     }else{
