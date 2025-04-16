@@ -1,10 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:ecom/contollers/rating_controller.dart';
 import 'package:ecom/models/cart_model.dart';
+import 'package:ecom/models/order_model.dart';
 import 'package:ecom/models/product_model.dart';
+import 'package:ecom/models/review_model.dart';
 import 'package:ecom/screens/user-panel/cart_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:ecom/utils/constants/app_constraint.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,8 +22,11 @@ class ProductDetail extends StatelessWidget {
 
   User? user=FirebaseAuth.instance.currentUser;
 
+
+
   @override
   Widget build(BuildContext context) {
+    RatingController ratingController=Get.put(RatingController(productModel.productId));
     return Scaffold(
     appBar: AppBar(
       backgroundColor: AppConstant.appMainColor,
@@ -78,6 +86,31 @@ class ProductDetail extends StatelessWidget {
                           alignment: Alignment.topLeft,
                           child: Text("Category:"+productModel.categoryName)),
                     ),
+                    //reviews
+                    Row(
+                      children: [
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: RatingBar.builder(
+                            glow: false,
+                              ignoreGestures: true,
+                              initialRating: double.parse(ratingController.averageRating.toString()),
+                              minRating: 1,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemSize: 25,
+                              itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+                              itemBuilder: (context, index) =>
+                              Icon(Icons.star,color: Colors.amber,),
+                              onRatingUpdate: (value) {
+
+                              },),
+                        ),
+                        Text(ratingController.averageRating.toString()),
+                      ],
+                    ),
+
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
@@ -139,12 +172,10 @@ class ProductDetail extends StatelessWidget {
                         ],
                       )
                     ),
-
                   ],
                 ),
               ),
             ),
-
           ],
         ),
       ),
@@ -212,6 +243,5 @@ class ProductDetail extends StatelessWidget {
      Get.snackbar('Error', 'Problem while sharing');
 
   }
-
   }
 }

@@ -14,6 +14,8 @@ import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
 
+import 'add_review_screen.dart';
+
 class AllOrderScreen extends StatelessWidget {
 
   User? user=FirebaseAuth.instance.currentUser;
@@ -85,14 +87,19 @@ class AllOrderScreen extends StatelessWidget {
                           leading: CircleAvatar(backgroundColor: AppConstant.appMainColor,backgroundImage: NetworkImage(orderModel.productImages[0],),),
                           title: Text(orderModel.productName),
                           subtitle: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(orderModel.productTotalPrice.toString()),
+                              SizedBox(width: 20,),
                               orderModel.status!=true
                                   ?Text('Pending..',style: TextStyle(color: Colors.red),)
                                   :Text('Delivered..',style: TextStyle(color: Colors.green),)
                             ],
                           ),
+                          trailing: orderModel.status==true
+                              ? ElevatedButton(onPressed: (){
+                                Get.to(AddReviewScreen(orderModel:orderModel));
+                          }, child: Text('Review'))
+                          :SizedBox.shrink()
 
                         ),
                       );
