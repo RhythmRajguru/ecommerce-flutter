@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecom/models/order_model.dart';
 import 'package:ecom/models/review_model.dart';
@@ -9,28 +10,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:image_card/image_card.dart';
 
 class AddReviewScreen extends StatefulWidget {
   final OrderModel orderModel;
-   AddReviewScreen({required this.orderModel});
+
+  AddReviewScreen({required this.orderModel});
 
   @override
   State<AddReviewScreen> createState() => _AddReviewScreenState();
 }
 
 class _AddReviewScreenState extends State<AddReviewScreen> {
-  final feedbackController=TextEditingController();
+  final feedbackController = TextEditingController();
 
-  double productRating=0.0;
+  double productRating = 0.0;
 
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppConstant.appMainColor,
-        title: Text('Add review',style: TextStyle(color: AppConstant.appTextColor),),
+        title: Text(
+          'Add review', style: TextStyle(color: AppConstant.appTextColor),),
         iconTheme: IconThemeData(color: AppConstant.appTextColor),
       ),
       body: Container(
@@ -43,20 +46,19 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
             SizedBox(height: 50.0,),
             Text('Add Your rating and review'),
             SizedBox(height: 20.0,),
-             RatingBar.builder(
-                initialRating: 3,
-                  minRating: 1,
-                  direction: Axis.horizontal,
-                  allowHalfRating: true,
-                  itemCount: 5,
-                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                  itemBuilder: (context, index) =>
-                     Icon(Icons.star,color: Colors.amber,),
-                  onRatingUpdate: (value) {
-                    productRating=value;
-                    setState(() {
-                    });
-                  },),
+            RatingBar.builder(
+              initialRating: 3,
+              minRating: 1,
+              direction: Axis.horizontal,
+              allowHalfRating: true,
+              itemCount: 5,
+              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+              itemBuilder: (context, index) =>
+                  Icon(Icons.star, color: Colors.amber,),
+              onRatingUpdate: (value) {
+                productRating = value;
+                setState(() {});
+              },),
 
             SizedBox(height: 50.0,),
 
@@ -64,42 +66,50 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
               maxLines: 3,
               controller: feedbackController,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(horizontal: 5.0,vertical: 10.0),
-                prefixIcon: Icon(Icons.feedback),
-                label: Text('Share your feedback'),
-                border: OutlineInputBorder()
+                  contentPadding: EdgeInsets.symmetric(
+                      horizontal: 5.0, vertical: 10.0),
+                  prefixIcon: Icon(Icons.feedback),
+                  label: Text('Share your feedback'),
+                  border: OutlineInputBorder()
               ),
             ),
             SizedBox(height: 20.0,),
-             ElevatedButton(
-               style: ElevatedButton.styleFrom(
-                 backgroundColor: AppConstant.appMainColor
-               ),
-                 onPressed: ()async{
-                 EasyLoading.show(status: 'Please wait..');
-                 String feedback=feedbackController.text.trim();
-                 ReviewModel reviewModel=ReviewModel(
-                     customerName: widget.orderModel.customerName,
-                     customerPhone: widget.orderModel.customerPhone,
-                     customerDeviceToken: widget.orderModel.customerDeviceToken,
-                     customerId: widget.orderModel.customerId,
-                     feedback: feedback,
-                     rating: productRating.toString(),
-                     createdAt: DateTime.now());
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: AppConstant.appMainColor
+                ),
+                onPressed: () async {
+                  EasyLoading.show(status: 'Please wait..');
+                  String feedback = feedbackController.text.trim();
+                  ReviewModel reviewModel = ReviewModel(
+                      customerName: widget.orderModel.customerName,
+                      customerPhone: widget.orderModel.customerPhone,
+                      customerDeviceToken: widget.orderModel
+                          .customerDeviceToken,
+                      customerId: widget.orderModel.customerId,
+                      feedback: feedback,
+                      rating: productRating.toString(),
+                      createdAt: DateTime.now());
 
-                      if(feedbackController.text.isNotEmpty){
-                       await FirebaseFirestore.instance.collection('products').doc(widget.orderModel.productId).
-                        collection('review').doc(widget.orderModel.customerId).set(reviewModel.toMap());
+                  if (feedbackController.text.isNotEmpty) {
+                    await FirebaseFirestore.instance.collection('products').doc(
+                        widget.orderModel.productId).
+                    collection('review').doc(widget.orderModel.customerId).set(
+                        reviewModel.toMap());
 
-                       EasyLoading.dismiss();
-                       Get.snackbar('Success', 'Review sumitted successfully',snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appMainColor);
-                       Get.offAll(()=>MainScreen());
-                      }else{
-                        EasyLoading.dismiss();
-                        Get.snackbar('Fill all details', 'Please write your review here');
-                      }
-              }, child: Text('Submit',style: TextStyle(color: AppConstant.appTextColor),)),
-
+                    EasyLoading.dismiss();
+                    Get.snackbar('Success', 'Review sumitted successfully',
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: AppConstant.appMainColor);
+                    Get.offAll(() => MainScreen());
+                  } else {
+                    EasyLoading.dismiss();
+                    Get.snackbar(
+                        'Fill all details', 'Please write your review here');
+                  }
+                },
+                child: Text('Submit',
+                  style: TextStyle(color: AppConstant.appTextColor),)),
           ],
         ),
       ),

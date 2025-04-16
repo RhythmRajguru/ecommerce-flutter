@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecom/common/widgets/all_reviews_per_product.dart';
 
 import 'package:ecom/contollers/rating_controller.dart';
 import 'package:ecom/models/cart_model.dart';
@@ -176,6 +177,7 @@ class ProductDetail extends StatelessWidget {
                 ),
               ),
             ),
+            AllReviewsPerProduct(productModel:productModel),
           ],
         ),
       ),
