@@ -12,11 +12,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import '../../services/notification_service.dart';
 import '../../utils/constants/app_constraint.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  NotificationService notificationService=NotificationService();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    notificationService.requestNotificationPermission();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
