@@ -169,6 +169,7 @@ class ProductDetail extends StatelessWidget {
                               child: Text('Add to Cart',style: TextStyle(color: AppConstant.appTextColor),),
                               onPressed: ()async{
                                 await checkProductExistence(uId:user!.uid);
+                                Get.snackbar('Success', 'Product successfully added to cart',snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appMainColor);
                               },
                             ),
                           ),),

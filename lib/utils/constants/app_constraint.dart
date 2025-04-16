@@ -9,4 +9,7 @@ class AppConstant{
   static const appSecondaryColor=Color(0xFF981206);
   static const appTextColor=Color(0xFFFBF5F4);
   static const appStatusBarColor=Color(0xFFFBF5F4);
+
+
+  static String Razorpay_API_Key='rzp_test_gEk3hueMJeGqKg';
 }

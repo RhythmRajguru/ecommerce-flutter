@@ -1,33 +1,44 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecom/contollers/cart_price_controller.dart';
 import 'package:ecom/models/cart_model.dart';
-import 'package:ecom/models/product_model.dart';
-import 'package:ecom/screens/user-panel/cart_screen.dart';
-import 'package:ecom/screens/user-panel/main_screen.dart';
-import 'package:ecom/screens/user-panel/product_detail.dart';
 import 'package:ecom/utils/constants/app_constraint.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
-import 'package:image_card/image_card.dart';
-
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../../contollers/cutomer_devicetoken_controller.dart';
 import '../../services/placeorder_service.dart';
 
-class CheckoutScreen extends StatelessWidget {
+class CheckoutScreen extends StatefulWidget {
 
+  @override
+  State<CheckoutScreen> createState() => _CheckoutScreenState();
+}
+
+class _CheckoutScreenState extends State<CheckoutScreen> {
   User? user=FirebaseAuth.instance.currentUser;
 
   final CartPriceController cartPriceController=Get.put(CartPriceController());
 
   final nameController=TextEditingController();
+
+  final emailController=TextEditingController();
+
   final phoneController=TextEditingController();
+
   final addressController=TextEditingController();
+
+  Razorpay _razorpay=Razorpay();
+
   @override
   Widget build(BuildContext context) {
+
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppConstant.appMainColor,
@@ -141,7 +152,7 @@ class CheckoutScreen extends StatelessWidget {
 
   void showCustomBottomSheet(BuildContext context) {
     Get.bottomSheet(
-      Container(height: 350,
+      Container(height: 450,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
@@ -167,6 +178,25 @@ class CheckoutScreen extends StatelessWidget {
                       hintStyle: TextStyle(fontSize: 12),
                     ),
                   ),
+
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+                child:  TextFormField(
+                  maxLines: 1,
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    prefixIcon: Icon(Icons.email),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)
+                    ),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                    hintStyle: TextStyle(fontSize: 12),
+                  ),
+                ),
 
               ),
               Padding(
@@ -216,20 +246,27 @@ class CheckoutScreen extends StatelessWidget {
                     padding: EdgeInsets.fromLTRB(10,10,10,10)
                   ),
                     onPressed: ()async{
-                    if(nameController.text!='' && phoneController.text!='' && addressController.text!=''){
+                    if(nameController.text!='' && emailController.text!='' && phoneController.text!='' && addressController.text!=''){
                       String name=nameController.text.trim();
+                      String email=emailController.text.trim();
                       String phone=phoneController.text.trim();
                       String address=addressController.text.trim();
 
                       String customerToken=await getCustomerDeviceToken();
 
-                      placeOrder(
-                        context:context,
-                        customerName:name,
-                        customerPhone:phone,
-                        customerAddress:address,
-                        customerDeviceToken:customerToken,
-                      );
+                      var options={
+                        'key':AppConstant.Razorpay_API_Key,
+                        'amount':cartPriceController.totalPrice.value,
+                        'currency':'USD',
+                        'name':name,
+                        'description':'E-commerce app payment',
+                        'prefill':{
+                          'contact':phone,
+                          'email':email
+                        }
+                      };
+
+                      _razorpay.open(options);
 
                     }else{
                       Get.snackbar('Error', 'Please fill all details');
@@ -246,5 +283,34 @@ class CheckoutScreen extends StatelessWidget {
       elevation: 6,
       shape: RoundedRectangleBorder()
     );
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response)async{
+    String name=nameController.text.trim();
+    String phone=phoneController.text.trim();
+    String address=addressController.text.trim();
+
+    String customerToken=await getCustomerDeviceToken();
+    placeOrder(
+      context:context,
+      customerName:name,
+      customerPhone:phone,
+      customerAddress:address,
+      customerDeviceToken:customerToken,
+    );
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response){
+
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response){
+
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _razorpay.clear();
   }
 }
