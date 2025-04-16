@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecom/contollers/cart_price_controller.dart';
 import 'package:ecom/models/cart_model.dart';
+import 'package:ecom/services/get_server_key.dart';
 import 'package:ecom/utils/constants/app_constraint.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -138,8 +139,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
                 child: TextButton(
                   child: Text('Confirm Order',style: TextStyle(color: AppConstant.appTextColor),),
-                  onPressed: (){
-                    showCustomBottomSheet(context);
+                  onPressed: ()async{
+                    // showCustomBottomSheet(context);
+                    GetServerKey getServerKey=GetServerKey();
+                    String accessToken=await getServerKey.getServerKeyToken();
+                    print(accessToken);
                   },
                 ),
               ),),
