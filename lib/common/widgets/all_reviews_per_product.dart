@@ -52,7 +52,7 @@ class AllReviewsPerProduct extends StatelessWidget {
                       color: AppConstant.appTextColor,
                       elevation: 5,
                       child: ListTile(
-                          leading: CircleAvatar(child: Center(child: Text(reviewModel.customerName.toString().substring(0,1)),),),
+                          leading: CircleAvatar(child: Center(child: Text(reviewModel.customerName[0]),),),
                           title: Text(reviewModel.customerName),
                           subtitle: Text(reviewModel.feedback),
                           trailing:Text(reviewModel.rating)

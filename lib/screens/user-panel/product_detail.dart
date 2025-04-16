@@ -88,29 +88,31 @@ class ProductDetail extends StatelessWidget {
                           child: Text("Category:"+productModel.categoryName)),
                     ),
                     //reviews
-                    Row(
-                      children: [
-                        Container(
-                          alignment: Alignment.topLeft,
-                          child: RatingBar.builder(
-                            glow: false,
-                              ignoreGestures: true,
-                              initialRating: double.parse(ratingController.averageRating.toString()),
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemSize: 25,
-                              itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
-                              itemBuilder: (context, index) =>
-                              Icon(Icons.star,color: Colors.amber,),
-                              onRatingUpdate: (value) {
+                   Obx((){
+                    return Row(
+                       children: [
+                         Container(
+                           alignment: Alignment.topLeft,
+                           child: RatingBar.builder(
+                             glow: false,
+                             ignoreGestures: true,
+                             initialRating: double.parse(ratingController.averageRating.toString()),
+                             minRating: 1,
+                             direction: Axis.horizontal,
+                             allowHalfRating: true,
+                             itemCount: 5,
+                             itemSize: 25,
+                             itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+                             itemBuilder: (context, index) =>
+                                 Icon(Icons.star,color: Colors.amber,),
+                             onRatingUpdate: (value) {
 
-                              },),
-                        ),
-                        Text(ratingController.averageRating.toString()),
-                      ],
-                    ),
+                             },),
+                         ),
+                         Text(ratingController.averageRating.toString()),
+                       ],
+                     );
+                   }),
 
                     Padding(
                       padding: const EdgeInsets.all(8.0),
