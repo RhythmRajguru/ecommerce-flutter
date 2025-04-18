@@ -1,5 +1,6 @@
 import 'package:ecom/screens/auth-ui/welcome_screen.dart';
 import 'package:ecom/screens/user-panel/all_order_screen.dart';
+import 'package:ecom/screens/user-panel/all_products.dart';
 import 'package:ecom/utils/constants/app_constraint.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +8,8 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class CustomDrawerWidget extends StatelessWidget {
-  const CustomDrawerWidget({super.key});
 
+  User? user=FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,12 +27,12 @@ class CustomDrawerWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 20.0),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
-                title: Text('Rhythm',style: TextStyle(color: AppConstant.appTextColor),),
+                title: Text(user!.displayName.toString(),style: TextStyle(color: AppConstant.appTextColor),),
                 subtitle: Text('Version 1.0.1',style: TextStyle(color: AppConstant.appTextColor),),
                 leading: CircleAvatar(
                   radius: 22.0,
                   backgroundColor: AppConstant.appMainColor,
-                  child: Text("R",style: TextStyle(color: AppConstant.appTextColor),),
+                  child: Text(user!.displayName.toString().substring(0,1),style: TextStyle(color: AppConstant.appTextColor),),
                 ),
               ),
             ),
@@ -46,6 +47,9 @@ class CustomDrawerWidget extends StatelessWidget {
                 title: Text('Home',style: TextStyle(color: AppConstant.appTextColor),),
                 leading: Icon(Icons.home,color: Colors.white,),
                 trailing: Icon(Icons.arrow_forward,color: Colors.white,),
+                onTap: (){
+                 Navigator.pop(context);
+                },
               ),
             ),
             Padding(
@@ -55,6 +59,10 @@ class CustomDrawerWidget extends StatelessWidget {
                 title: Text('Products',style: TextStyle(color: AppConstant.appTextColor),),
                 leading: Icon(Icons.production_quantity_limits,color: Colors.white,),
                 trailing: Icon(Icons.arrow_forward,color: Colors.white,),
+                onTap: (){
+                  Get.back();
+                  Get.to(AllProducts());
+                },
               ),
             ),
             Padding(
