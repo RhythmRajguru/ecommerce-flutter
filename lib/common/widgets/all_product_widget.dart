@@ -47,10 +47,13 @@ class AllProductWidget extends StatelessWidget {
                   productDescription: productData['productDescription'],
                   createdAt: productData['createdAt'],
                   updatedAt: productData['updatedAt']);
+
               return Row(
                 children: [
                   InkWell(
-                    onTap: ()=>Get.to(ProductDetail(productModel:productModel)),
+                    onTap: ()=>Get.to(
+                        ProductDetail(productModel:productModel),
+                    ),
                     child: Padding(padding: EdgeInsets.all(8.0),
                       child: InkWell(
                         child: Container(

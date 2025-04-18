@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecom/common/widgets/all_reviews_per_product.dart';
+import 'package:ecom/contollers/favourite_controller.dart';
 
 import 'package:ecom/contollers/rating_controller.dart';
 import 'package:ecom/models/cart_model.dart';
@@ -9,6 +10,7 @@ import 'package:ecom/models/order_model.dart';
 import 'package:ecom/models/product_model.dart';
 import 'package:ecom/models/review_model.dart';
 import 'package:ecom/screens/user-panel/cart_screen.dart';
+import 'package:ecom/screens/user-panel/favourite_products.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
@@ -17,17 +19,41 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ProductDetail extends StatelessWidget {
+class ProductDetail extends StatefulWidget {
   ProductModel productModel;
   ProductDetail({required this.productModel});
 
+  @override
+  State<ProductDetail> createState() => _ProductDetailState();
+
+  static Future<void> sendMessageOnWhatsapp({required ProductModel productModel})async{
+    final String message = "Hello! i want to suggest you this product 😄 \n\n\n "
+        "Product name:-${productModel.productName} \n\n"
+        "Product Price:-${productModel.isSale?productModel.salePrice:productModel.fullPrice} \n\n"
+        "Product Description:-${productModel.productDescription} \n\n\n"
+        "App by:- Rhythm Rajguru \n";
+
+
+    final encodedMessage = Uri.encodeComponent(message);
+    final whatsappUrl = "https://wa.me/?text=$encodedMessage";
+
+    if (await canLaunchUrl(Uri.parse(whatsappUrl))) {
+      await launchUrl(Uri.parse(whatsappUrl), mode: LaunchMode.externalApplication);
+    } else {
+     Get.snackbar('Error', 'Problem while sharing');
+
+  }
+  }
+}
+
+class _ProductDetailState extends State<ProductDetail> {
   User? user=FirebaseAuth.instance.currentUser;
-
-
+  
 
   @override
   Widget build(BuildContext context) {
-    RatingController ratingController=Get.put(RatingController(productModel.productId));
+    FavouriteController favouriteController=Get.put(FavouriteController(productModel: widget.productModel));
+    RatingController ratingController=Get.put(RatingController(widget.productModel.productId));
     return Scaffold(
     appBar: AppBar(
       backgroundColor: AppConstant.appMainColor,
@@ -46,7 +72,7 @@ class ProductDetail extends StatelessWidget {
         Container(
           margin: EdgeInsets.symmetric(horizontal: 10.0),
           child: CarouselSlider(
-          items: productModel.productImages.map((imageUrls)=>
+          items: widget.productModel.productImages.map((imageUrls)=>
             ClipRRect(borderRadius: BorderRadius.circular(10.0),
              child: CachedNetworkImage(imageUrl: imageUrls,fit: BoxFit.cover,width: Get.width-10,
               placeholder: (context,url)=>ColoredBox(color: Colors.white,child: Center(child: CupertinoActivityIndicator(),),),
@@ -76,8 +102,14 @@ class ProductDetail extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(productModel.productName),
-                              Icon(Icons.favorite_border),
+                              Text(widget.productModel.productName),
+                             Obx(()=> IconButton(onPressed: (){
+                               favouriteController.addFavouriteProduct();
+                             }, icon:
+                             favouriteController.isFavourite.value
+                                 ? Icon(Icons.favorite,color: Colors.red,)
+                                 :Icon(Icons.favorite_outline_rounded,)),
+                             ),
                             ],
                           )),
                     ),
@@ -85,7 +117,7 @@ class ProductDetail extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
                           alignment: Alignment.topLeft,
-                          child: Text("Category:"+productModel.categoryName)),
+                          child: Text("Category:"+widget.productModel.categoryName)),
                     ),
                     //reviews
                    Obx((){
@@ -119,15 +151,15 @@ class ProductDetail extends StatelessWidget {
                       child: Container(
                           alignment: Alignment.topLeft,
                           child:
-                             productModel.isSale==true&&productModel.salePrice!=''
+                             widget.productModel.isSale==true&&widget.productModel.salePrice!=''
                                  ? Row(
                                children: [
-                                 Text("Rs."+productModel.salePrice),
+                                 Text("Rs."+widget.productModel.salePrice),
                                  SizedBox(width: 10,),
-                                 Text(productModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: AppConstant.appMainColor),),
+                                 Text(widget.productModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: AppConstant.appMainColor),),
                                ],
                              )
-                                 : Text("Rs."+productModel.fullPrice)
+                                 : Text("Rs."+widget.productModel.fullPrice)
 
                     ),
                     ),
@@ -135,7 +167,7 @@ class ProductDetail extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
                           alignment: Alignment.topLeft,
-                          child: Text("Description:"+productModel.productDescription)),
+                          child: Text("Description:"+widget.productModel.productDescription)),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -152,8 +184,8 @@ class ProductDetail extends StatelessWidget {
                             child: TextButton(
                               child: Text('Whatsapp',style: TextStyle(color: AppConstant.appTextColor),),
                               onPressed: (){
-                                sendMessageOnWhatsapp(
-                                  productModel:productModel,
+                                ProductDetail.sendMessageOnWhatsapp(
+                                  productModel:widget.productModel,
                                 );
                               },
                             ),
@@ -180,22 +212,23 @@ class ProductDetail extends StatelessWidget {
                 ),
               ),
             ),
-            AllReviewsPerProduct(productModel:productModel),
+            AllReviewsPerProduct(productModel:widget.productModel),
           ],
         ),
       ),
     );
   }
+  
   //check product exist or not
   Future<void> checkProductExistence({required String uId,int quantityIncrement=1})async{
 
-      final DocumentReference documentReference=FirebaseFirestore.instance.collection('cart').doc(uId).collection('cartOrders').doc(productModel.productId.toString());
+      final DocumentReference documentReference=FirebaseFirestore.instance.collection('cart').doc(uId).collection('cartOrders').doc(widget.productModel.productId.toString());
       DocumentSnapshot snapshot=await documentReference.get();
 
       if(snapshot.exists){
         int currentQuantity=snapshot['productQuantity'];
         int updatedQuantity=currentQuantity+quantityIncrement;
-        double totalPrice=double.parse(productModel.isSale?productModel.salePrice:productModel.fullPrice)*updatedQuantity;
+        double totalPrice=double.parse(widget.productModel.isSale?widget.productModel.salePrice:widget.productModel.fullPrice)*updatedQuantity;
 
         await documentReference.update({
           'productQuantity':updatedQuantity,
@@ -209,20 +242,20 @@ class ProductDetail extends StatelessWidget {
           },);
 
           CartModel cartModel=CartModel(
-              productId: productModel.productId,
-              categoryId: productModel.categoryId,
-              productName: productModel.productName,
-              categoryName: productModel.categoryName,
-              salePrice: productModel.salePrice,
-              fullPrice: productModel.fullPrice,
-              productImages: productModel.productImages,
-              deliveryTime: productModel.deliveryTime,
-              isSale: productModel.isSale,
-              productDescription: productModel.productDescription,
+              productId: widget.productModel.productId,
+              categoryId: widget.productModel.categoryId,
+              productName: widget.productModel.productName,
+              categoryName: widget.productModel.categoryName,
+              salePrice: widget.productModel.salePrice,
+              fullPrice: widget.productModel.fullPrice,
+              productImages: widget.productModel.productImages,
+              deliveryTime: widget.productModel.deliveryTime,
+              isSale: widget.productModel.isSale,
+              productDescription: widget.productModel.productDescription,
               createdAt: DateTime.now(),
               updatedAt: DateTime.now(),
               productQuantity: 1,
-              productTotalPrice: double.parse(productModel.isSale?productModel.salePrice:productModel.fullPrice)
+              productTotalPrice: double.parse(widget.productModel.isSale?widget.productModel.salePrice:widget.productModel.fullPrice)
 
           );
 
@@ -230,23 +263,5 @@ class ProductDetail extends StatelessWidget {
           await documentReference.set(cartModel.toMap());
 
       }
-  }
-  static Future<void> sendMessageOnWhatsapp({required ProductModel productModel})async{
-    final String message = "Hello! i want to suggest you this product 😄 \n\n\n "
-        "Product name:-${productModel.productName} \n\n"
-        "Product Price:-${productModel.isSale?productModel.salePrice:productModel.fullPrice} \n\n"
-        "Product Description:-${productModel.productDescription} \n\n\n"
-        "App by:- Rhythm Rajguru \n";
-
-
-    final encodedMessage = Uri.encodeComponent(message);
-    final whatsappUrl = "https://wa.me/?text=$encodedMessage";
-
-    if (await canLaunchUrl(Uri.parse(whatsappUrl))) {
-      await launchUrl(Uri.parse(whatsappUrl), mode: LaunchMode.externalApplication);
-    } else {
-     Get.snackbar('Error', 'Problem while sharing');
-
-  }
   }
 }

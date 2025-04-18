@@ -18,7 +18,7 @@ class NotificationService{
     );
 
     if(settings.authorizationStatus==AuthorizationStatus.authorized){
-      Get.snackbar('Success', 'user granted permission',snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appMainColor);
+      // Get.snackbar('Success', 'user granted permission',snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appMainColor,);
     }else if(settings.authorizationStatus==AuthorizationStatus.provisional){
       Get.snackbar('Success', 'user provisional granted permission',snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appMainColor);
     }else{
