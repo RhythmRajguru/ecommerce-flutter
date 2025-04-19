@@ -1,6 +1,7 @@
 import 'package:ecom/screens/auth-ui/welcome_screen.dart';
 import 'package:ecom/screens/user-panel/all_order_screen.dart';
 import 'package:ecom/screens/user-panel/all_products.dart';
+import 'package:ecom/screens/user-panel/contact_screen.dart';
 import 'package:ecom/utils/constants/app_constraint.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +85,11 @@ class CustomDrawerWidget extends StatelessWidget {
                 titleAlignment: ListTileTitleAlignment.center,
                 title: Text('Contact',style: TextStyle(color: AppConstant.appTextColor),),
                 leading: Icon(Icons.help,color: Colors.white,),
-                trailing: Icon(Icons.arrow_forward,color: Colors.white,)
+                trailing: Icon(Icons.arrow_forward,color: Colors.white,),
+                onTap: (){
+                  Get.back();
+                  Get.to(ContactScreen());
+                },
               ),
             ),
             Padding(
