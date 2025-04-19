@@ -2,6 +2,7 @@ import 'package:ecom/screens/auth-ui/welcome_screen.dart';
 import 'package:ecom/screens/user-panel/all_order_screen.dart';
 import 'package:ecom/screens/user-panel/all_products.dart';
 import 'package:ecom/screens/user-panel/contact_screen.dart';
+import 'package:ecom/screens/user-panel/profile_screen.dart';
 import 'package:ecom/utils/constants/app_constraint.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -45,11 +46,23 @@ class CustomDrawerWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20.0,),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
+                title: Text('Profile',style: TextStyle(color: AppConstant.appTextColor),),
+                leading: Icon(Icons.person_search_rounded,color: Colors.white,),
+                trailing: Icon(Icons.arrow_forward,color: Colors.white,),
+                onTap: (){
+                Get.to(ProfileScreen());
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0,),
+              child: ListTile(
+                titleAlignment: ListTileTitleAlignment.center,
                 title: Text('Home',style: TextStyle(color: AppConstant.appTextColor),),
                 leading: Icon(Icons.home,color: Colors.white,),
                 trailing: Icon(Icons.arrow_forward,color: Colors.white,),
                 onTap: (){
-                 Navigator.pop(context);
+                  Navigator.pop(context);
                 },
               ),
             ),

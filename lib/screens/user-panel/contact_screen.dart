@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecom/screens/user-panel/main_screen.dart';
 import 'package:ecom/utils/constants/app_constraint.dart';
@@ -20,7 +22,7 @@ class ContactScreen extends StatelessWidget {
         title: Text(
           'Add review', style: TextStyle(color: AppConstant.appTextColor),),
         iconTheme: IconThemeData(color: AppConstant.appTextColor),
-      ),
+        ),
       body: Column(
         children: [
           SizedBox(height: 20,),
