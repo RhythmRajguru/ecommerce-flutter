@@ -24,7 +24,7 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppConstant.appMainColor,
         title: Text(
-          'Add review', style: TextStyle(color: AppConstant.appTextColor),),
+          'Profile', style: TextStyle(color: AppConstant.appTextColor),),
         iconTheme: IconThemeData(color: AppConstant.appTextColor),
           actions: [
             PopupMenuButton<String>(

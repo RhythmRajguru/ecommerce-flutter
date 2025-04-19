@@ -9,6 +9,7 @@ import 'package:ecom/screens/user-panel/all_category_screen.dart';
 import 'package:ecom/screens/user-panel/all_flash_sale_product.dart';
 import 'package:ecom/screens/user-panel/cart_screen.dart';
 import 'package:ecom/screens/user-panel/favourite_products.dart';
+import 'package:ecom/screens/user-panel/search_screen.dart';
 import 'package:ecom/services/fcm_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,6 @@ import '../../services/notification_service.dart';
 import '../../utils/constants/app_constraint.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -45,8 +45,10 @@ class _MainScreenState extends State<MainScreen> {
         ),
         backgroundColor: AppConstant.appMainColor,
         title: Text(AppConstant.appMainName,style: TextStyle(color: AppConstant.appTextColor),),
-        centerTitle: true,
         actions: [
+          IconButton(onPressed: (){
+            Get.to(SearchScreen());
+          }, icon: Icon(Icons.search)),
           IconButton(onPressed: (){
             Get.to(CartScreen());
           }, icon: Icon(Icons.shopping_cart)),
