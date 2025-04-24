@@ -140,10 +140,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 child: TextButton(
                   child: Text('Confirm Order',style: TextStyle(color: AppConstant.appTextColor),),
                   onPressed: ()async{
-                    // showCustomBottomSheet(context);
+                    showCustomBottomSheet(context);
                     GetServerKey getServerKey=GetServerKey();
                     String accessToken=await getServerKey.getServerKeyToken();
-                    print(accessToken);
+
                   },
                 ),
               ),),
@@ -260,8 +260,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
                       var options={
                         'key':AppConstant.Razorpay_API_Key,
-                        'amount':cartPriceController.totalPrice.value,
-                        'currency':'USD',
+                        'amount':(cartPriceController.totalPrice.value * 100).toInt(),
+                        'currency':'INR',
                         'name':name,
                         'description':'E-commerce app payment',
                         'prefill':{
