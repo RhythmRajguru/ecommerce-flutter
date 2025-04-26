@@ -32,180 +32,171 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return KeyboardVisibilityBuilder(builder: (p0, isKeyboardVisible) {
       return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          centerTitle: true,
-          backgroundColor: AppConstant.appMainColor,
-          title: Text('Sign Up',
-            style: TextStyle(color: AppConstant.appTextColor),),
-        ),
-        body: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Container(
+        appBar: AppBar(),
+        body:  Container(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                    margin: EdgeInsets.only(top: 20.0,left: 5.0,right: 5.0),
-                    width: Get.width,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: TextFormField(
-                        controller: nameController,
-                        cursorColor: AppConstant.appSecondaryColor,
-                        keyboardType: TextInputType.name,
-                        decoration: InputDecoration(
-                            hintText: 'Username',
-                            contentPadding: EdgeInsets.only(top: 2.0,left: 8.0),
-                            prefixIcon: Icon(Icons.person),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            )
-                        ),
-                      ),
-                    )),
-                SizedBox(height: Get.height/70,),
-                Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5.0),
-                    width: Get.width,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: TextFormField(
-                        controller: emailController,
-                        cursorColor: AppConstant.appSecondaryColor,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                            hintText: 'Email',
-                            contentPadding: EdgeInsets.only(top: 2.0,left: 8.0),
-                            prefixIcon: Icon(Icons.email),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            )
-                        ),
-                      ),
-                    )),
-                SizedBox(height: Get.height/70,),
-                Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5.0),
-                    width: Get.width,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: TextFormField(
-                        controller: phoneController,
-                        cursorColor: AppConstant.appSecondaryColor,
-                        keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                            hintText: 'Phone',
-                            contentPadding: EdgeInsets.only(top: 2.0,left: 8.0),
-                            prefixIcon: Icon(Icons.phone),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            )
-                        ),
-                      ),
-                    )),
-                SizedBox(height: Get.height/70,),
-                Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5.0),
-                    width: Get.width,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: TextFormField(
-                        controller: cityController,
-                        cursorColor: AppConstant.appSecondaryColor,
-                        keyboardType: TextInputType.streetAddress,
-                        decoration: InputDecoration(
-                            hintText: 'City',
-                            contentPadding: EdgeInsets.only(top: 2.0,left: 8.0),
-                            prefixIcon: Icon(Icons.location_pin),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            )
-                        ),
-                      ),
-                    )),
-                SizedBox(height: Get.height/70,),
-                Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5.0),
-                    width: Get.width,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Obx(() => TextFormField(
-                        controller: passwordController,
-                        cursorColor: AppConstant.appSecondaryColor,
-                        keyboardType: TextInputType.emailAddress,
-                        obscureText: registerController.isPasswordVisible.value,
-                        decoration: InputDecoration(
-                            hintText: 'Password',
-                            contentPadding: EdgeInsets.only(top: 2.0,left: 8.0),
-                            prefixIcon: Icon(Icons.password),
-                            suffixIcon: InkWell(
-                              onTap: (){
-                                registerController.isPasswordVisible.toggle();
-                              },
-                              child: registerController.isPasswordVisible.value?Icon(Icons.visibility_off):Icon(Icons.visibility_sharp),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            )
-                        ),
-                      ),)
-                    )),
-                SizedBox(height: Get.height/20,),
-                Material(child: Container(
-                  width: Get.width/2,
-                  height: Get.height/18,
-                  decoration: BoxDecoration(
-                    color: AppConstant.appSecondaryColor,
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  child: TextButton(
-                    child: Text('Sign Up',style: TextStyle(color: AppConstant.appTextColor),),
-                    onPressed: ()async{
+                Text("Sign Up",style: TextStyle(fontSize: 22,color: Colors.black,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+               Column(
+                 children: [
+                   Container(
+                       margin: EdgeInsets.symmetric(horizontal: 5.0),
+                       width: Get.width,
+                       child: Padding(
+                         padding: const EdgeInsets.all(10.0),
+                         child: TextFormField(
+                           textInputAction: TextInputAction.next,
+                           controller: nameController,
+                           cursorColor: AppConstant.appSecondaryColor,
+                           keyboardType: TextInputType.name,
+                           decoration: InputDecoration(
+                             hintText: 'Username',
+                             prefixIcon: Icon(Icons.person),
 
-                      NotificationService notificationService=NotificationService();
+                           ),
+                         ),
+                       )),
 
-                      String name=nameController.text.trim();
-                      String email=emailController.text.trim();
-                      String phone=phoneController.text.trim();
-                      String city=cityController.text.trim();
-                      String password=passwordController.text.trim();
-                      String userDeviceToken=await notificationService.getDeviceToken();
-                    if(name.isEmpty || email.isEmpty || phone.isEmpty || city.isEmpty || password.isEmpty){
-                      Get.snackbar("Error", "Please enter all details",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
-                    }else{
-                      UserCredential? userCredential=await registerController.RegisterMethod(
-                          name,
-                          email,
-                          phone,
-                          city,
-                          password,
-                          userDeviceToken);
-                      if(userCredential!=null){
-                        Get.snackbar("Verification email sent", "Please check your email",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
-                     FirebaseAuth.instance.signOut();
+                   Container(
+                       margin: EdgeInsets.symmetric(horizontal: 5.0),
+                       width: Get.width,
+                       child: Padding(
+                         padding: const EdgeInsets.all(10.0),
+                         child: TextFormField(
+                           textInputAction: TextInputAction.next,
+                           controller: emailController,
+                           cursorColor: AppConstant.appSecondaryColor,
+                           keyboardType: TextInputType.emailAddress,
+                           decoration: InputDecoration(
+                             hintText: 'Email',
+                             prefixIcon: Icon(Icons.email),
 
-                     Get.offAll(()=>LoginScreen());
+                           ),
+                         ),
+                       )),
 
-                      }
-                    }
-                    },
-                  ),
-                ),),
-                SizedBox(height: Get.height/20,),
-                Row(
+                   Container(
+                       margin: EdgeInsets.symmetric(horizontal: 5.0),
+                       width: Get.width,
+                       child: Padding(
+                         padding: const EdgeInsets.all(10.0),
+                         child: TextFormField(
+                           textInputAction: TextInputAction.next,
+                           controller: phoneController,
+                           cursorColor: AppConstant.appSecondaryColor,
+                           keyboardType: TextInputType.phone,
+                           decoration: InputDecoration(
+                             hintText: 'Phone',
+                             prefixIcon: Icon(Icons.phone),
+
+                           ),
+                         ),
+                       )),
+
+                   Container(
+                       margin: EdgeInsets.symmetric(horizontal: 5.0),
+                       width: Get.width,
+                       child: Padding(
+                         padding: const EdgeInsets.all(10.0),
+                         child: TextFormField(
+                           textInputAction: TextInputAction.next,
+                           controller: cityController,
+                           cursorColor: AppConstant.appSecondaryColor,
+                           keyboardType: TextInputType.streetAddress,
+                           decoration: InputDecoration(
+                             hintText: 'City',
+                             prefixIcon: Icon(Icons.location_pin),
+
+                           ),
+                         ),
+                       )),
+
+                   Container(
+                       margin: EdgeInsets.symmetric(horizontal: 5.0),
+                       width: Get.width,
+                       child: Padding(
+                           padding: const EdgeInsets.all(10.0),
+                           child: Obx(() => TextFormField(
+                             textInputAction: TextInputAction.next,
+                             controller: passwordController,
+                             cursorColor: AppConstant.appSecondaryColor,
+                             keyboardType: TextInputType.emailAddress,
+                             obscureText: registerController.isPasswordVisible.value,
+                             decoration: InputDecoration(
+                               hintText: 'Password',
+                               prefixIcon: Icon(Icons.password),
+                               suffixIcon: InkWell(
+                                 onTap: (){
+                                   registerController.isPasswordVisible.toggle();
+                                 },
+                                 child: registerController.isPasswordVisible.value?Icon(Icons.visibility_off):Icon(Icons.visibility_sharp),
+                               ),
+
+                             ),
+                           ),)
+                       )),
+                 ],
+               ),
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Already have an account? ",style: TextStyle(color: AppConstant.appSecondaryColor),),
-                    InkWell(
-                        onTap: (){
-                          Get.to(LoginScreen());
-                        },
-                        child: Text("Sign In",style: TextStyle(color: AppConstant.appSecondaryColor,fontWeight: FontWeight.bold),)),
-                  ],)
+                    Text('By connecting your account confirm that you agree',style: TextStyle(color: Colors.grey,fontSize: 12,fontFamily: 'Inter'),),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('with our',style: TextStyle(color: Colors.grey,fontSize: 12,fontFamily: 'Inter'),),
+                        SizedBox(width: 2,),
+                        Text('Term and Condition',style: TextStyle(color: Colors.blue.shade800,fontSize: 12,fontFamily: 'Inter'),),
+                      ],
+                    )
+
+                  ],
+                )
+
               ],
             ),
           ),
-        ),);
+
+        bottomSheet: InkWell(
+          onTap: ()async{
+            NotificationService notificationService=NotificationService();
+
+            String name=nameController.text.trim();
+            String email=emailController.text.trim();
+            String phone=phoneController.text.trim();
+            String city=cityController.text.trim();
+            String password=passwordController.text.trim();
+            String userDeviceToken=await notificationService.getDeviceToken();
+            if(name.isEmpty || email.isEmpty || phone.isEmpty || city.isEmpty || password.isEmpty){
+              Get.snackbar("Error", "Please enter all details",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+            }
+          else{
+          UserCredential? userCredential=await registerController.RegisterMethod(
+             name,
+            email,
+            phone,
+            city,
+            password,
+            userDeviceToken);
+          if(userCredential!=null){
+            Get.snackbar("Verification email sent", "Please check your email",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+            FirebaseAuth.instance.signOut();
+
+            Get.offAll(()=>LoginScreen());
+
+          }
+          }
+
+          },
+          child: Container(
+            height: 60,
+            width: double.infinity,
+            color: AppConstant.appMainColor,
+            child: Center(child: Text('Sign Up',style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold,fontFamily: 'Inter'),)),
+          ),
+        ),
+      );
     },);
   }
 }

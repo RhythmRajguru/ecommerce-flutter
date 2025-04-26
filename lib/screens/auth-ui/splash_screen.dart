@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:ecom/contollers/get_user_data_controller.dart';
 import 'package:ecom/screens/admin-panel/admin_main_screen.dart';
+import 'package:ecom/screens/auth-ui/gender_screen.dart';
 import 'package:ecom/screens/auth-ui/welcome_screen.dart';
 import 'package:ecom/screens/user-panel/main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,26 +30,26 @@ class _SplashScreenState extends State<SplashScreen> {
   }
   Future<void> skipLogin(BuildContext context)async{
 
-if(user!=null){
+    if(user!=null){
 
-  final GetUserDataController getUserDataController=Get.put(GetUserDataController());
-  var userData=await getUserDataController.getUserData(user!.uid);
+      final GetUserDataController getUserDataController=Get.put(GetUserDataController());
+      var userData=await getUserDataController.getUserData(user!.uid);
 
-  if(userData[0]['isAdmin']==true){
-    Get.offAll(()=>AdminMainScreen());
-  }else{
-    Get.offAll(()=>MainScreen());
-  }
+      if(userData[0]['isAdmin']==true){
+        Get.offAll(()=>AdminMainScreen());
+      }else{
+        Get.offAll(()=>MainScreen());
+      }
 
-}else{
-  Get.offAll(()=>WelcomeScreen());
-}
+    }else{
+      Get.offAll(()=>GenderScreen());
+    }
   }
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: AppConstant.appMainColor,
+      backgroundColor: Color(0xFF9775FA),
       body: Container(
         child: Column(
           children: [
@@ -65,11 +66,12 @@ if(user!=null){
               width: Get.width,
               alignment: Alignment.center,
               child: Text(
-                AppConstant.appPoweredBy,
+                'Powered by Rhythm',
                 style: TextStyle(
-                  color: AppConstant.appTextColor,
+                  color: Colors.white,
                   fontSize: 12.0,
                   fontWeight: FontWeight.bold,
+                    fontFamily: 'Inter'
                 ),
               ),
             )

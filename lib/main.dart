@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-
+        fontFamily: 'Inter',
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       builder: EasyLoading.init(),

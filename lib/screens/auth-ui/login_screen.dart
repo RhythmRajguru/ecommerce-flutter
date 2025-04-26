@@ -30,147 +30,147 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordController=TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return KeyboardVisibilityBuilder(builder: (p0, isKeyboardVisible) {
       return Scaffold(
           appBar: AppBar(
-          elevation: 0,
-          centerTitle: true,
-          backgroundColor: AppConstant.appMainColor,
-          title: Text('Sign In',
-          style: TextStyle(color: AppConstant.appTextColor),),
       ),
       body: Container(
-      child: Column(
-        children: [
-          isKeyboardVisible?SizedBox.shrink():
-          Column(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Container(height: Get.height/2.5,width: Get.width,color: AppConstant.appMainColor,child: Lottie.asset('assets/images/splash-icon.json',)),
+              Column(
+                children: [
+                  Text("Welcome",style: TextStyle(fontSize: 22,color: Colors.black,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+                  Text("Please enter your data to continue",style: TextStyle(fontSize: 14,color: Colors.grey,fontFamily: 'Inter'),),
+                ],
+              ),
+
+             Column(
+               children: [
+                 Container(
+                     margin: EdgeInsets.symmetric(horizontal: 5.0),
+                     width: Get.width,
+                     child: Padding(
+                       padding: const EdgeInsets.all(10.0),
+                       child: TextFormField(
+                         textInputAction: TextInputAction.next,
+                         controller: emailController,
+                         cursorColor: AppConstant.appSecondaryColor,
+                         keyboardType: TextInputType.emailAddress,
+                         decoration: InputDecoration(
+                           hintText: 'Email',
+
+                           prefixIcon: Icon(Icons.email),
+
+                         ),
+                       ),
+                     )),
+                 Container(
+                     margin: EdgeInsets.symmetric(horizontal: 5.0),
+                     width: Get.width,
+                     child: Padding(
+                         padding: const EdgeInsets.all(10.0),
+                         child: Obx(() => TextFormField(
+                           textInputAction: TextInputAction.next,
+                           controller: passwordController,
+                           cursorColor: AppConstant.appSecondaryColor,
+                           keyboardType: TextInputType.emailAddress,
+                           obscureText: loginController.isPasswordVisible.value,
+                           decoration: InputDecoration(
+                             hintText: 'Password',
+
+                             prefixIcon: Icon(Icons.password),
+                             suffixIcon: InkWell(
+                               onTap: (){
+                                 loginController.isPasswordVisible.toggle();
+                               },
+                               child: loginController.isPasswordVisible.value?Icon(Icons.visibility_off):Icon(Icons.visibility_sharp),
+                             ),
+
+                           ),
+                         ),)
+                     )),
+                 InkWell(
+                   onTap: (){
+                     Get.to(ForgotPasswordScreen());
+                   },
+                   child: Container(
+                     margin: EdgeInsets.symmetric(horizontal: 15.0),
+                     alignment: Alignment.centerRight,
+                     child: Text("Forgot Password?",
+                       style: TextStyle(
+                         color: Colors.red,
+                         fontWeight: FontWeight.bold,
+                           fontFamily: 'Inter'
+                       ),),
+                   ),
+                 ),
+               ],
+             ),
+
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('By connecting your account confirm that you agree',style: TextStyle(color: Colors.grey,fontSize: 12,fontFamily: 'Inter'),),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('with our',style: TextStyle(color: Colors.grey,fontSize: 12,fontFamily: 'Inter'),),
+                      SizedBox(width: 2,),
+                      Text('Term and Condition',style: TextStyle(color: Colors.blue.shade800,fontSize: 12,fontFamily: 'Inter'),),
+                    ],
+                  )
+
+                ],
+              )
             ],
           ),
-          SizedBox(height: Get.height/30,),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 5.0),
-              width: Get.width,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: TextFormField(
-                  controller: emailController,
-                  cursorColor: AppConstant.appSecondaryColor,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    hintText: 'Email',
-                    contentPadding: EdgeInsets.only(top: 2.0,left: 8.0),
-                    prefixIcon: Icon(Icons.email),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    )
-                  ),
-                ),
-              )),
-          SizedBox(height: Get.height/70,),
-          Container(
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
-              width: Get.width,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Obx(()=>TextFormField(
-                  controller: passwordController,
-                  cursorColor: AppConstant.appSecondaryColor,
-                  keyboardType: TextInputType.emailAddress,
-                  obscureText: loginController.isPasswordVisible.value,
-                  decoration: InputDecoration(
-                      hintText: 'Password',
-                      contentPadding: EdgeInsets.only(top: 2.0,left: 8.0),
-                      prefixIcon: Icon(Icons.password),
-                      suffixIcon: InkWell(
-                        onTap: (){
-                          loginController.isPasswordVisible.toggle();
-                        },
-                        child: loginController.isPasswordVisible.value?Icon(Icons.visibility_off):Icon(Icons.visibility_sharp),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      )
-                  ),
-                ),)
-              )),
-          InkWell(
-            onTap: (){
-              Get.to(ForgotPasswordScreen());
-            },
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 15.0),
-              alignment: Alignment.centerRight,
-              child: Text("Forgot Password?",
-              style: TextStyle(
-                color: AppConstant.appSecondaryColor,
-                fontWeight: FontWeight.bold,
-              ),),
-            ),
-          ),
-          SizedBox(height: Get.height/20,),
-          Material(child: Container(
-            width: Get.width/2,
-            height: Get.height/18,
-            decoration: BoxDecoration(
-              color: AppConstant.appSecondaryColor,
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            child: TextButton(
-              child: Text('Sign In',style: TextStyle(color: AppConstant.appTextColor),),
-              onPressed: ()async{
-                final email=emailController.text.trim();
-                final password=passwordController.text.trim();
-                if(email.isEmpty || password.isEmpty){
-                  Get.snackbar("Error", "Please enter all details",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+        ),
+
+        bottomSheet: InkWell(
+          onTap: ()async{
+            final email=emailController.text.trim();
+            final password=passwordController.text.trim();
+            if(email.isEmpty || password.isEmpty){
+              Get.snackbar("Error", "Please enter all details",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+            }
+            else{
+              UserCredential? userCredential=await loginController.LoginMethod(email,password);
+
+              var userData=await getUserDataController.getUserData(userCredential!.user!.uid);
+
+              if(userCredential!=null){
+                if(userCredential.user!.emailVerified){
+                  if(userData[0]['isAdmin']==true){
+                    Get.offAll(()=>AdminMainScreen());
+                    Get.snackbar("Success admin login", "login successfully",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+
+                  }else{
+                    Get.offAll(()=>MainScreen());
+                    Get.snackbar("Success user login", "login successfully",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+
+                  }
+
                 }else{
-                 UserCredential? userCredential=await loginController.LoginMethod(email,password);
-
-                 var userData=await getUserDataController.getUserData(userCredential!.user!.uid);
-
-                 if(userCredential!=null){
-                   if(userCredential.user!.emailVerified){
-                      if(userData[0]['isAdmin']==true){
-                        Get.offAll(()=>AdminMainScreen());
-                        Get.snackbar("Success admin login", "login successfully",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
-
-                      }else{
-                        Get.offAll(()=>MainScreen());
-                        Get.snackbar("Success user login", "login successfully",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
-
-                      }
-
-                   }else{
-                     Get.snackbar("Error", "Please verify your email before login",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
-
-                   }
-                 }
-                 else{
-                   Get.snackbar("Error", "Please try again",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
-
-                 }
+                  Get.snackbar("Error", "Please verify your email before login",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
 
                 }
+              }
+              else{
+                Get.snackbar("Error", "Please try again",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
 
-              },
-            ),
-          ),),
-          SizedBox(height: Get.height/30,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-            Text("Don't have an account? ",style: TextStyle(color: AppConstant.appSecondaryColor),),
-            InkWell(
-              onTap: (){
-                Get.to(RegisterScreen());
-              },
-                child: Text("Sign Up",style: TextStyle(color: AppConstant.appSecondaryColor,fontWeight: FontWeight.bold),)),
-          ],)
-        ],
-      ),
-      ),);
-    },);
+              }
+
+            }
+          },
+          child: Container(
+            height: 60,
+            width: double.infinity,
+            color: AppConstant.appMainColor,
+            child: Center(child: Text('Login',style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold,fontFamily: 'Inter'),)),
+          ),
+        ),
+      );
+
 
 
   }

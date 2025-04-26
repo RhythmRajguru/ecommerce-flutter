@@ -16,56 +16,74 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        backgroundColor: AppConstant.appMainColor,
-        title: Text('Welcome to app',
-        style: TextStyle(color: AppConstant.appTextColor),),
-      ),
       body: Container(
-        child: Column(
-          children: [
-            Container(
-              color: AppConstant.appMainColor,
-              child: Lottie.asset('assets/images/splash-icon.json'),),
-            Container(
-              margin: EdgeInsets.only(top: 20.0),
-              child: Text('Happy Shopping',style:
-                TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold),),),
-            SizedBox(height: Get.height/12,),
-            Material(child: Container(
-              width: Get.width/1.2,
-              height: Get.height/12,
-              decoration: BoxDecoration(
-                color: AppConstant.appSecondaryColor,
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: TextButton.icon(
-                icon: Image.asset('assets/icons/google.png',width: Get.width/12,height: Get.height/12,),
-                label: Text('Sign in with Google',style: TextStyle(color: AppConstant.appTextColor),),
-                onPressed: (){
-                  _googleSignInController.signInwithGoogle();
-                },
-              ),
-            ),),
-            SizedBox(height: Get.height/50,),
-            Material(child: Container(
-              width: Get.width/1.2,
-              height: Get.height/12,
-              decoration: BoxDecoration(
-                color: AppConstant.appSecondaryColor,
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: TextButton.icon(
-                icon: Image.asset('assets/icons/email.png',color: Colors.white,width: Get.width/12,height: Get.height/12,),
-                label: Text('Sign in with Email',style: TextStyle(color: AppConstant.appTextColor),),
-                onPressed: (){
-                  Get.to(LoginScreen());
-                },
-              ),
-            ),),
-          ],
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text("Let's get Started",style: TextStyle(fontSize: 22,color: Colors.black,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+
+             Column(
+               children: [
+                 Material(child: Container(
+                   width: 300,
+                   height: 50,
+                   decoration: BoxDecoration(
+                     color: Color(0xFFEA4335),
+                     borderRadius: BorderRadius.circular(20.0),
+                   ),
+                   child: TextButton.icon(
+                     icon: Image.asset('assets/icons/google.png',width: 23,height: 23,),
+                     label: Text('Sign in with Google',style: TextStyle(color: Colors.white,fontFamily: 'Inter'),),
+                     onPressed: (){
+                       _googleSignInController.signInwithGoogle();
+                     },
+                   ),
+                 ),),
+                 SizedBox(height: 20),
+                 Material(child: Container(
+                   width: 300,
+                   height: 50,
+                   decoration: BoxDecoration(
+                     color: Colors.blue,
+                     borderRadius: BorderRadius.circular(20.0),
+                   ),
+                   child: TextButton.icon(
+                     icon: Icon(Icons.email,color: Colors.white,size: 25,),
+                     label: Text('Sign in with Email',style: TextStyle(color: Colors.white,fontFamily: 'Inter'),),
+                     onPressed: (){
+                       Get.to(LoginScreen());
+                     },
+                   ),
+                 ),),
+               ],
+             ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Already have an account?',style: TextStyle(color: Colors.grey,fontFamily: 'Inter'),),
+                  SizedBox(width: 2,),
+                  InkWell(
+                      onTap: (){
+                        Get.to(()=>LoginScreen());
+                      },
+                      child: Text('Login',style: TextStyle(color: Colors.black,fontFamily: 'Inter'),)),
+                ],
+              )
+            ],
+          ),
+        ),
+
+      ),
+      bottomSheet: InkWell(
+        onTap: (){
+          Get.to(()=>RegisterScreen());
+        },
+        child: Container(
+          height: 60,
+          width: double.infinity,
+          color: AppConstant.appMainColor,
+          child: Center(child: Text('Create an Account',style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold,fontFamily: 'Inter'),)),
         ),
       ),
     );
