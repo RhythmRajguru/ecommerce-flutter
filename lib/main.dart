@@ -1,3 +1,4 @@
+import 'package:ecom/contollers/theme_controller.dart';
 import 'package:ecom/screens/auth-ui/login_screen.dart';
 import 'package:ecom/screens/auth-ui/splash_screen.dart';
 import 'package:ecom/screens/auth-ui/welcome_screen.dart';
@@ -14,24 +15,25 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
 
+  ThemeController themeController=Get.put(ThemeController());
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return Obx(()=>GetMaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: 'Inter',
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: themeController.isDarkMode.value
+      ?ThemeMode.dark
+      :ThemeMode.light,
       builder: EasyLoading.init(),
       home: SplashScreen(),
-    );
+    ));
   }
 }
