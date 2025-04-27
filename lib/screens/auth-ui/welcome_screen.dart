@@ -1,3 +1,4 @@
+import 'package:ecom/common/widgets/custom_bottom_btn.dart';
 import 'package:ecom/contollers/google_signin_controller.dart';
 import 'package:ecom/screens/auth-ui/login_screen.dart';
 import 'package:ecom/screens/auth-ui/register_screen.dart';
@@ -75,17 +76,9 @@ class WelcomeScreen extends StatelessWidget {
         ),
 
       ),
-      bottomSheet: InkWell(
-        onTap: (){
-          Get.to(()=>RegisterScreen());
-        },
-        child: Container(
-          height: 60,
-          width: double.infinity,
-          color: AppConstant.appMainColor,
-          child: Center(child: Text('Create an Account',style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold,fontFamily: 'Inter'),)),
-        ),
-      ),
+      bottomSheet: CustomBottomBtn(title: 'Create an Account', callback: (){
+        Get.to(()=>RegisterScreen());
+      })
     );
   }
 }

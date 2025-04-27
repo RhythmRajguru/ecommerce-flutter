@@ -73,7 +73,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               forgotPasswordController.ForgetPasswordMethod(email);
           }
          else{
-            Get.snackbar("Validation Failed", "Fix Errors",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+            Get.snackbar("Validation Failed", "Fix Errors",snackPosition: SnackPosition.BOTTOM,colorText: AppConstant.appTextColor);
           }
         },
         child: Container(

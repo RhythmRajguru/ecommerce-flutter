@@ -1,3 +1,4 @@
+import 'package:ecom/common/widgets/custom_bottom_btn.dart';
 import 'package:ecom/contollers/get_user_data_controller.dart';
 import 'package:ecom/contollers/login_controller.dart';
 import 'package:ecom/screens/admin-panel/admin_main_screen.dart';
@@ -129,54 +130,46 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
 
-        bottomSheet: InkWell(
-          onTap: ()async{
-            bool isEmailValid=loginController.validateEmailInput();
-            bool isPasswordValid=loginController.validatePasswordInput();
-            if(isEmailValid && isPasswordValid){
-              final email=loginController.emailController.value.trim();
-              final password=loginController.passwordController.value.trim();
+        bottomSheet:CustomBottomBtn(title: 'Login', callback: ()async{
+          bool isEmailValid=loginController.validateEmailInput();
+          bool isPasswordValid=loginController.validatePasswordInput();
+          if(isEmailValid && isPasswordValid){
+            final email=loginController.emailController.value.trim();
+            final password=loginController.passwordController.value.trim();
 
 
-              UserCredential? userCredential=await loginController.LoginMethod(email,password);
+            UserCredential? userCredential=await loginController.LoginMethod(email,password);
 
-              var userData=await getUserDataController.getUserData(userCredential!.user!.uid);
+            var userData=await getUserDataController.getUserData(userCredential!.user!.uid);
 
-              if(userCredential!=null){
-                if(userCredential.user!.emailVerified){
-                  if(userData[0]['isAdmin']==true){
-                    Get.offAll(()=>AdminMainScreen());
-                    Get.snackbar("Success admin login", "login successfully",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
-
-                  }else{
-                    Get.offAll(()=>MainScreen());
-                    Get.snackbar("Success user login", "login successfully",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
-
-                  }
+            if(userCredential!=null){
+              if(userCredential.user!.emailVerified){
+                if(userData[0]['isAdmin']==true){
+                  Get.offAll(()=>AdminMainScreen());
+                  Get.snackbar("Success admin login", "login successfully",snackPosition: SnackPosition.BOTTOM,colorText: Colors.black);
 
                 }else{
-                  Get.snackbar("Error", "Please verify your email before login",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+                  Get.offAll(()=>MainScreen());
+                  Get.snackbar("Success user login", "login successfully",snackPosition: SnackPosition.BOTTOM,colorText: Colors.black);
 
                 }
-              }
-              else{
-                Get.snackbar("Error", "Please try again",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+
+              }else{
+                Get.snackbar("Error", "Please verify your email before login",snackPosition: SnackPosition.BOTTOM,colorText: Colors.black);
 
               }
+            }
+            else{
+              Get.snackbar("Error", "Please try again",snackPosition: SnackPosition.BOTTOM,colorText: Colors.black);
 
-
-            }else{
-              Get.snackbar("Validation Failed", "Fix Errors",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
             }
 
-          },
-          child: Container(
-            height: 60,
-            width: double.infinity,
-            color: AppConstant.appMainColor,
-            child: Center(child: Text('Login',style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold,fontFamily: 'Inter'),)),
-          ),
-        ),
+
+          }else{
+            Get.snackbar("Validation Failed", "Fix Errors",snackPosition: SnackPosition.BOTTOM,colorText: Colors.black);
+          }
+
+        })
       );
 
 

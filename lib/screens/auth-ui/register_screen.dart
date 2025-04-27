@@ -1,3 +1,4 @@
+import 'package:ecom/common/widgets/custom_bottom_btn.dart';
 import 'package:ecom/contollers/register_controller.dart';
 import 'package:ecom/services/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,7 +25,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return KeyboardVisibilityBuilder(builder: (p0, isKeyboardVisible) {
       return Scaffold(
         appBar: AppBar(),
         body:  Container(
@@ -174,54 +174,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
 
-        bottomSheet: InkWell(
-          onTap: ()async{
-            bool isUsernameValid=registerController.validateUsernameInput();
-            bool isEmailValid=registerController.validateEmailInput();
-            bool isPhoneValid=registerController.validatePhoneInput();
-            bool isCityValid=registerController.validateCityInput();
-            bool isPasswordValid=registerController.validatePasswordInput();
+        bottomSheet: CustomBottomBtn(title: 'Sign Up', callback: ()async{
+          bool isUsernameValid=registerController.validateUsernameInput();
+          bool isEmailValid=registerController.validateEmailInput();
+          bool isPhoneValid=registerController.validatePhoneInput();
+          bool isCityValid=registerController.validateCityInput();
+          bool isPasswordValid=registerController.validatePasswordInput();
 
-            if(isUsernameValid && isEmailValid && isPhoneValid && isCityValid && isPasswordValid){
-              NotificationService notificationService=NotificationService();
+          if(isUsernameValid && isEmailValid && isPhoneValid && isCityValid && isPasswordValid){
+            NotificationService notificationService=NotificationService();
 
-              String name=registerController.usernameController.value.trim();
-              String email=registerController.emailController.value.trim();
-              String phone=registerController.phoneController.value.trim();
-              String city=registerController.cityController.value.trim();
-              String password=registerController.passwordController.value.trim();
+            String name=registerController.usernameController.value.trim();
+            String email=registerController.emailController.value.trim();
+            String phone=registerController.phoneController.value.trim();
+            String city=registerController.cityController.value.trim();
+            String password=registerController.passwordController.value.trim();
 
-              String userDeviceToken=await notificationService.getDeviceToken();
+            String userDeviceToken=await notificationService.getDeviceToken();
 
-                UserCredential? userCredential=await registerController.RegisterMethod(
-                    name,
-                    email,
-                    phone,
-                    city,
-                    password,
-                    userDeviceToken);
-                if(userCredential!=null){
-                  Get.snackbar("Verification email sent", "Please check your email",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
-                  FirebaseAuth.instance.signOut();
+            UserCredential? userCredential=await registerController.RegisterMethod(
+                name,
+                email,
+                phone,
+                city,
+                password,
+                userDeviceToken);
+            if(userCredential!=null){
+              Get.snackbar("Verification email sent", "Please check your email",snackPosition: SnackPosition.BOTTOM,colorText: Colors.black);
+              FirebaseAuth.instance.signOut();
 
-                  Get.offAll(()=>LoginScreen());
-
-                }
-
-            }else{
-              Get.snackbar("Validation Failed", "Fix Errors",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+              Get.offAll(()=>LoginScreen());
 
             }
 
-          },
-          child: Container(
-            height: 60,
-            width: double.infinity,
-            color: AppConstant.appMainColor,
-            child: Center(child: Text('Sign Up',style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold,fontFamily: 'Inter'),)),
-          ),
-        ),
+          }else{
+            Get.snackbar("Validation Failed", "Fix Errors",snackPosition: SnackPosition.BOTTOM,colorText: Colors.black);
+
+          }
+
+        })
       );
-    },);
   }
 }
