@@ -18,8 +18,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   final ForgotPasswordController forgotPasswordController=Get.put(ForgotPasswordController());
 
-  final emailController=TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,24 +33,25 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                  Text("Forgot Password",style: TextStyle(fontSize: 22,color: Colors.black,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
                  Image.asset('assets/icons/forgotpwd_illustator.png'),
 
-                 Container(
+                 Obx(()=>Container(
                      margin: EdgeInsets.symmetric(horizontal: 5.0),
                      width: Get.width,
                      child: Padding(
                        padding: const EdgeInsets.all(10.0),
                        child: TextFormField(
                          textInputAction: TextInputAction.next,
-                         controller: emailController,
                          cursorColor: AppConstant.appSecondaryColor,
                          keyboardType: TextInputType.emailAddress,
                          decoration: InputDecoration(
                            hintText: 'Email',
-
                            prefixIcon: Icon(Icons.email),
-
-                         ),
+                             errorText: forgotPasswordController.emailErrorText.value
+                         ),onChanged: (value){
+                         forgotPasswordController.emailController.value=value;
+                         forgotPasswordController.validateEmailInput();
+                       },
                        ),
-                     )),
+                     )),)
                ],
              ),
               Column(
@@ -68,12 +67,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       ),
       bottomSheet: InkWell(
         onTap: ()async{
-          final email=emailController.text.trim();
-          if(email.isEmpty){
-            Get.snackbar("Error", "Please enter email",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
-          }else{
-            forgotPasswordController.ForgetPasswordMethod(email);
-
+          bool isEmailValid=forgotPasswordController.validateEmailInput();
+          if(isEmailValid){
+            final email=forgotPasswordController.emailController.value.trim();
+              forgotPasswordController.ForgetPasswordMethod(email);
+          }
+         else{
+            Get.snackbar("Validation Failed", "Fix Errors",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
           }
         },
         child: Container(

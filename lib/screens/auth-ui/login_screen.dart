@@ -26,8 +26,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final LoginController loginController=Get.put(LoginController());
   final GetUserDataController getUserDataController=Get.put(GetUserDataController());
 
-  final emailController=TextEditingController();
-  final passwordController=TextEditingController();
   @override
   Widget build(BuildContext context) {
       return Scaffold(
@@ -46,24 +44,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
              Column(
                children: [
-                 Container(
-                     margin: EdgeInsets.symmetric(horizontal: 5.0),
-                     width: Get.width,
-                     child: Padding(
-                       padding: const EdgeInsets.all(10.0),
-                       child: TextFormField(
-                         textInputAction: TextInputAction.next,
-                         controller: emailController,
-                         cursorColor: AppConstant.appSecondaryColor,
-                         keyboardType: TextInputType.emailAddress,
-                         decoration: InputDecoration(
-                           hintText: 'Email',
-
-                           prefixIcon: Icon(Icons.email),
-
-                         ),
+               Obx(()=>  Container(
+                   margin: EdgeInsets.symmetric(horizontal: 5.0),
+                   width: Get.width,
+                   child: Padding(
+                     padding: const EdgeInsets.all(10.0),
+                     child: TextFormField(
+                       textInputAction: TextInputAction.next,
+                       cursorColor: AppConstant.appSecondaryColor,
+                       keyboardType: TextInputType.emailAddress,
+                       decoration: InputDecoration(
+                         hintText: 'Email',
+                         prefixIcon: Icon(Icons.email),
+                         errorText: loginController.emailErrorText.value
                        ),
-                     )),
+                       onChanged: (value){
+                         loginController.emailController.value=value;
+                         loginController.validateEmailInput();
+                       },
+                     ),
+                   )),),
                  Container(
                      margin: EdgeInsets.symmetric(horizontal: 5.0),
                      width: Get.width,
@@ -71,14 +71,13 @@ class _LoginScreenState extends State<LoginScreen> {
                          padding: const EdgeInsets.all(10.0),
                          child: Obx(() => TextFormField(
                            textInputAction: TextInputAction.next,
-                           controller: passwordController,
                            cursorColor: AppConstant.appSecondaryColor,
                            keyboardType: TextInputType.emailAddress,
                            obscureText: loginController.isPasswordVisible.value,
                            decoration: InputDecoration(
                              hintText: 'Password',
-
                              prefixIcon: Icon(Icons.password),
+                             errorText: loginController.passwordErrorText.value,
                              suffixIcon: InkWell(
                                onTap: (){
                                  loginController.isPasswordVisible.toggle();
@@ -87,6 +86,10 @@ class _LoginScreenState extends State<LoginScreen> {
                              ),
 
                            ),
+                           onChanged: (value){
+                             loginController.passwordController.value=value;
+                             loginController.validatePasswordInput();
+                           },
                          ),)
                      )),
                  InkWell(
@@ -128,12 +131,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
         bottomSheet: InkWell(
           onTap: ()async{
-            final email=emailController.text.trim();
-            final password=passwordController.text.trim();
-            if(email.isEmpty || password.isEmpty){
-              Get.snackbar("Error", "Please enter all details",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
-            }
-            else{
+            bool isEmailValid=loginController.validateEmailInput();
+            bool isPasswordValid=loginController.validatePasswordInput();
+            if(isEmailValid && isPasswordValid){
+              final email=loginController.emailController.value.trim();
+              final password=loginController.passwordController.value.trim();
+
+
               UserCredential? userCredential=await loginController.LoginMethod(email,password);
 
               var userData=await getUserDataController.getUserData(userCredential!.user!.uid);
@@ -160,7 +164,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
               }
 
+
+            }else{
+              Get.snackbar("Validation Failed", "Fix Errors",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
             }
+
           },
           child: Container(
             height: 60,

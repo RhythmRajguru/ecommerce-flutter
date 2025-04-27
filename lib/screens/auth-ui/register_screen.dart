@@ -22,12 +22,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final RegisterController registerController=Get.put(RegisterController());
 
-  final nameController=TextEditingController();
-  final emailController=TextEditingController();
-  final phoneController=TextEditingController();
-  final cityController=TextEditingController();
-  final passwordController=TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return KeyboardVisibilityBuilder(builder: (p0, isKeyboardVisible) {
@@ -40,92 +34,110 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Text("Sign Up",style: TextStyle(fontSize: 22,color: Colors.black,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
                Column(
                  children: [
-                   Container(
+                   Obx(()=>Container(
                        margin: EdgeInsets.symmetric(horizontal: 5.0),
                        width: Get.width,
                        child: Padding(
                          padding: const EdgeInsets.all(10.0),
                          child: TextFormField(
                            textInputAction: TextInputAction.next,
-                           controller: nameController,
+
                            cursorColor: AppConstant.appSecondaryColor,
                            keyboardType: TextInputType.name,
                            decoration: InputDecoration(
-                             hintText: 'Username',
-                             prefixIcon: Icon(Icons.person),
-
+                               hintText: 'Username',
+                               prefixIcon: Icon(Icons.person),
+                               errorText: registerController.usernameErrorText.value
                            ),
+                           onChanged: (value){
+                             registerController.usernameController.value=value;
+                             registerController.validateUsernameInput();
+                           },
                          ),
-                       )),
+                       )),),
 
-                   Container(
+                   Obx(()=>Container(
                        margin: EdgeInsets.symmetric(horizontal: 5.0),
                        width: Get.width,
                        child: Padding(
                          padding: const EdgeInsets.all(10.0),
                          child: TextFormField(
                            textInputAction: TextInputAction.next,
-                           controller: emailController,
+
                            cursorColor: AppConstant.appSecondaryColor,
                            keyboardType: TextInputType.emailAddress,
                            decoration: InputDecoration(
                              hintText: 'Email',
                              prefixIcon: Icon(Icons.email),
+                               errorText: registerController.emailErrorText.value
 
                            ),
+                           onChanged: (value){
+                             registerController.emailController.value=value;
+                             registerController.validateEmailInput();
+                           },
                          ),
-                       )),
+                       ))),
 
-                   Container(
+                   Obx(()=>Container(
                        margin: EdgeInsets.symmetric(horizontal: 5.0),
                        width: Get.width,
                        child: Padding(
                          padding: const EdgeInsets.all(10.0),
                          child: TextFormField(
                            textInputAction: TextInputAction.next,
-                           controller: phoneController,
                            cursorColor: AppConstant.appSecondaryColor,
                            keyboardType: TextInputType.phone,
                            decoration: InputDecoration(
                              hintText: 'Phone',
                              prefixIcon: Icon(Icons.phone),
-
+                               errorText: registerController.phoneErrorText.value
                            ),
+                           onChanged: (value){
+                             registerController.phoneController.value=value;
+                             registerController.validatePhoneInput();
+                           },
                          ),
-                       )),
+                       ))),
 
-                   Container(
+                   Obx(()=>Container(
                        margin: EdgeInsets.symmetric(horizontal: 5.0),
                        width: Get.width,
                        child: Padding(
                          padding: const EdgeInsets.all(10.0),
                          child: TextFormField(
                            textInputAction: TextInputAction.next,
-                           controller: cityController,
+
                            cursorColor: AppConstant.appSecondaryColor,
                            keyboardType: TextInputType.streetAddress,
                            decoration: InputDecoration(
                              hintText: 'City',
                              prefixIcon: Icon(Icons.location_pin),
-
+                               errorText: registerController.cityErrorText.value
                            ),
+                           onChanged: (value){
+                             registerController.cityController.value=value;
+                             registerController.validateCityInput();
+                           },
                          ),
-                       )),
+                       ))),
 
-                   Container(
+                   Obx(()=>Container(
                        margin: EdgeInsets.symmetric(horizontal: 5.0),
                        width: Get.width,
                        child: Padding(
                            padding: const EdgeInsets.all(10.0),
-                           child: Obx(() => TextFormField(
+                           child: TextFormField(
                              textInputAction: TextInputAction.next,
-                             controller: passwordController,
+
                              cursorColor: AppConstant.appSecondaryColor,
                              keyboardType: TextInputType.emailAddress,
                              obscureText: registerController.isPasswordVisible.value,
                              decoration: InputDecoration(
                                hintText: 'Password',
+                                 errorText: registerController.passwordErrorText.value,
                                prefixIcon: Icon(Icons.password),
+
                                suffixIcon: InkWell(
                                  onTap: (){
                                    registerController.isPasswordVisible.toggle();
@@ -134,8 +146,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                ),
 
                              ),
-                           ),)
-                       )),
+                             onChanged: (value){
+                               registerController.passwordController.value=value;
+                               registerController.validatePasswordInput();
+                             },
+                           ),
+                       ))),
                  ],
                ),
                 Column(
@@ -160,33 +176,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
         bottomSheet: InkWell(
           onTap: ()async{
-            NotificationService notificationService=NotificationService();
+            bool isUsernameValid=registerController.validateUsernameInput();
+            bool isEmailValid=registerController.validateEmailInput();
+            bool isPhoneValid=registerController.validatePhoneInput();
+            bool isCityValid=registerController.validateCityInput();
+            bool isPasswordValid=registerController.validatePasswordInput();
 
-            String name=nameController.text.trim();
-            String email=emailController.text.trim();
-            String phone=phoneController.text.trim();
-            String city=cityController.text.trim();
-            String password=passwordController.text.trim();
-            String userDeviceToken=await notificationService.getDeviceToken();
-            if(name.isEmpty || email.isEmpty || phone.isEmpty || city.isEmpty || password.isEmpty){
-              Get.snackbar("Error", "Please enter all details",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+            if(isUsernameValid && isEmailValid && isPhoneValid && isCityValid && isPasswordValid){
+              NotificationService notificationService=NotificationService();
+
+              String name=registerController.usernameController.value.trim();
+              String email=registerController.emailController.value.trim();
+              String phone=registerController.phoneController.value.trim();
+              String city=registerController.cityController.value.trim();
+              String password=registerController.passwordController.value.trim();
+
+              String userDeviceToken=await notificationService.getDeviceToken();
+
+                UserCredential? userCredential=await registerController.RegisterMethod(
+                    name,
+                    email,
+                    phone,
+                    city,
+                    password,
+                    userDeviceToken);
+                if(userCredential!=null){
+                  Get.snackbar("Verification email sent", "Please check your email",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+                  FirebaseAuth.instance.signOut();
+
+                  Get.offAll(()=>LoginScreen());
+
+                }
+
+            }else{
+              Get.snackbar("Validation Failed", "Fix Errors",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
+
             }
-          else{
-          UserCredential? userCredential=await registerController.RegisterMethod(
-             name,
-            email,
-            phone,
-            city,
-            password,
-            userDeviceToken);
-          if(userCredential!=null){
-            Get.snackbar("Verification email sent", "Please check your email",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
-            FirebaseAuth.instance.signOut();
-
-            Get.offAll(()=>LoginScreen());
-
-          }
-          }
 
           },
           child: Container(

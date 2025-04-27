@@ -9,6 +9,10 @@ class ForgotPasswordController extends GetxController{
   final FirebaseAuth _auth=FirebaseAuth.instance;
   final FirebaseFirestore _firestore=FirebaseFirestore.instance;
 
+  var emailController = ''.obs;
+  var emailErrorText = RxnString(); // nullable observable string
+  final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
   Future<void> ForgetPasswordMethod(
       String userEmail,
       )
@@ -28,5 +32,17 @@ class ForgotPasswordController extends GetxController{
       Get.snackbar("Error", "$e",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
     }
 
+  }
+  bool validateEmailInput() {
+    if (emailController.value.isEmpty) {
+      emailErrorText.value = 'Please enter something';
+      return false;
+    } else if (!emailRegex.hasMatch(emailController.value)) {
+      emailErrorText.value = 'Please enter correct email';
+      return false;
+    } else {
+      emailErrorText.value = null; // no error
+      return true;
+    }
   }
 }

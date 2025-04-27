@@ -11,6 +11,22 @@ class RegisterController extends GetxController{
 
   var isPasswordVisible=false.obs;
 
+  var usernameController = ''.obs;
+  var usernameErrorText = RxnString(); // nullable observable string
+
+  var emailController = ''.obs;
+  var emailErrorText = RxnString(); // nullable observable string
+  final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+  var phoneController = ''.obs;
+  var phoneErrorText = RxnString(); // nullable observable string
+
+  var cityController = ''.obs;
+  var cityErrorText = RxnString(); // nullable observable string
+
+  var passwordController = ''.obs;
+  var passwordErrorText = RxnString();
+
   Future<UserCredential?> RegisterMethod(
       String userName,
       String userEmail,
@@ -50,5 +66,59 @@ class RegisterController extends GetxController{
     Get.snackbar("Error", "$e",snackPosition: SnackPosition.BOTTOM,backgroundColor: AppConstant.appSecondaryColor,colorText: AppConstant.appTextColor);
   }
 
+  }
+  bool validateUsernameInput() {
+    if (usernameController.value.isEmpty) {
+      usernameErrorText.value = 'Please enter something';
+      return false;
+    } else {
+      usernameErrorText.value = null; // no error
+      return true;
+    }
+  }
+  bool validateEmailInput() {
+    if (emailController.value.isEmpty) {
+      emailErrorText.value = 'Please enter something';
+      return false;
+    } else if (!emailRegex.hasMatch(emailController.value)) {
+      emailErrorText.value = 'Please enter correct email';
+      return false;
+    } else {
+      emailErrorText.value = null; // no error
+      return true;
+    }
+  }
+  bool validatePhoneInput() {
+    if (phoneController.value.isEmpty) {
+      phoneErrorText.value = 'Please enter something';
+      return false;
+    } else if (phoneController.value.length < 10) {
+      phoneErrorText.value = 'Minimum 10 characters required';
+      return false;
+    } else {
+      phoneErrorText.value = null; // no error
+      return true;
+    }
+  }
+  bool validateCityInput() {
+    if (cityController.value.isEmpty) {
+      cityErrorText.value = 'Please enter something';
+      return false;
+    } else {
+      cityErrorText.value = null; // no error
+      return true;
+    }
+  }
+  bool validatePasswordInput() {
+    if (passwordController.value.isEmpty) {
+      passwordErrorText.value = 'Please enter something';
+      return false;
+    } else if (passwordController.value.length < 8) {
+      passwordErrorText.value = 'Minimum 8 characters required';
+      return false;
+    } else {
+      passwordErrorText.value = null; // no error
+      return true;
+    }
   }
 }
