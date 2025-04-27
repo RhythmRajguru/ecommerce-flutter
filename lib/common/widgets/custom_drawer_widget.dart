@@ -32,15 +32,36 @@ class CustomDrawerWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 15.0),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
-                title: Text(user!.displayName.toString(),style: TextStyle(color: Colors.black),),
+
+                title: (user!.displayName !=null && user!.displayName.toString().isNotEmpty)
+                    ?Text(user!.displayName.toString(),style: TextStyle(color: Colors.black),)
+                    :Text(user!.email.toString(),style: TextStyle(color: Colors.black),),
+
                 subtitle: Text('Version 1.0.1',style: TextStyle(color: Colors.black),),
                 leading: CircleAvatar(
                   radius: 22.0,
                   backgroundColor: AppConstant.appMainColor,
-                  child: user!.photoURL.toString().isNotEmpty
+
+                  child: (user!.photoURL!=null && user!.photoURL.toString().isNotEmpty)
                   ?Image.network(user!.photoURL.toString(),fit: BoxFit.cover)
-                :Text(user!.displayName.toString().substring(0,1),style: TextStyle(color: Colors.black),),
+                :Text(user!.email.toString().substring(0,1).toUpperCase(),style: TextStyle(color: Colors.white),),
                 ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0,),
+              child: ListTile(
+                titleAlignment: ListTileTitleAlignment.center,
+                title: Text('Dark Mode',style: TextStyle(color: Colors.black),),
+                leading: Icon(Icons.sunny,color: Colors.black,),
+                trailing: Obx(()=>CupertinoSwitch(
+                  value: themeController.isDarkMode.value,
+                  onChanged: (value) {
+                    themeController.toggleTheme(value);
+                  },),),
+                onTap: (){
+                  Get.to(ProfileScreen());
+                },
               ),
             ),
             Padding(
@@ -54,15 +75,11 @@ class CustomDrawerWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20.0,),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
-                title: Text('Dark Mode',style: TextStyle(color: Colors.black),),
-                leading: Icon(Icons.sunny,color: Colors.black,),
-                trailing: Obx(()=>CupertinoSwitch(
-                  value: themeController.isDarkMode.value,
-                  onChanged: (value) {
-                      themeController.toggleTheme(value);
-                  },),),
+                title: Text('Home',style: TextStyle(color: Colors.black),),
+                leading: Icon(Icons.home,color: Colors.black,),
+
                 onTap: (){
-                  Get.to(ProfileScreen());
+                  Navigator.pop(context);
                 },
               ),
             ),
@@ -75,18 +92,6 @@ class CustomDrawerWidget extends StatelessWidget {
                 
                 onTap: (){
                 Get.to(ProfileScreen());
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0,),
-              child: ListTile(
-                titleAlignment: ListTileTitleAlignment.center,
-                title: Text('Home',style: TextStyle(color: Colors.black),),
-                leading: Icon(Icons.home,color: Colors.black,),
-                
-                onTap: (){
-                  Navigator.pop(context);
                 },
               ),
             ),

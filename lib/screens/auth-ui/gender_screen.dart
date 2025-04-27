@@ -40,7 +40,7 @@ class GenderScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text('Create your individual & unique style and',style: TextStyle(fontSize: 12,color: Colors.grey,fontFamily: 'Inter'),),
-                          Text('look amazing everyday',style: TextStyle(fontSize: 12,color: Colors.grey,fontFamily: 'Inter'),),
+                          Text('look amazing everyday.',style: TextStyle(fontSize: 12,color: Colors.grey,fontFamily: 'Inter'),),
                         ],
                       ),
                       Row(

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecom/common/widgets/custom_bottom_btn.dart';
 import 'package:ecom/contollers/login_controller.dart';
+import 'package:ecom/contollers/profile_contoller.dart';
 import 'package:ecom/screens/auth-ui/login_screen.dart';
 import 'package:ecom/screens/user-panel/main_screen.dart';
 import 'package:ecom/utils/constants/app_constraint.dart';
@@ -9,23 +11,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProfileScreen extends StatelessWidget {
-  final oldPasswordController = TextEditingController();
-  final newPasswordController = TextEditingController();
-  final queryController = TextEditingController();
 
   User? user = FirebaseAuth.instance.currentUser;
 
-  LoginController loginController=Get.put(LoginController());
+  ProfileController profileController=Get.put(ProfileController());
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppConstant.appMainColor,
-        title: Text(
-          'Profile', style: TextStyle(color: AppConstant.appTextColor),),
-        iconTheme: IconThemeData(color: AppConstant.appTextColor),
+
           actions: [
             PopupMenuButton<String>(
               itemBuilder: (BuildContext context) => [
@@ -54,111 +50,110 @@ class ProfileScreen extends StatelessWidget {
           ]
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          SizedBox(height: 20,),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: TextFormField(
-              maxLines: 1,
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.next,
-              initialValue: user!.email,
-              readOnly: true,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                prefixIcon: Icon(Icons.email),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10)
-                ),
-                contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                hintStyle: TextStyle(fontSize: 12),
-              ),
-            ),
-          ),
-          SizedBox(height: 20,),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Obx(()=>
-                TextFormField(
+          Text("New Password",style: TextStyle(fontSize: 22,color: Colors.black,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                child: TextFormField(
                   maxLines: 1,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
-                  controller: oldPasswordController,
-                  obscureText: loginController.isPasswordVisible.value,
+                  initialValue: user!.email,
+                  readOnly: true,
                   decoration: InputDecoration(
-                    labelText: 'Old Password',
-                    prefixIcon: Icon(Icons.password),
-                    suffixIcon: InkWell(
-                      onTap: (){
-                        loginController.isPasswordVisible.toggle();
-                      },
-                      child: loginController.isPasswordVisible.value?Icon(Icons.visibility_off):Icon(Icons.visibility_sharp),
-                    ),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)
-                    ),
+                    labelText: 'Email',
+                    prefixIcon: Icon(Icons.email),
                     contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
                     hintStyle: TextStyle(fontSize: 12),
                   ),
-                ),)
-          ),
-          SizedBox(height: 20,),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Obx(()=>TextFormField(
-              maxLines: 1,
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.next,
-              controller: newPasswordController,
-              obscureText: loginController.isPasswordVisible.value,
-              decoration: InputDecoration(
-                labelText: 'New Password',
-                prefixIcon: Icon(Icons.password),
-                suffixIcon: InkWell(
-                  onTap: (){
-                    loginController.isPasswordVisible.toggle();
-                  },
-                  child: loginController.isPasswordVisible.value?Icon(Icons.visibility_off):Icon(Icons.visibility_sharp),
                 ),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10)
-                ),
-                contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                hintStyle: TextStyle(fontSize: 12),
               ),
-            ),)
+
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                  child: Obx(()=>
+                      TextFormField(
+                        maxLines: 1,
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        obscureText: profileController.isPasswordVisible.value,
+                        decoration: InputDecoration(
+                          labelText: 'Old Password',
+                          prefixIcon: Icon(Icons.password),
+                          errorText: profileController.oldPasswordErrorText.value,
+                          suffixIcon: InkWell(
+                            onTap: (){
+                              profileController.isPasswordVisible.toggle();
+                            },
+                            child: profileController.isPasswordVisible.value?Icon(Icons.visibility_off):Icon(Icons.visibility_sharp),
+                          ),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                          hintStyle: TextStyle(fontSize: 12),
+                        ),
+                        onChanged: (value) {
+                          profileController.oldPasswordController.value=value;
+                          profileController.validateOldPasswordInput();
+                        },
+                      ),)
+              ),
+
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                  child: Obx(()=>TextFormField(
+                    maxLines: 1,
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+
+                    obscureText: profileController.isPasswordVisible.value,
+                    decoration: InputDecoration(
+                      labelText: 'New Password',
+                      prefixIcon: Icon(Icons.password),
+                      errorText: profileController.newPasswordErrorText.value,
+                      suffixIcon: InkWell(
+                        onTap: (){
+                          profileController.isPasswordVisible.toggle();
+                        },
+                        child: profileController.isPasswordVisible.value?Icon(Icons.visibility_off):Icon(Icons.visibility_sharp),
+                      ),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                      hintStyle: TextStyle(fontSize: 12),
+                    ),
+                    onChanged: (value) {
+                      profileController.newPasswordController.value=value;
+                      profileController.validateNewPasswordInput();
+                    },
+                  ),)
+              ),
+            ],
           ),
-          SizedBox(height: 40,),
-          ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: AppConstant.appMainColor), onPressed: () {
-            if (oldPasswordController.text.isNotEmpty &&
-                newPasswordController.text.isNotEmpty) {
-              changePassword();
-              Get.snackbar('Success', 'Password updated successfully',
-                  snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: AppConstant.appMainColor);
-              oldPasswordController.clear();
-              newPasswordController.clear();
-            } else {
-              Get.snackbar('Error', 'Please enter all details',
-                  snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: AppConstant.appMainColor);
-            }
-          }, child: Text('Update Password', style: TextStyle(color: Colors.white),)),
+          Text("Please write your new password.",style: TextStyle(fontSize: 12,color: Colors.grey,fontFamily: 'Inter'),),
         ],
       ),
+      bottomSheet:CustomBottomBtn(title: 'Reset Password', callback: ()async{
+        final isOldPasswordValid=profileController.validateOldPasswordInput();
+        final isNewPasswordValid=profileController.validateNewPasswordInput();
+
+
+       if(isOldPasswordValid && isNewPasswordValid){
+         AuthCredential credential = EmailAuthProvider.credential(
+           email: user!.email.toString(),
+           password: profileController.oldPasswordController.value.toString().trim(),
+         );
+
+         await user!.reauthenticateWithCredential(credential);
+
+         await user!.updatePassword(profileController.newPasswordController.value.toString().trim());
+
+         Get.snackbar("Success", "Password updated Successfully",snackPosition: SnackPosition.BOTTOM,colorText: Colors.black);
+          Get.offAll(()=>MainScreen());
+       }else{
+         Get.snackbar("Validation Failed", "Fix Errors",snackPosition: SnackPosition.BOTTOM,colorText: Colors.black);
+       }
+      })
     );
   }
-  Future<void> changePassword()async{
-    AuthCredential credential = EmailAuthProvider.credential(
-      email: user!.email.toString(),
-      password: oldPasswordController.text.toString().trim(),
-    );
-
-    await user!.reauthenticateWithCredential(credential);
-
-    await user!.updatePassword(newPasswordController.text.toString().trim());
-  }
-
 }

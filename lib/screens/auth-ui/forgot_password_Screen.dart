@@ -58,7 +58,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Please write your email to receive a',style: TextStyle(color: Colors.grey,fontSize: 12,fontFamily: 'Inter'),),
-                  Text('confirmation code to set a new password',style: TextStyle(color: Colors.grey,fontSize: 12,fontFamily: 'Inter'),),
+                  Text('confirmation code to set a new password.',style: TextStyle(color: Colors.grey,fontSize: 12,fontFamily: 'Inter'),),
                 ],
               )
             ],
