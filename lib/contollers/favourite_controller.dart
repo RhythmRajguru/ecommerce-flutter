@@ -21,7 +21,7 @@ class FavouriteController extends GetxController{
 
       Get.snackbar('Success', 'Product added to wishlist',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: AppConstant.appMainColor);
+          );
 
         isFavourite.value=true;
 
@@ -32,7 +32,7 @@ class FavouriteController extends GetxController{
 
       Get.snackbar('Success', 'Product removed from wishlist',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: AppConstant.appMainColor);
+         );
 
         isFavourite.value=false;
 

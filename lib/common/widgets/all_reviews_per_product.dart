@@ -47,9 +47,7 @@ class AllReviewsPerProduct extends StatelessWidget {
                           rating: reviewData['rating'],
                           createdAt: reviewData['createdAt']);
                   
-                      return  Card(
-                        margin: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10),
-                        elevation: 5,
+                      return  Container(
                         child: Column(
                           children: [
                             ListTile(
@@ -94,7 +92,7 @@ class AllReviewsPerProduct extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                                  margin: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
                                     child: Text(reviewModel.feedback,style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold,fontSize: 12),)),
                               ],
                             )
