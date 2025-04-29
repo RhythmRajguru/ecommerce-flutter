@@ -31,7 +31,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
              Column(
                children: [
                  Text("Forgot Password",style: TextStyle(fontSize: 22,color: Colors.black,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
-                 Image.asset('assets/icons/forgotpwd_illustator.png'),
+                 Image.asset('assets/illustrator/forgotpwd_illustator.png'),
 
                  Obx(()=>Container(
                      margin: EdgeInsets.symmetric(horizontal: 5.0),

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecom/models/order_model.dart';
+import 'package:ecom/screens/user-panel/confirm_order_screen.dart';
 import 'package:ecom/screens/user-panel/main_screen.dart';
 import 'package:ecom/services/orderid_generator_service.dart';
 import 'package:ecom/utils/constants/app_constraint.dart';
@@ -76,13 +77,7 @@ if(user!=null){
     }
 
     EasyLoading.dismiss();
-    Get.offAll(()=>MainScreen());
-    Get.snackbar('Success', 'Order Confirmed',
-        backgroundColor: AppConstant.appMainColor,
-        colorText: AppConstant.appTextColor,
-        duration: Duration(seconds: 5),
-      snackPosition: SnackPosition.BOTTOM,
-    );
+    Get.offAll(()=>ConfirmOrderScreen());
 
   }catch(e){
     print('Error $e');

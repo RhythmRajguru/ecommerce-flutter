@@ -113,7 +113,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                ),
                Text('5.0',style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
              ],
-           )
+           ),
 
           ],
         ),

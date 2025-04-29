@@ -14,7 +14,7 @@ class GenderScreen extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/icons/gender_screen_illustrator.png'),
+                image: AssetImage('assets/illustrator/gender_screen_illustrator.png'),
               fit: BoxFit.cover
             ),
           ),

@@ -9,6 +9,7 @@ import 'package:ecom/models/cart_model.dart';
 import 'package:ecom/models/order_model.dart';
 import 'package:ecom/models/product_model.dart';
 import 'package:ecom/models/review_model.dart';
+import 'package:ecom/screens/user-panel/all_reviews_perproduct_screen.dart';
 import 'package:ecom/screens/user-panel/cart_screen.dart';
 import 'package:ecom/screens/user-panel/favourite_products.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -211,6 +212,15 @@ class _ProductDetailState extends State<ProductDetail> {
                   ],
                 ),
               ),
+            ),
+            InkWell(
+              onTap: (){
+                Get.to(()=>AllReviewsPerproductScreen(productModel: widget.productModel,));
+              },
+              child: Container(
+                  alignment: Alignment.centerRight,
+                  margin: EdgeInsets.only(right: 20),
+                  child: Text('View All',style: TextStyle(color: Colors.grey,fontSize: 12,fontWeight: FontWeight.bold),)),
             ),
             AllReviewsPerProduct(productModel:widget.productModel),
           ],
