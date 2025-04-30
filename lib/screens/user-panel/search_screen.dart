@@ -76,19 +76,44 @@ class _SearchScreenState extends State<SearchScreen> {
                     onTap: (){
                       Get.to(ProductDetail(productModel: productModel));
                     },
-                    child: ListTile(
-                      leading: CircleAvatar(backgroundImage: NetworkImage(productModel.productImages[0]),),
-                      title: Text(productModel.productName),
-                      subtitle:
-                          productModel.isSale
-                          ?Row(
-                            children: [
-                          Text(productModel.salePrice),
-                              SizedBox(width: 10,),
-                          Text(productModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: AppConstant.appMainColor))
-                            ]
+                    child: Card(
+                      color: Colors.white,
+                      elevation: 5,
+                      child:
+                      Row(
+                        children: [
+                          Container(
+                            child: SizedBox(
+                              height: 130,
+                              width: 100,
+                              child: Image.network(productModel.productImages[0],fit: BoxFit.cover,),
+                            ),
+                            margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(productModel.productName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+                                SizedBox(height: 20,),
+                                productModel.isSale
+                                    ?Row(
+                                    children: [
+                                      Text("₹ "+productModel.salePrice,style: TextStyle(fontWeight: FontWeight.bold),),
+                                      SizedBox(width: 10,),
+                                      Text(productModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.red,fontWeight: FontWeight.bold))
+                                    ]
+                                )
+                                    :Text(productModel.fullPrice,),
+
+                              ],
+                            ),
                           )
-                          :Text(productModel.fullPrice,),
+                        ],
+                      ),
+
+
 
                     ),
                   );
