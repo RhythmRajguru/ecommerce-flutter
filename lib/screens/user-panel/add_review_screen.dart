@@ -31,6 +31,8 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        title: Text('Add Review',style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'Inter',fontSize: 20),),
       ),
       body: Container(
         alignment: Alignment.center,
@@ -39,7 +41,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
 
           children: [
-            Text('Add Review',style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'Inter',fontSize: 20),),
+
 
              Container(
                  alignment: Alignment.centerLeft,

@@ -15,10 +15,13 @@ class AllReviewsPerproductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Reviews",style: TextStyle(fontSize: 20,color: Colors.black,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+
+      ),
       body: Column(
         children: [
-          Text("Reviews",style: TextStyle(fontSize: 22,color: Colors.black,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
           StreamBuilder(
             stream: FirebaseFirestore.instance.collection('products').doc(productModel.productId).collection('review').snapshots(),
             builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot) {

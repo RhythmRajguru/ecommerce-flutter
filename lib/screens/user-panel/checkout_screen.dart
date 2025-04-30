@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecom/contollers/cart_price_controller.dart';
+import 'package:ecom/contollers/order_controller.dart';
 import 'package:ecom/models/cart_model.dart';
 import 'package:ecom/services/get_server_key.dart';
 import 'package:ecom/utils/constants/app_constraint.dart';
@@ -23,15 +24,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   final CartPriceController cartPriceController=Get.put(CartPriceController());
 
-  final nameController=TextEditingController();
-
-  final emailController=TextEditingController();
-
-  final phoneController=TextEditingController();
-
-  final addressController=TextEditingController();
-
   Razorpay _razorpay=Razorpay();
+
+  OrderController orderController=Get.put(OrderController());
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +37,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppConstant.appMainColor,
-        title: Text('Checkout',style: TextStyle(color: AppConstant.appTextColor),),
-        iconTheme: IconThemeData(color: AppConstant.appTextColor),
+
+        title: Text('Checkout',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),),
+        centerTitle: true,
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('cart').doc(user!.uid).collection('cartOrders').snapshots(),
@@ -64,6 +59,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           if(snapshot.data!=null){
             return
               Container(
+                  height: MediaQuery.of(context).size.height - 220,
                   child:ListView.builder(
                     itemCount: snapshot.data!.docs.length,
                     shrinkWrap: true,
@@ -102,14 +98,35 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               })
                         ],
                         child: Card(
-                          color: AppConstant.appTextColor,
+                          color: Colors.white,
                           elevation: 5,
-                          child: ListTile(
-                            leading: CircleAvatar(backgroundColor: AppConstant.appMainColor,backgroundImage: NetworkImage(cartModel.productImages[0],),),
-                            title: Text(cartModel.productName),
-                            subtitle: Text(cartModel.productTotalPrice.toString()),
-
+                          child:
+                          Row(
+                            children: [
+                              Container(
+                                child: SizedBox(
+                                  height: 130,
+                                  width: 100,
+                                  child: Image.network(cartModel.productImages[0],fit: BoxFit.cover,),
+                                ),
+                                margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(cartModel.productName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+                                    SizedBox(height: 20,),
+                                    Text("₹ "+cartModel.productTotalPrice.toString(),style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,fontFamily: 'Inter',color: Colors.grey)),
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
+
+
+
                         ),);
                     },)
 
@@ -118,45 +135,56 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           return Container();
         },),
 
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.only(bottom: 5.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      bottomSheet: Container(
+        color: Colors.white,
+        height: 140,
+        width: double.infinity,
+        child: Column(
           children: [
             Container(
-                margin: EdgeInsets.symmetric(horizontal: 10.0),
-                child: Obx(() {
-                  return Text('Total '+'Rs.'+cartPriceController.totalPrice.value.toStringAsFixed(1),style: TextStyle(fontWeight: FontWeight.bold),);
-                },)),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Material(child: Container(
-                width: Get.width/2.0,
-                height: Get.height/18,
-                decoration: BoxDecoration(
-                  color: AppConstant.appSecondaryColor,
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                child: TextButton(
-                  child: Text('Confirm Order',style: TextStyle(color: AppConstant.appTextColor),),
-                  onPressed: ()async{
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.only(left: 20,bottom: 10,top: 5),
+                child: Text('Order Info',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,fontFamily: 'Inter'),)),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                    margin: EdgeInsets.only(left: 20),
+                    child: Text('Total',style: TextStyle(color: Colors.grey,fontFamily: 'Inter',fontSize: 14,fontWeight: FontWeight.bold),)),
+                Obx(()=>Container(
+                    margin: EdgeInsets.only(right: 20),
+                    child: Text("₹ "+cartPriceController.totalPrice.value.toStringAsFixed(1),style: TextStyle(fontFamily: 'Inter',fontSize: 14,fontWeight: FontWeight.bold),)),)
+              ],
+            ),
+            SizedBox(height: 10,),
+           Expanded(
+             child: InkWell(
+                  onTap: ()async{
                     showCustomBottomSheet(context);
                     GetServerKey getServerKey=GetServerKey();
                     String accessToken=await getServerKey.getServerKeyToken();
-
                   },
+                  child: Container(
+                    height: 60,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppConstant.appMainColor,
+                    ),
+                    child: Center(child: Text('Confirm Order',style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold,fontFamily: 'Inter'),)),
+                  ),
                 ),
-              ),),
-            ),
+           ),
+
           ],
         ),
-      ),
+      )
     );
   }
 
   void showCustomBottomSheet(BuildContext context) {
     Get.bottomSheet(
-      Container(height: 450,
+      Container(height: 435,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
@@ -164,119 +192,130 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(height: 10,),
+              Container(
+                width: 100,
+                  child: Divider(height: 7,color: Colors.grey,thickness: 4,)),
               SizedBox(height: 20,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
-                child: TextFormField(
+                child: Obx(()=>TextFormField(
                     maxLines: 1,
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.next,
-                    controller: nameController,
                     decoration: InputDecoration(
                       labelText: 'Name',
-                      prefixIcon: Icon(Icons.person),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)
-                      ),
                       contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
                       hintStyle: TextStyle(fontSize: 12),
+                      errorText: orderController.usernameErrorText.value
                     ),
-                  ),
+                  onChanged: (value) {
+                    orderController.usernameController.value=value;
+                    orderController.validateUsernameInput();
+                  },
+                  )),
 
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
-                child:  TextFormField(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0,),
+                child: Obx(()=> TextFormField(
                   maxLines: 1,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
-                  controller: emailController,
                   decoration: InputDecoration(
                     labelText: 'Email',
-                    prefixIcon: Icon(Icons.email),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10)
-                    ),
                     contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
                     hintStyle: TextStyle(fontSize: 12),
+                      errorText: orderController.emailErrorText.value
                   ),
-                ),
+                  onChanged: (value){
+                    orderController.emailController.value=value;
+                    orderController.validateEmailInput();
+                  },
+                )),
 
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
-                child:  TextFormField(
+                child: Obx(()=> TextFormField(
                     maxLines: 1,
                     maxLength: 10,
                     keyboardType: TextInputType.phone,
                     textInputAction: TextInputAction.next,
-                    controller: phoneController,
                     decoration: InputDecoration(
                       labelText: 'Phone',
-                      prefixIcon: Icon(Icons.phone),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)
-                      ),
                       contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
                       hintStyle: TextStyle(fontSize: 12),
+                        errorText: orderController.phoneErrorText.value
                     ),
-                  ),
+                  onChanged: (value){
+                    orderController.phoneController.value=value;
+                    orderController.validatePhoneInput();
+                  },
+                  )),
 
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 0,left: 20,right: 20,bottom: 20),
-                child: TextFormField(
+                child:Obx(()=> TextFormField(
                     maxLines: 3,
                     keyboardType: TextInputType.streetAddress,
                     textInputAction: TextInputAction.next,
-                    controller: addressController,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.location_pin),
                       labelText: 'Address',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)
-                      ),
                       contentPadding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
                       hintStyle: TextStyle(fontSize: 12),
+                        errorText: orderController.addressErrorText.value
                     ),
-                  ),
+                  onChanged: (value){
+                    orderController.addressController.value=value;
+                    orderController.validateAddressInput();
+                  },
+                  )),
 
               ),
-              SizedBox(
-                width: 150,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppConstant.appMainColor,
-                    padding: EdgeInsets.fromLTRB(10,10,10,10)
+            InkWell(
+                  onTap: ()async{
+                    bool isUsernameValid=orderController.validateUsernameInput();
+                    bool isEmailValid=orderController.validateEmailInput();
+                    bool isPhoneValid=orderController.validatePhoneInput();
+                    bool isAddressValid=orderController.validateAddressInput();
+
+
+                      if(isUsernameValid && isEmailValid && isPhoneValid && isAddressValid){
+                        String customerToken=await getCustomerDeviceToken();
+
+                        var options={
+                          'key':AppConstant.Razorpay_API_Key,
+                          'amount':(cartPriceController.totalPrice.value * 100).toInt(),
+                          'currency':'INR',
+                          'name':orderController.usernameController.value.toString(),
+                          'description':'E-commerce app payment',
+                          'prefill':{
+                            'contact':orderController.phoneController.value.toString(),
+                            'email':orderController.emailController.value.toString()
+                          }
+                        };
+
+                        _razorpay.open(options);
+                      }
+                      else{
+                        Get.snackbar("Validation Failed", "Fix Errors",snackPosition: SnackPosition.BOTTOM,colorText: Colors.black);
+                      }
+
+
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(top:10),
+                    height: 60,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppConstant.appMainColor,
+                    ),
+                    child: Center(child: Text('Place Order',style: TextStyle(color: Colors.white),)),
                   ),
-                    onPressed: ()async{
-                    if(nameController.text!='' && emailController.text!='' && phoneController.text!='' && addressController.text!=''){
-                      String name=nameController.text.trim();
-                      String email=emailController.text.trim();
-                      String phone=phoneController.text.trim();
-                      String address=addressController.text.trim();
+                ),
 
-                      String customerToken=await getCustomerDeviceToken();
-
-                      var options={
-                        'key':AppConstant.Razorpay_API_Key,
-                        'amount':(cartPriceController.totalPrice.value * 100).toInt(),
-                        'currency':'INR',
-                        'name':name,
-                        'description':'E-commerce app payment',
-                        'prefill':{
-                          'contact':phone,
-                          'email':email
-                        }
-                      };
-
-                      _razorpay.open(options);
-
-                    }else{
-                      Get.snackbar('Error', 'Please fill all details');
-                    }
-                }, child: Text('Place Order',style: TextStyle(color: AppConstant.appTextColor),)),
-              ),
             ],
           ),
         ),
@@ -290,16 +329,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response)async{
-    String name=nameController.text.trim();
-    String phone=phoneController.text.trim();
-    String address=addressController.text.trim();
 
     String customerToken=await getCustomerDeviceToken();
     placeOrder(
       context:context,
-      customerName:name,
-      customerPhone:phone,
-      customerAddress:address,
+      customerName:orderController.usernameController.value.toString(),
+      customerPhone:orderController.phoneController.value.toString(),
+      customerAddress:orderController.addressController.value.toString(),
       customerDeviceToken:customerToken,
     );
   }
