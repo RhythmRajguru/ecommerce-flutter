@@ -31,7 +31,8 @@ class AllProductWidget extends StatelessWidget {
         if(snapshot.data!=null){
           return GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,mainAxisSpacing: 5,crossAxisSpacing: 5,childAspectRatio: 0.80),
+                crossAxisCount: 2,mainAxisSpacing: 5,crossAxisSpacing: 5,childAspectRatio: 0.70),
+            physics: NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               final productData=snapshot.data!.docs[index];
               ProductModel productModel=ProductModel(
@@ -48,29 +49,37 @@ class AllProductWidget extends StatelessWidget {
                   createdAt: productData['createdAt'],
                   updatedAt: productData['updatedAt']);
 
-              return Row(
-                children: [
-                  InkWell(
-                    onTap: ()=>Get.to(
-                        ProductDetail(productModel:productModel),
+              return InkWell(
+                onTap: (){
+                  Get.to(()=>ProductDetail(productModel: productModel,));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10,left: 10,bottom: 10),
+                  child: Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            height: 200,
+                            width: 170,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(16),topRight: Radius.circular(16)),
+                                image: DecorationImage(image: NetworkImage(productModel.productImages[0]),fit: BoxFit.cover)
+                            )),
+                        SizedBox(height: 5,),
+                        Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(productModel.productName,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
+                        Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text('₹'+productModel.salePrice,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
+
+                      ],
                     ),
-                    child: Padding(padding: EdgeInsets.all(8.0),
-                      child: InkWell(
-                        child: Container(
-                          child: FillImageCard(
-                            imageProvider: CachedNetworkImageProvider(productModel.productImages[0]),
-                            width: Get.width/2.3,
-                            heightImage: Get.height/6,
-                            borderRadius: 20.0,
-                            title: Center(child: Text(productModel.productName,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12.0,fontWeight: FontWeight.w800),)),
-                            footer: Center(child: Text("Rs."+productModel.fullPrice,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12.0,fontWeight: FontWeight.w800),)),
-
-
-                          ),
-                        ),
-                      ),),
                   ),
-                ],
+                ),
               );
             },itemCount: snapshot.data!.docs.length,shrinkWrap: true,
           );

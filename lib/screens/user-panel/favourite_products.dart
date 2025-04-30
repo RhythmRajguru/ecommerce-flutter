@@ -117,19 +117,13 @@ class FavouriteProducts extends StatelessWidget {
                               )
                             ],
                           ),
-
-
-
                         ),
                       );
                     },)
-
               );
           }
           return Container();
         },),
-
-
     );
   }
 }

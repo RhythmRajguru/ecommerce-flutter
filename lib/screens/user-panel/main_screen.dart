@@ -3,10 +3,9 @@ import 'package:ecom/common/widgets/banner_widget.dart';
 import 'package:ecom/common/widgets/category_item_widget.dart';
 import 'package:ecom/common/widgets/custom_drawer_widget.dart';
 import 'package:ecom/common/widgets/flash_sale_widget.dart';
-import 'package:ecom/common/widgets/heading_widget.dart';
-import 'package:ecom/screens/user-panel/all_products.dart';
 import 'package:ecom/screens/user-panel/all_category_screen.dart';
 import 'package:ecom/screens/user-panel/all_flash_sale_product.dart';
+import 'package:ecom/screens/user-panel/all_products.dart';
 import 'package:ecom/screens/user-panel/cart_screen.dart';
 import 'package:ecom/screens/user-panel/favourite_products.dart';
 import 'package:ecom/screens/user-panel/search_screen.dart';
@@ -98,19 +97,52 @@ class _MainScreenState extends State<MainScreen> {
                   margin: EdgeInsets.symmetric(horizontal: 10.0),
                   child: BannerWidget()
               ),
-              HeadingWidget(headingTitle: 'Categories', headingSubTitle: 'According to your budget', onTap: () {
-                        Get.to(()=>AllCategoryScreen());
-              }, buttonText: 'See More >',),
+              Container(
+                margin: EdgeInsets.only(left: 10,right: 10,top: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Categories',style: TextStyle(fontFamily: 'Inter',fontWeight: FontWeight.bold,fontSize: 16),),
+                    InkWell(
+                        onTap: (){
+                          Get.to(()=>AllCategoryScreen());
+                        },
+                        child: Text('View All',style: TextStyle(fontFamily: 'Inter',fontWeight: FontWeight.bold,fontSize: 14,color: Colors.grey))),
+                  ],
+                ),
+              ),
               CategoryItemWidget(),
 
-              HeadingWidget(headingTitle: 'Flash Sale', headingSubTitle: 'Low Price', onTap: () {
-                Get.to(()=>AllFlashSaleProduct());
-              }, buttonText: 'See More >',),
+              Container(
+                margin: EdgeInsets.only(left: 10,right: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Flash Sale',style: TextStyle(fontFamily: 'Inter',fontWeight: FontWeight.bold,fontSize: 16),),
+                    InkWell(
+                        onTap: (){
+                          Get.to(()=>AllFlashSaleProduct());
+                        },
+                        child: Text('View All',style: TextStyle(fontFamily: 'Inter',fontWeight: FontWeight.bold,fontSize: 14,color: Colors.grey))),
+                  ],
+                ),
+              ),
               FlashSaleWidget(),
 
-              HeadingWidget(headingTitle: 'All Products', headingSubTitle: 'According to your budget', onTap: () {
-                Get.to(()=>AllProducts());
-              }, buttonText: 'See More >',),
+              Container(
+                margin: EdgeInsets.only(left: 10,right: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('All Products',style: TextStyle(fontFamily: 'Inter',fontWeight: FontWeight.bold,fontSize: 16),),
+                    InkWell(
+                        onTap: (){
+                          Get.to(()=>AllProducts());
+                        },
+                        child: Text('View All',style: TextStyle(fontFamily: 'Inter',fontWeight: FontWeight.bold,fontSize: 14,color: Colors.grey))),
+                  ],
+                ),
+              ),
               AllProductWidget(),
             ],
           ),

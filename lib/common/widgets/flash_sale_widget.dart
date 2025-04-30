@@ -30,7 +30,7 @@ class FlashSaleWidget extends StatelessWidget {
         }
         if(snapshot.data!=null){
           return Container(
-            height: Get.height/5,
+            height: 280,
             child: ListView.builder(itemBuilder: (context, index) {
               final productData=snapshot.data!.docs[index];
               ProductModel productModel=ProductModel(
@@ -46,31 +46,37 @@ class FlashSaleWidget extends StatelessWidget {
                   productDescription: productData['productDescription'],
                   createdAt: productData['createdAt'],
                   updatedAt: productData['updatedAt']);
-              return Row(
-                children: [
-                  InkWell(
-                    onTap: ()=>Get.to(ProductDetail(productModel: productModel)),
-                    child: Padding(padding: EdgeInsets.all(5.0),
-                      child: Container(
-                        child: FillImageCard(
-                          imageProvider: CachedNetworkImageProvider(productModel.productImages[0]),
-                          width: Get.width/3.5,
-                          heightImage: Get.height/12,
-                          borderRadius: 20.0,
-                          title: Center(child: Text(productModel.productName,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12.0,fontWeight: FontWeight.w800),)),
-                          footer: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Center(child: Text("Rs."+productModel.salePrice,overflow: TextOverflow.ellipsis,style:
-                              TextStyle(fontSize: 10.0,fontWeight: FontWeight.w800),)),
-                              Center(child: Text(productModel.fullPrice,overflow: TextOverflow.ellipsis,style:
-                              TextStyle(fontSize: 10.0,fontWeight: FontWeight.w800,decoration: TextDecoration.lineThrough,color: AppConstant.appSecondaryColor),)),
-                            ],
-                          ),
-                        ),
-                      ),),
+              return InkWell(
+                onTap: (){
+                  Get.to(()=>ProductDetail(productModel: productModel,));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10,left: 10,bottom: 10),
+                  child: Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            height: 200,
+                            width: 170,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(16),topRight: Radius.circular(16)),
+                                image: DecorationImage(image: NetworkImage(productModel.productImages[0]),fit: BoxFit.cover)
+                            )),
+                        SizedBox(height: 5,),
+                        Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(productModel.productName,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
+                        Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text('₹'+productModel.salePrice,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
+
+                      ],
+                    ),
                   ),
-                ],
+                ),
               );
             },itemCount: snapshot.data!.docs.length,shrinkWrap: true,scrollDirection: Axis.horizontal,),
           );
