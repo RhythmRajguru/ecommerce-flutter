@@ -99,17 +99,17 @@ class _MainScreenState extends State<MainScreen> {
                   child: BannerWidget()
               ),
               HeadingWidget(headingTitle: 'Categories', headingSubTitle: 'According to your budget', onTap: () {
-                        Get.to(AllCategoryScreen());
+                        Get.to(()=>AllCategoryScreen());
               }, buttonText: 'See More >',),
               CategoryItemWidget(),
 
               HeadingWidget(headingTitle: 'Flash Sale', headingSubTitle: 'Low Price', onTap: () {
-                Get.to(AllFlashSaleProduct());
+                Get.to(()=>AllFlashSaleProduct());
               }, buttonText: 'See More >',),
               FlashSaleWidget(),
 
               HeadingWidget(headingTitle: 'All Products', headingSubTitle: 'According to your budget', onTap: () {
-                Get.to(AllProducts());
+                Get.to(()=>AllProducts());
               }, buttonText: 'See More >',),
               AllProductWidget(),
             ],

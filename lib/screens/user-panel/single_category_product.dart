@@ -18,9 +18,9 @@ class SingleCategoryProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppConstant.appMainColor,
-        title: Text(categoryName,style: TextStyle(color: AppConstant.appTextColor),),
-        iconTheme: IconThemeData(color: AppConstant.appTextColor),
+        centerTitle: true,
+        title: Text(categoryName,style: TextStyle(color: Colors.black),),
+
       ),
       body: FutureBuilder(
         future: FirebaseFirestore.instance.collection('products').where('categoryId',isEqualTo: categoryId).get(),

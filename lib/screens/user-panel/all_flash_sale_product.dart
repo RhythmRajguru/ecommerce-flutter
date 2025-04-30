@@ -17,8 +17,8 @@ class AllFlashSaleProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppConstant.appMainColor,
-        title: Text('All Flash Sale Products',style: TextStyle(color: AppConstant.appTextColor),),
+        centerTitle: true,
+        title: Text('All Flash Sale Products',style: TextStyle(color: Colors.black),),
         iconTheme: IconThemeData(color: AppConstant.appTextColor),
       ),
       body: FutureBuilder(
@@ -37,43 +37,66 @@ class AllFlashSaleProduct extends StatelessWidget {
             return Center(child: Text('No Category found'),);
           }
           if(snapshot.data!=null){
-            return GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,mainAxisSpacing: 3,crossAxisSpacing: 3,childAspectRatio: 1.19),
-              itemBuilder: (context, index) {
-                final productData=snapshot.data!.docs[index];
-                ProductModel productModel=ProductModel(
-                    productId: productData['productId'],
-                    categoryId: productData['categoryId'],
-                    productName: productData['productName'],
-                    categoryName: productData['categoryName'],
-                    salePrice: productData['salePrice'],
-                    fullPrice: productData['fullPrice'],
-                    productImages: productData['productImages'],
-                    deliveryTime: productData['deliveryTime'],
-                    isSale: productData['isSale'],
-                    productDescription: productData['productDescription'],
-                    createdAt: productData['createdAt'],
-                    updatedAt: productData['updatedAt']);
-                return Row(
-                  children: [
-                    Padding(padding: EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: ()=>Get.to(ProductDetail(productModel: productModel)),
-                        child: Container(
-                          child: FillImageCard(
-                            imageProvider: CachedNetworkImageProvider(productModel.productImages[0]),
-                            width: Get.width/2.3,
-                            heightImage: Get.height/10,
-                            borderRadius: 20.0,
-                            title: Center(child: Text(productModel.productName,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12.0,fontWeight: FontWeight.w800),)),
-                          ),
+            return ListView.builder(itemBuilder: (context, index) {
+
+              final productData=snapshot.data!.docs[index];
+              ProductModel productModel=ProductModel(
+                  productId: productData['productId'],
+                  categoryId: productData['categoryId'],
+                  productName: productData['productName'],
+                  categoryName: productData['categoryName'],
+                  salePrice: productData['salePrice'],
+                  fullPrice: productData['fullPrice'],
+                  productImages: productData['productImages'],
+                  deliveryTime: productData['deliveryTime'],
+                  isSale: productData['isSale'],
+                  productDescription: productData['productDescription'],
+                  createdAt: productData['createdAt'],
+                  updatedAt: productData['updatedAt']);
+
+              return InkWell(
+                onTap: (){
+                  Get.to(ProductDetail(productModel: productModel));
+                },
+                child: Card(
+                  color: Colors.white,
+                  elevation: 5,
+                  child:
+                  Row(
+                    children: [
+                      Container(
+                        child: SizedBox(
+                          height: 130,
+                          width: 100,
+                          child: Image.network(productModel.productImages[0],fit: BoxFit.cover,),
                         ),
-                      ),),
-                  ],
-                );
-              },itemCount: snapshot.data!.docs.length,shrinkWrap: true,
-            );
+                        margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(productModel.productName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+                            SizedBox(height: 20,),
+                            productModel.isSale
+                                ?Row(
+                                children: [
+                                  Text("₹ "+productModel.salePrice,style: TextStyle(fontWeight: FontWeight.bold),),
+                                  SizedBox(width: 10,),
+                                  Text(productModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.red,fontWeight: FontWeight.bold))
+                                ]
+                            )
+                                :Text(productModel.fullPrice,),
+
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },itemCount: snapshot.data!.docs.length,shrinkWrap: true,);
           }
           return Container();
         },),
