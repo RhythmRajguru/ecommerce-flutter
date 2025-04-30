@@ -11,6 +11,7 @@ import 'package:ecom/screens/user-panel/cart_screen.dart';
 import 'package:ecom/screens/user-panel/favourite_products.dart';
 import 'package:ecom/screens/user-panel/search_screen.dart';
 import 'package:ecom/services/fcm_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,6 +27,8 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   NotificationService notificationService=NotificationService();
+
+  User? user=FirebaseAuth.instance.currentUser;
   @override
   void initState() {
     // TODO: implement initState
@@ -38,13 +41,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: AppConstant.appTextColor),
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: AppConstant.appSecondaryColor,
-          statusBarIconBrightness: Brightness.light,
-        ),
-        backgroundColor: AppConstant.appMainColor,
-        title: Text(AppConstant.appMainName,style: TextStyle(color: AppConstant.appTextColor),),
+        title: Text(AppConstant.appMainName,style: TextStyle(color: Colors.black),),
         actions: [
           IconButton(onPressed: (){
             Get.to(SearchScreen());
@@ -63,6 +60,39 @@ class _MainScreenState extends State<MainScreen> {
         child: Container(
           child: Column(
             children: [
+             Column(
+               children: [
+                 Container(
+                     alignment: Alignment.centerLeft,
+                     margin: EdgeInsets.symmetric(horizontal: 20),
+                     child: Text('Hello',style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'Inter',fontSize: 22),)),
+                 Container(
+                     alignment: Alignment.centerLeft,
+                     margin: EdgeInsets.symmetric(horizontal: 20),
+                     child: (user!.displayName.toString().isNotEmpty && user!.displayName!=null)
+                     ?Text('Welcome ' + user!.displayName.toString(),style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'Inter',fontSize: 14,color: Colors.grey))
+                     :Text('Welcome ' + user!.email.toString(),style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'Inter',fontSize: 14,color: Colors.grey))),
+               ],
+             ),
+              Container(
+                margin: EdgeInsets.only(top: 20,left: 10,right: 10,bottom: 20),
+                child: TextField(
+                  readOnly: true,
+                  onTap: (){
+                    Get.to(()=>SearchScreen());
+                  },
+                  decoration: InputDecoration(
+                      hintText: 'Search products here',
+                      prefixIcon: Icon(Icons.search,color: Colors.black,),
+                      filled: true,
+                      fillColor: Colors.grey[250],
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        borderSide: BorderSide.none
+                      )
+                  ),
+                ),
+              ),
               SizedBox(height: Get.height/90.0,),
               Container(
                   margin: EdgeInsets.symmetric(horizontal: 10.0),
