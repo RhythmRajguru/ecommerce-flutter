@@ -109,25 +109,25 @@ class AllOrderScreen extends StatelessWidget {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(height: 20,),
-                                          Text(orderModel.productName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+                                          Text(orderModel.productName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: 'Inter'),),
                                           SizedBox(height: 10,),
                                           orderModel.isSale
                                               ?Row(
                                               children: [
-                                                Text("₹ "+orderModel.salePrice,style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+                                                Text("₹ "+orderModel.salePrice,style: TextStyle(fontWeight: FontWeight.w600,fontFamily: 'Inter'),),
                                                 SizedBox(width: 10,),
-                                                Text(orderModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.red,fontWeight: FontWeight.bold,fontFamily: 'Inter'))
+                                                Text(orderModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.red,fontWeight: FontWeight.w600,fontFamily: 'Inter'))
                                               ]
                                           )
                                               :Text(orderModel.fullPrice,),
                                           SizedBox(height: 10,),
                                         Row(
                                           children: [
-                                            Text('Status:',style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+                                            Text('Status:',style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w600,fontFamily: 'Inter'),),
                                             SizedBox(width: 5,),
                                             orderModel.status!=true
-                                                ?Text('Pending..',style: TextStyle(color: Colors.red,fontFamily: 'Inter'),)
-                                                :Text('Delivered..',style: TextStyle(color: Colors.green,fontFamily: 'Inter'),),
+                                                ?Text('Pending..',style: TextStyle(color: Colors.red,fontFamily: 'Inter',fontWeight: FontWeight.w600),)
+                                                :Text('Delivered..',style: TextStyle(color: Colors.green,fontFamily: 'Inter',fontWeight: FontWeight.w600),),
                                           ],
                                         ),
 

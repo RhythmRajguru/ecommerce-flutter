@@ -94,7 +94,7 @@ class FavouriteProducts extends StatelessWidget {
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(productModel.productName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+                                          Text(productModel.productName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: 'Inter'),),
                                     IconButton(onPressed: ()async{
                                       await FirebaseFirestore.instance.collection('products').doc(
                                           user!.uid).
@@ -110,7 +110,7 @@ class FavouriteProducts extends StatelessWidget {
                                         maxLines: 3,
                                         softWrap: true,
                                         overflow: TextOverflow.visible,
-                                        style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'Inter',color: Colors.grey),),
+                                        style: TextStyle(fontWeight: FontWeight.w600,fontFamily: 'Inter',color: Colors.grey),),
                                     ],
                                   ),
                                 ),

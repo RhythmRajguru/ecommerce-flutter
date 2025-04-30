@@ -82,14 +82,14 @@ class AllFlashSaleProduct extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(height: 20,),
-                                Text(productModel.productName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+                                Text(productModel.productName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: 'Inter'),),
                                 SizedBox(height: 10,),
                                 productModel.isSale
                                     ?Row(
                                     children: [
-                                      Text("₹ "+productModel.salePrice,style: TextStyle(fontWeight: FontWeight.bold),),
+                                      Text("₹ "+productModel.salePrice,style: TextStyle(fontWeight: FontWeight.w600),),
                                       SizedBox(width: 10,),
-                                      Text(productModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.red,fontWeight: FontWeight.bold))
+                                      Text(productModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.red,fontWeight: FontWeight.w600))
                                     ]
                                 )
                                     :Text(productModel.fullPrice,),

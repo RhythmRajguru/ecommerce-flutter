@@ -84,14 +84,14 @@ class AllProducts extends StatelessWidget {
                                 productModel.isSale
                                     ?Row(
                                     children: [
-                                      Text("₹ "+productModel.salePrice,style: TextStyle(fontWeight: FontWeight.bold),),
+                                      Text("₹ "+productModel.salePrice,style: TextStyle(fontWeight: FontWeight.w600),),
                                       SizedBox(width: 10,),
-                                      Text(productModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.red,fontWeight: FontWeight.bold))
+                                      Text(productModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.red,fontWeight: FontWeight.w600))
                                     ]
                                 )
                                     :Text("₹ "+productModel.fullPrice,),
                                 SizedBox(height: 10,),
-                                Text(productModel.productDescription,maxLines: 3,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 14,fontFamily: 'Inter',color: Colors.grey),),
+                                Text(productModel.productDescription,maxLines: 3,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 14,fontFamily: 'Inter',color: Colors.grey,),),
                               ],
                             ),
                           ),
