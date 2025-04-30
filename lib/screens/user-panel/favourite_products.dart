@@ -24,9 +24,9 @@ class FavouriteProducts extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppConstant.appMainColor,
-        title: Text('Favourite Products',style: TextStyle(color: AppConstant.appTextColor),),
-        iconTheme: IconThemeData(color: AppConstant.appTextColor),
+        centerTitle: true,
+        title: Text('Favourite Products',style: TextStyle(color: Colors.black),),
+
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('products').doc(user!.uid).collection('favourite').snapshots(),
@@ -69,23 +69,57 @@ class FavouriteProducts extends StatelessWidget {
 
                       return InkWell(
                         onTap: (){
-                          Get.to(ProductDetail(productModel: productModel));
+                          Get.to(()=>ProductDetail(productModel: productModel));
                         },
                         child: Card(
-                          elevation: 6,
-                          child: ListTile(
-                            leading: CircleAvatar(backgroundColor: AppConstant.appMainColor,backgroundImage: NetworkImage(productModel.productImages[0],),),
-                            title: Text(productModel.productName),
-                            subtitle: Text(productModel.productDescription,overflow: TextOverflow.ellipsis,),
-                            trailing: IconButton(onPressed: ()async{
-                              await FirebaseFirestore.instance.collection('products').doc(
-                                  user!.uid).
-                              collection('favourite').doc(productModel.productId).delete();
-                              Get.snackbar('Success', 'Product removed from wishlist',
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  backgroundColor: AppConstant.appMainColor);
-                            }, icon: Icon(Icons.favorite,color: Colors.red,)),
+                          color: Colors.white,
+                          elevation: 5,
+                          child:
+                          Row(
+                            children: [
+                              Container(
+                                child: SizedBox(
+                                  height: 130,
+                                  width: 100,
+                                  child: Image.network(productModel.productImages[0],fit: BoxFit.cover,),
+                                ),
+                                margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                              ),
+                              Flexible(
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 10),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(productModel.productName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+                                    IconButton(onPressed: ()async{
+                                      await FirebaseFirestore.instance.collection('products').doc(
+                                          user!.uid).
+                                      collection('favourite').doc(productModel.productId).delete();
+                                      Get.snackbar('Success', 'Product removed from wishlist',
+                                          snackPosition: SnackPosition.BOTTOM,);
+                                    }, icon: Icon(Icons.favorite,color: Colors.red,)),
+
+                                    ]
+                                      ),
+                                      SizedBox(height: 10,),
+                                      Text(productModel.productDescription,
+                                        maxLines: 3,
+                                        softWrap: true,
+                                        overflow: TextOverflow.visible,
+                                        style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'Inter',color: Colors.grey),),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
+
+
+
                         ),
                       );
                     },)
