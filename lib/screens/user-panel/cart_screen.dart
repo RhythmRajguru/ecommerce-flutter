@@ -91,6 +91,7 @@ class CartScreen extends StatelessWidget {
                                 elevation: 5,
                                 child:
                                   Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         child: SizedBox(
@@ -105,10 +106,11 @@ class CartScreen extends StatelessWidget {
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
+                                            SizedBox(height: 20,),
                                             Text(cartModel.productName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
-                                            SizedBox(height: 20,),
+                                            SizedBox(height: 10,),
                                             Text("₹ "+cartModel.productTotalPrice.toString(),style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,fontFamily: 'Inter',color: Colors.grey)),
-                                            SizedBox(height: 20,),
+                                            SizedBox(height: 30,),
                                             Row(children: [
                                               InkWell(
                                                   onTap: (){

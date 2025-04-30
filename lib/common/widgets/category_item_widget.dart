@@ -58,7 +58,6 @@ class CategoryItemWidget extends StatelessWidget {
                        )),
                       SizedBox(height: 5,),
                       Text(categoryModel.categoryName,style: TextStyle(fontSize: 16,fontFamily: 'Inter'),),
-
                     ],
                   ),
                 ),

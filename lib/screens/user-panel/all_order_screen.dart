@@ -83,76 +83,81 @@ class AllOrderScreen extends StatelessWidget {
                       return  InkWell(
                         onTap: (){
                         },
-                        child: Card(
-                          color: Colors.white,
-                          elevation: 5,
-                          child:
-                          Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    child: SizedBox(
-                                      height: 130,
-                                      width: 100,
-                                      child: Image.network(orderModel.productImages[0],fit: BoxFit.cover,),
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: Card(
+                            color: Colors.white,
+                            elevation: 5,
+                            child:
+                            Column(
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      child: SizedBox(
+                                        height: 130,
+                                        width: 100,
+                                        child: Image.network(orderModel.productImages[0],fit: BoxFit.cover,),
+                                      ),
+                                      margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                                     ),
-                                    margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                                  ),
-                                  SizedBox(height: 10,),
-                                  Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 10),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(orderModel.productName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
-                                        SizedBox(height: 10,),
-                                        orderModel.isSale
-                                            ?Row(
-                                            children: [
-                                              Text("₹ "+orderModel.salePrice,style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
-                                              SizedBox(width: 10,),
-                                              Text(orderModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.red,fontWeight: FontWeight.bold,fontFamily: 'Inter'))
-                                            ]
-                                        )
-                                            :Text(orderModel.fullPrice,),
-                                        SizedBox(height: 10,),
-                                      Row(
+                                    SizedBox(height: 10,),
+                                    Container(
+                                      margin: EdgeInsets.symmetric(horizontal: 10),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text('Status:',style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
-                                          SizedBox(width: 5,),
-                                          orderModel.status!=true
-                                              ?Text('Pending..',style: TextStyle(color: Colors.red,fontFamily: 'Inter'),)
-                                              :Text('Delivered..',style: TextStyle(color: Colors.green,fontFamily: 'Inter'),),
+                                          SizedBox(height: 20,),
+                                          Text(orderModel.productName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+                                          SizedBox(height: 10,),
+                                          orderModel.isSale
+                                              ?Row(
+                                              children: [
+                                                Text("₹ "+orderModel.salePrice,style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+                                                SizedBox(width: 10,),
+                                                Text(orderModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.red,fontWeight: FontWeight.bold,fontFamily: 'Inter'))
+                                              ]
+                                          )
+                                              :Text(orderModel.fullPrice,),
+                                          SizedBox(height: 10,),
+                                        Row(
+                                          children: [
+                                            Text('Status:',style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+                                            SizedBox(width: 5,),
+                                            orderModel.status!=true
+                                                ?Text('Pending..',style: TextStyle(color: Colors.red,fontFamily: 'Inter'),)
+                                                :Text('Delivered..',style: TextStyle(color: Colors.green,fontFamily: 'Inter'),),
+                                          ],
+                                        ),
+
+
                                         ],
                                       ),
+                                    )
+                                  ],
 
-
-                                      ],
-                                    ),
-                                  )
-                                ],
-
-                              ),
-                      InkWell(
-                        onTap:(){
-                          if(orderModel.status==true){
-                            Get.to(()=>AddReviewScreen(orderModel:orderModel));
-                          }else{
-                            Get.snackbar('Error', 'Order is not delivered yet\nyou cannot write Review',snackPosition: SnackPosition.BOTTOM);
-                          }
-                        },
-                        child: Container(
-                        height: 30,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: AppConstant.appMainColor
-                        ),
-                        child: Center(child: Text('Review',style: TextStyle(color: Colors.white),)),),
-                      )
-                            ],
+                                ),
+                                                InkWell(
+                          onTap:(){
+                            if(orderModel.status==true){
+                              Get.to(()=>AddReviewScreen(orderModel:orderModel));
+                            }else{
+                              Get.snackbar('Error', 'Order is not delivered yet\nyou cannot write Review',snackPosition: SnackPosition.BOTTOM);
+                            }
+                          },
+                          child: Container(
+                          height: 30,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: AppConstant.appMainColor
                           ),
+                          child: Center(child: Text('Review',style: TextStyle(color: Colors.white),)),),
+                                                )
+                              ],
+                            ),
 
+                          ),
                         ),
                       );
                     },)

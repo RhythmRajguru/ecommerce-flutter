@@ -76,45 +76,55 @@ class _SearchScreenState extends State<SearchScreen> {
                     onTap: (){
                       Get.to(ProductDetail(productModel: productModel));
                     },
-                    child: Card(
-                      color: Colors.white,
-                      elevation: 5,
-                      child:
-                      Row(
-                        children: [
-                          Container(
-                            child: SizedBox(
-                              height: 130,
-                              width: 100,
-                              child: Image.network(productModel.productImages[0],fit: BoxFit.cover,),
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      child: Card(
+                        color: Colors.white,
+                        elevation: 5,
+                        child:
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              child: SizedBox(
+                                height: 130,
+                                width: 100,
+                                child: Image.network(productModel.productImages[0],fit: BoxFit.cover,),
+                              ),
+                              margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                             ),
-                            margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                          ),
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(productModel.productName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
-                                SizedBox(height: 20,),
-                                productModel.isSale
-                                    ?Row(
-                                    children: [
-                                      Text("₹ "+productModel.salePrice,style: TextStyle(fontWeight: FontWeight.bold),),
-                                      SizedBox(width: 10,),
-                                      Text(productModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.red,fontWeight: FontWeight.bold))
-                                    ]
-                                )
-                                    :Text(productModel.fullPrice,),
+                            Expanded(
+                              child: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(height: 20,),
+                                    Text(productModel.productName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+                                    SizedBox(height: 10,),
+                                    productModel.isSale
+                                        ?Row(
+                                        children: [
+                                          Text("₹ "+productModel.salePrice,style: TextStyle(fontWeight: FontWeight.bold),),
+                                          SizedBox(width: 10,),
+                                          Text(productModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.red,fontWeight: FontWeight.bold))
+                                        ]
+                                    )
+                                        :Text(productModel.fullPrice,),
+                                    SizedBox(height: 10,),
+                                    Text(productModel.productDescription,maxLines: 3,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 14,fontFamily: 'Inter',color: Colors.grey),),
 
-                              ],
-                            ),
-                          )
-                        ],
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+
+
+
                       ),
-
-
-
                     ),
                   );
                 }).toList(),

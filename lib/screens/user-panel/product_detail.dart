@@ -139,6 +139,7 @@ class _ProductDetailState extends State<ProductDetail> {
                   return Row(
                      children: [
                        Container(
+                         margin: EdgeInsets.only(left: 10,right: 10),
                          alignment: Alignment.topLeft,
                          child: RatingBar.builder(
                            glow: false,
