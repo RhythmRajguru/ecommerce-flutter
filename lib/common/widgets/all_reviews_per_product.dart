@@ -69,11 +69,13 @@ class AllReviewsPerProduct extends StatelessWidget {
                                       children: [
                                         Text(reviewModel.rating,style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
                                         SizedBox(width: 5,),
-                                        Text('rating',style: TextStyle(color: Colors.grey,fontSize: 12),),
+                                        Text('rating',style: TextStyle(color: Colors.grey,fontSize: 12,fontWeight: FontWeight.w600),),
                                       ],
                                     ),
                                     RatingBar(
                                       itemCount: 5,
+                                      glow: true,
+                                      glowColor: Colors.amber,
                                       direction: Axis.horizontal,
                                       allowHalfRating: true,
                                       ignoreGestures: true,

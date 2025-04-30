@@ -107,7 +107,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                   child: Container(
                                       alignment: Alignment.topLeft,
                                       child:
-                                      widget.productModel.isSale==true&&widget.productModel.salePrice!=''
+                                      (widget.productModel.isSale==true&&widget.productModel.salePrice!='')
                                           ? Row(
                                         children: [
                                           Text('Rs.',style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'Inter',fontSize: 18),),
@@ -116,7 +116,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                           Text(widget.productModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.red,fontWeight: FontWeight.bold,fontFamily: 'Inter',fontSize: 18),),
                                         ],
                                       )
-                                          : Text("Rs."+widget.productModel.fullPrice)
+                                          : Text("Rs."+widget.productModel.fullPrice,style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'Inter',fontSize: 18),)
 
                                   ),
                                 ),
