@@ -141,38 +141,48 @@ class _ProductDetailState extends State<ProductDetail> {
                             )),
                       ),
                      Obx((){
-                      return Row(
-                         children: [
-                           Container(
-                             margin: EdgeInsets.only(left: 5,right: 10),
-                             alignment: Alignment.topLeft,
-                             child: RatingBar.builder(
-                               glow: false,
-                               ignoreGestures: true,
-                               initialRating: double.parse(ratingController.averageRating.toString()),
-                               minRating: 1,
-                               direction: Axis.horizontal,
-                               allowHalfRating: true,
-                               itemCount: 5,
-                               itemSize: 25,
-                               itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
-                               itemBuilder: (context, index) =>
-                                   Icon(Icons.star,color: Colors.amber,),
-                               onRatingUpdate: (value) {
+                      return Container(
+                        margin: EdgeInsets.only(right: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           children: [
+                             Container(
+                               margin: EdgeInsets.only(left: 5,right: 10),
+                               alignment: Alignment.topLeft,
+                               child: RatingBar.builder(
+                                 glow: false,
+                                 ignoreGestures: true,
+                                 initialRating: double.parse(ratingController.averageRating.toString()),
+                                 minRating: 1,
+                                 direction: Axis.horizontal,
+                                 allowHalfRating: true,
+                                 itemCount: 5,
+                                 itemSize: 25,
+                                 itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+                                 itemBuilder: (context, index) =>
+                                     Icon(Icons.star,color: Colors.amber,),
+                                 onRatingUpdate: (value) {
 
-                               },),
-                           ),
-                           Text(ratingController.averageRating.value.toString(),style: TextStyle(fontFamily: 'Inter',fontSize: 16,),)
-                         ],
-                       );
+                                 },),
+                             ),
+                             Text(ratingController.averageRating.value.toString()+" rating",style: TextStyle(fontFamily: 'Inter',fontSize: 16,),)
+                           ],
+                         ),
+                      );
                      }),
                       Container(
                           margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                           child: ProductImagesWidget(productModel: widget.productModel)),
                       Container(
                           alignment: Alignment.centerLeft,
-                          margin: EdgeInsets.only(left: 10,top: 10),
-                          child: Text('Size',style: TextStyle(fontFamily: 'Inter',fontSize: 16,fontWeight: FontWeight.w600),)),
+                          margin: EdgeInsets.only(left: 10,top: 10,right: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Size',style: TextStyle(fontFamily: 'Inter',fontSize: 16,fontWeight: FontWeight.w600),),
+                              Text('Size Guide',style: TextStyle(fontFamily: 'Inter',fontSize: 16,fontWeight: FontWeight.w600,color: Colors.grey),),
+                            ],
+                          )),
                       ProductSizeWidget(productModel: widget.productModel),
 
                       Padding(
@@ -183,7 +193,7 @@ class _ProductDetailState extends State<ProductDetail> {
                               alignment:Alignment.topLeft,
                               child: Text('Description',style: TextStyle(fontFamily: 'Inter',fontSize: 14,fontWeight: FontWeight.bold),)),
                             Container(
-                                child: Text(widget.productModel.productDescription,style: TextStyle(fontFamily: 'Inter',fontSize: 14,),)),
+                                child: Text(widget.productModel.productDescription,style: TextStyle(fontFamily: 'Inter',fontWeight: FontWeight.w600,fontSize: 14,color: Colors.grey),)),
                           ],
                         ),
                       ),

@@ -3,6 +3,7 @@ import 'package:ecom/common/widgets/custom_bottom_btn.dart';
 import 'package:ecom/contollers/cart_price_controller.dart';
 import 'package:ecom/contollers/order_controller.dart';
 import 'package:ecom/models/cart_model.dart';
+import 'package:ecom/screens/user-panel/confirm_order_detail.dart';
 import 'package:ecom/services/get_server_key.dart';
 import 'package:ecom/utils/constants/app_constraint.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -191,9 +192,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         },),
 
       bottomSheet: CustomBottomBtn(title: 'Confirm Order', callback: ()async{
-        showCustomBottomSheet(context);
-        GetServerKey getServerKey=GetServerKey();
-        String accessToken=await getServerKey.getServerKeyToken();
+        // showCustomBottomSheet(context);
+        // GetServerKey getServerKey=GetServerKey();
+        // String accessToken=await getServerKey.getServerKeyToken();
+        Get.to(()=>ConfirmOrderDetail());
       })
     );
   }
@@ -328,7 +330,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     decoration: BoxDecoration(
                       color: AppConstant.appMainColor,
                     ),
-                    child: Center(child: Text('Place Order',style: TextStyle(color: Colors.white),)),
+                    child: Center(child: Text('Place Order',style: TextStyle(color: Colors.white,fontFamily: 'Inter',fontWeight: FontWeight.bold),)),
                   ),
                 ),
 

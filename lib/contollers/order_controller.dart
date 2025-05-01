@@ -8,6 +8,12 @@ class OrderController extends GetxController{
   var emailErrorText = RxnString(); // nullable observable string
   final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
+  var stateController = ''.obs;
+  var stateErrorText = RxnString();
+
+  var countryController = ''.obs;
+  var countryErrorText = RxnString();
+
   var phoneController = ''.obs;
   var phoneErrorText = RxnString(); // nullable observable string
 
@@ -32,6 +38,24 @@ class OrderController extends GetxController{
       return false;
     } else {
       emailErrorText.value = null; // no error
+      return true;
+    }
+  }
+  bool validateStateInput() {
+    if (stateController.value.isEmpty) {
+      stateErrorText.value = 'Please enter something';
+      return false;
+    } else {
+      stateErrorText.value = null; // no error
+      return true;
+    }
+  }
+  bool validateCountryInput() {
+    if (countryController.value.isEmpty) {
+      countryErrorText.value = 'Please enter something';
+      return false;
+    } else {
+      countryErrorText.value = null; // no error
       return true;
     }
   }
