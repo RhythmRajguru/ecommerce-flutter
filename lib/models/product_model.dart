@@ -5,6 +5,7 @@ class ProductModel{
   final String categoryName;
   final String salePrice;
   final String fullPrice;
+  final List sizes;
   final List productImages;
   final String deliveryTime;
   final bool isSale;
@@ -16,7 +17,7 @@ class ProductModel{
 
   ProductModel({
     required this.productId,required this.categoryId,required this.productName,
-    required this.categoryName,required this.salePrice,required this.fullPrice,
+    required this.categoryName,required this.salePrice,required this.fullPrice,required this.sizes,
     required this.productImages,required this.deliveryTime,required this.isSale,
     required this.productDescription,required this.createdAt,required this.updatedAt,
     });
@@ -29,6 +30,7 @@ class ProductModel{
       "categoryName":categoryName,
       "salePrice":salePrice,
       "fullPrice":fullPrice,
+      "sizes":sizes,
       "productImages":productImages,
       "deliveryTime":deliveryTime,
       "isSale":isSale,
@@ -46,13 +48,13 @@ class ProductModel{
       categoryName: json['categoryName'],
       salePrice: json['salePrice'],
       fullPrice: json['fullPrice'],
+      sizes: json['sizes'],
       productImages: json['productImages'],
       deliveryTime: json['deliveryTime'],
       isSale: json['isSale'],
       productDescription: json['productDescription'],
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
-
 
     );
   }

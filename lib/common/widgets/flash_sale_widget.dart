@@ -40,6 +40,7 @@ class FlashSaleWidget extends StatelessWidget {
                   categoryName: productData['categoryName'],
                   salePrice: productData['salePrice'],
                   fullPrice: productData['fullPrice'],
+                  sizes: productData['sizes'],
                   productImages: productData['productImages'],
                   deliveryTime: productData['deliveryTime'],
                   isSale: productData['isSale'],

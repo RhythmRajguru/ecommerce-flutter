@@ -35,6 +35,7 @@ class AllReviewsPerProduct extends StatelessWidget {
                 child:Expanded(
                   child: ListView.builder(
                     itemCount: snapshot.data!.docs.length,
+                    physics: BouncingScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       final reviewData=snapshot.data!.docs[index];

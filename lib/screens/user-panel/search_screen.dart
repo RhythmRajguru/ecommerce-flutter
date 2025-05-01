@@ -66,6 +66,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       categoryName: doc['categoryName'],
                       salePrice: doc['salePrice'],
                       fullPrice: doc['fullPrice'],
+                      sizes: doc['sizes'],
                       productImages: doc['productImages'],
                       deliveryTime: doc['deliveryTime'],
                       isSale: doc['isSale'],
