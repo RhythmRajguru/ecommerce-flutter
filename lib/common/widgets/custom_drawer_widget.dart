@@ -1,5 +1,6 @@
 import 'package:ecom/contollers/theme_controller.dart';
 import 'package:ecom/screens/auth-ui/welcome_screen.dart';
+import 'package:ecom/screens/user-panel/all_flash_sale_product.dart';
 import 'package:ecom/screens/user-panel/all_order_screen.dart';
 import 'package:ecom/screens/user-panel/all_products.dart';
 import 'package:ecom/screens/user-panel/contact_screen.dart';
@@ -117,7 +118,7 @@ class CustomDrawerWidget extends StatelessWidget {
                 
                 onTap: (){
                   Get.back();
-                  Get.to(AllProducts());
+                  Get.to(AllFlashSaleProduct());
                 },
               ),
             ),

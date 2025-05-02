@@ -15,7 +15,7 @@ class ConfirmOrderScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Image.asset('assets/illustrator/confirm_order_illustrator.png',width: double.infinity,height: 400,),
+          Image.asset('assets/illustrator/confirm_order_illustrator.png',width: double.infinity,height: 200,),
          Column(
            children: [
              Text('Order Confirmed!',style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),

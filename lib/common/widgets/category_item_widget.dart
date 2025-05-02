@@ -42,26 +42,28 @@ class CategoryItemWidget extends StatelessWidget {
               onTap: (){
                 Get.to(()=>SingleCategoryProduct(categoryId: categoryModel.categoryId, categoryName: categoryModel.categoryName));
               },
-              child: Padding(
-                padding: const EdgeInsets.only(top: 10,left: 10,bottom: 10),
-                child: Card(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                  child: Column(
-                    children: [
-                     Container(
-                       height: 130,
-                       width: 150,
-                       decoration: BoxDecoration(
-                         borderRadius: BorderRadius.only(topLeft: Radius.circular(16),topRight: Radius.circular(16)),
-                         image: DecorationImage(image: NetworkImage(categoryModel.categoryImg),fit: BoxFit.cover)
-                       )),
-                      SizedBox(height: 5,),
-                      Text(categoryModel.categoryName,style: TextStyle(fontSize: 16,fontFamily: 'Inter'),),
-                    ],
-                  ),
+              child:   Container(
+                margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                child: Column(
+
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                        height: 130,
+                        width: 150,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(image: NetworkImage(categoryModel.categoryImg),fit: BoxFit.cover)
+                        )),
+                    SizedBox(height: 5,),
+                    Text(categoryModel.categoryName,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),),
+
+
+                  ],
                 ),
               ),
+
+
             );
           },itemCount: snapshot.data!.docs.length,shrinkWrap: true,scrollDirection: Axis.horizontal,),
         );
