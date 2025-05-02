@@ -15,223 +15,380 @@ import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
 
 class CartScreen extends StatelessWidget {
+  User? user = FirebaseAuth.instance.currentUser;
 
-  User? user=FirebaseAuth.instance.currentUser;
+  final CartPriceController cartPriceController = Get.put(
+    CartPriceController(),
+  );
 
-  final CartPriceController cartPriceController=Get.put(CartPriceController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Cart',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),),
+        title: Text(
+          'Cart',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
         centerTitle: true,
       ),
-       body: Container(
-         color: Colors.white,
-         child: Column(
-           children: [
-             StreamBuilder(
-                 stream: FirebaseFirestore.instance.collection('cart').doc(user!.uid).collection('cartOrders').snapshots(),
-                 builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot) {
-                   if(snapshot.hasError){
-                     return Center(child: Text('Error'),);
-                   }
-                   if(snapshot.connectionState==ConnectionState.waiting){
-                     return Container(
-                       height: Get.height/5,
-                       child: Center(child: CupertinoActivityIndicator(),),
-                     );
-                   }
-                   if(snapshot.data!.docs.isEmpty){
-                     return Center(child: Text('No Products found'),);
-                   }
-                   if(snapshot.data!=null){
-                     return
-                      Column(
-                        children: [
-                          Container(
-                              height: MediaQuery.of(context).size.height - 260,
-                            child:ListView.builder(
-                              itemCount: snapshot.data!.docs.length,
-                              shrinkWrap: true,
-                              physics: BouncingScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                final cartData=snapshot.data!.docs[index];
+      body: Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            StreamBuilder(
+              stream:
+                  FirebaseFirestore.instance
+                      .collection('cart')
+                      .doc(user!.uid)
+                      .collection('cartOrders')
+                      .snapshots(),
+              builder: (
+                BuildContext context,
+                AsyncSnapshot<QuerySnapshot> snapshot,
+              ) {
+                if (snapshot.hasError) {
+                  return Center(child: Text('Error'));
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Container(
+                    height: Get.height / 5,
+                    child: Center(child: CupertinoActivityIndicator()),
+                  );
+                }
+                if (snapshot.data!.docs.isEmpty) {
+                  return Center(child: Text('No Products found'));
+                }
+                if (snapshot.data != null) {
+                  return Column(
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height - 260,
+                        child: ListView.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            final cartData = snapshot.data!.docs[index];
 
-                                CartModel cartModel=CartModel(
-                                    productId: cartData['productId'],
-                                    categoryId: cartData['categoryId'],
-                                    productName: cartData['productName'],
-                                    categoryName: cartData['categoryName'],
-                                    salePrice: cartData['salePrice'],
-                                    fullPrice: cartData['fullPrice'],
-                                    productImages: cartData['productImages'],
-                                    deliveryTime: cartData['deliveryTime'],
-                                    isSale: cartData['isSale'],
-                                    productDescription: cartData['productDescription'],
-                                    createdAt: cartData['createdAt'],
-                                    updatedAt: cartData['updatedAt'],
-                                    productQuantity: cartData['productQuantity'],
-                                    productTotalPrice: cartData['productTotalPrice']);
+                            CartModel cartModel = CartModel(
+                              productId: cartData['productId'],
+                              categoryId: cartData['categoryId'],
+                              productName: cartData['productName'],
+                              categoryName: cartData['categoryName'],
+                              salePrice: cartData['salePrice'],
+                              fullPrice: cartData['fullPrice'],
+                              productImages: cartData['productImages'],
+                              deliveryTime: cartData['deliveryTime'],
+                              isSale: cartData['isSale'],
+                              productDescription:
+                                  cartData['productDescription'],
+                              createdAt: cartData['createdAt'],
+                              updatedAt: cartData['updatedAt'],
+                              productQuantity: cartData['productQuantity'],
+                              productTotalPrice: cartData['productTotalPrice'],
+                            );
 
-                                //calculate price
-                                cartPriceController.fetchProductPrice();
+                            //calculate price
+                            cartPriceController.fetchProductPrice();
 
-                              return SwipeActionCell
-                                (key: ObjectKey(cartModel.productId),
-                                  trailingActions: [
-                                    SwipeAction(
-                                      title: 'Delete',
-                                        forceAlignmentToBoundary: true,
-                                        performsFirstActionWithFullSwipe: true,
-                                        onTap: (CompletionHandler handler)async{
-                                        await FirebaseFirestore.instance.collection('cart').doc(user!.uid).collection('cartOrders').doc(cartModel.productId).delete();
-                                        })
-                                  ],
-                                  child: Card(
-                                    color: Colors.white,
-
-                                    child:
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            child: SizedBox(
-                                              height: 130,
-                                              width: 100,
-                                              child: Image.network(cartModel.productImages[0],fit: BoxFit.cover,),
-                                            ),
-                                            margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                            return SwipeActionCell(
+                              key: ObjectKey(cartModel.productId),
+                              trailingActions: [
+                                SwipeAction(
+                                  title: 'Delete',
+                                  forceAlignmentToBoundary: true,
+                                  performsFirstActionWithFullSwipe: true,
+                                  onTap: (CompletionHandler handler) async {
+                                    await FirebaseFirestore.instance
+                                        .collection('cart')
+                                        .doc(user!.uid)
+                                        .collection('cartOrders')
+                                        .doc(cartModel.productId)
+                                        .delete();
+                                  },
+                                ),
+                              ],
+                              child: InkWell(
+                                onTap: () {},
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      // Left Side - Image
+                                      Container(
+                                        height: 120,
+                                        width: 100,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          image: DecorationImage(
+                                            image: NetworkImage(cartModel.productImages[0]),
+                                            fit: BoxFit.cover,
                                           ),
-                                          Container(
-                                            margin: EdgeInsets.symmetric(horizontal: 10),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(height: 20,),
-                                                Text(cartModel.productName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: 'Inter'),),
-                                                SizedBox(height: 5,),
-                                                Text("₹ "+cartModel.productTotalPrice.toString(),style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: 'Inter',color: Colors.grey)),
-                                                SizedBox(height: 30,),
-                                                Row(children: [
-                                                  InkWell(
-                                                      onTap: (){
-                                                        if(cartModel.productQuantity>1){
-                                                          FirebaseFirestore.instance.collection('cart').doc(user!.uid).collection('cartOrders').doc(cartModel.productId).update({
-                                                            'productQuantity':cartModel.productQuantity-1,
-                                                            'productTotalPrice':cartModel.productTotalPrice-double.parse(cartModel.isSale?cartModel.salePrice:cartModel.fullPrice)
-                                                          });
-                                                        }else{
-                                                          if(cartModel.productQuantity==1){
-                                                            FirebaseFirestore.instance.collection('cart').doc(user!.uid).collection('cartOrders').doc(cartModel.productId).delete();
-                                                          }
-                                                        }
-                                                      },
-                                                      child: Container(
-                                                          decoration: BoxDecoration(
-                                                              shape: BoxShape.circle,
-                                                              border: Border.all(
-                                                                color: Colors.black,
-                                                                width: .5,
-                                                              )
-                                                          ),
-                                                          child: CircleAvatar(radius: 14.0,backgroundColor: Colors.white,child: Icon(Icons.arrow_drop_down,color: Colors.black,),))),
-                                                  SizedBox(width: 10,),
-                                                  Text(cartModel.productQuantity.toString(),style: TextStyle(fontFamily: 'Inter',fontWeight: FontWeight.bold),),
-                                                  SizedBox(width: 10,),
-                                                  InkWell(
-                                                      onTap: (){
-                                                        FirebaseFirestore.instance.collection('cart').doc(user!.uid).collection('cartOrders').doc(cartModel.productId).update({
-                                                          'productQuantity':cartModel.productQuantity+1,
-                                                          'productTotalPrice':cartModel.productTotalPrice+double.parse(cartModel.isSale?cartModel.salePrice:cartModel.fullPrice)
-                                                        });
-
-                                                      },
-                                                      child: Container(
-                                                          decoration: BoxDecoration(
-                                                              shape: BoxShape.circle,
-                                                              border: Border.all(
-                                                                color: Colors.black,
-                                                                width: .5,
-                                                              )
-                                                          ),
-                                                          child: CircleAvatar(radius: 14.0,backgroundColor: Colors.white,child: Icon(Icons.arrow_drop_up,color: Colors.black,),))),
-
-                                                ],),
-                                              ],
-                                            ),
-                                          )
-                                        ],
+                                        ),
                                       ),
+                                      SizedBox(width: 10),
 
+                                      // Right Side - Text and Controls
+                                      Expanded(
+                                        child: Container(
+                                          margin: EdgeInsets.symmetric(horizontal: 10,),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                cartModel.productName,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontFamily: 'Inter',
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              SizedBox(height: 5),
+                                              Text(
+                                                '₹' + cartModel.productTotalPrice.toString(),
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontFamily: 'Inter',
+                                                ),
+                                              ),
+                                              SizedBox(height: 30),
+                                              Row(
+                                                children: [
+                                                  // Decrease button
+                                                  InkWell(
+                                                    onTap: () {
+                                                      if (cartModel.productQuantity > 1) {
+                                                        FirebaseFirestore.instance
+                                                            .collection('cart')
+                                                            .doc(user!.uid)
+                                                            .collection('cartOrders')
+                                                            .doc(cartModel.productId)
+                                                            .update({
+                                                          'productQuantity': cartModel.productQuantity - 1,
+                                                          'productTotalPrice': cartModel.productTotalPrice -
+                                                              double.parse(
+                                                                cartModel.isSale
+                                                                    ? cartModel.salePrice
+                                                                    : cartModel.fullPrice,
+                                                              ),
+                                                        });
+                                                      } else {
+                                                        FirebaseFirestore.instance
+                                                            .collection('cart')
+                                                            .doc(user!.uid)
+                                                            .collection('cartOrders')
+                                                            .doc(cartModel.productId)
+                                                            .delete();
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        border: Border.all(color: Colors.black, width: 0.5),
+                                                      ),
+                                                      child: CircleAvatar(
+                                                        radius: 14,
+                                                        backgroundColor: Colors.white,
+                                                        child: Icon(Icons.arrow_drop_down, color: Colors.black),
+                                                      ),
+                                                    ),
+                                                  ),
 
+                                                  SizedBox(width: 10),
 
-                                  ),);
-                            },)
+                                                  // Quantity text
+                                                  Text(
+                                                    cartModel.productQuantity.toString(),
+                                                    style: TextStyle(
+                                                      fontFamily: 'Inter',
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 16
+                                                    ),
+                                                  ),
 
+                                                  SizedBox(width: 10),
+
+                                                  // Increase button
+                                                  InkWell(
+                                                    onTap: () {
+                                                      FirebaseFirestore.instance
+                                                          .collection('cart')
+                                                          .doc(user!.uid)
+                                                          .collection('cartOrders')
+                                                          .doc(cartModel.productId)
+                                                          .update({
+                                                        'productQuantity': cartModel.productQuantity + 1,
+                                                        'productTotalPrice': cartModel.productTotalPrice +
+                                                            double.parse(
+                                                              cartModel.isSale
+                                                                  ? cartModel.salePrice
+                                                                  : cartModel.fullPrice,
+                                                            ),
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        border: Border.all(color: Colors.black, width: 0.5),
+                                                      ),
+                                                      child: CircleAvatar(
+                                                        radius: 14,
+                                                        backgroundColor: Colors.white,
+                                                        child: Icon(Icons.arrow_drop_up, color: Colors.black),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                }
+                return Container();
+              },
+            ),
+            Container(
+              color: Colors.white,
+              width: double.infinity,
+              child: Column(
+                children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    margin: EdgeInsets.only(left: 20, bottom: 10, top: 5),
+                    child: Text(
+                      'Order Info',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Inter',
+                      ),
+                    ),
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(left: 20),
+                        child: Text(
+                          'Subtotal',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontFamily: 'Inter',
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
                           ),
+                        ),
+                      ),
+                      Obx(
+                        () => Container(
+                          margin: EdgeInsets.only(right: 20),
+                          child: Text(
+                            "₹ " +
+                                cartPriceController.totalPrice.value
+                                    .toStringAsFixed(1),
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(left: 20),
+                        child: Text(
+                          'Shipping cost',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontFamily: 'Inter',
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(right: 20),
+                        child: Text(
+                          "₹ " + "0",
+                          style: TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(left: 20),
+                        child: Text(
+                          'Total',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontFamily: 'Inter',
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Obx(
+                        () => Container(
+                          margin: EdgeInsets.only(right: 20),
+                          child: Text(
+                            "₹ " +
+                                cartPriceController.totalPrice.value
+                                    .toStringAsFixed(1),
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
 
-                        ],
-                      );
-                   }
-                   return Container();
-                 },),
-             Container(
-               color: Colors.white,
-               width: double.infinity,
-               child: Column(
-                 children: [
-                   Container(
-                       alignment: Alignment.centerLeft,
-                       margin: EdgeInsets.only(left: 20,bottom: 10,top: 5),
-                       child: Text('Order Info',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,fontFamily: 'Inter'),)),
-
-                   Row(
-                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                     children: [
-                       Container(
-                           margin: EdgeInsets.only(left: 20),
-                           child: Text('Subtotal',style: TextStyle(color: Colors.grey,fontFamily: 'Inter',fontSize: 14,fontWeight: FontWeight.bold),)),
-                       Obx(()=> Container(
-                           margin: EdgeInsets.only(right: 20),
-                           child: Text("₹ "+cartPriceController.totalPrice.value.toStringAsFixed(1),style: TextStyle(fontFamily: 'Inter',fontSize: 14,fontWeight: FontWeight.bold),)),)
-                     ],
-                   ),
-                   Row(
-                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                     children: [
-                       Container(
-                           margin: EdgeInsets.only(left: 20),
-                           child: Text('Shipping cost',style: TextStyle(color: Colors.grey,fontFamily: 'Inter',fontSize: 14,fontWeight: FontWeight.bold),)),
-                       Container(
-                           margin: EdgeInsets.only(right: 20),
-                           child: Text("₹ "+"0",style: TextStyle(fontFamily: 'Inter',fontSize: 14,fontWeight: FontWeight.bold),)),
-                     ],
-                   ),
-                   Row(
-                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                     children: [
-                       Container(
-                           margin: EdgeInsets.only(left: 20),
-                           child: Text('Total',style: TextStyle(color: Colors.grey,fontFamily: 'Inter',fontSize: 14,fontWeight: FontWeight.bold),)),
-                       Obx(()=>Container(
-                           margin: EdgeInsets.only(right: 20),
-                           child: Text("₹ "+cartPriceController.totalPrice.value.toStringAsFixed(1),style: TextStyle(fontFamily: 'Inter',fontSize: 14,fontWeight: FontWeight.bold),)),)
-                     ],
-                   ),
-                   SizedBox(height: 10,),
-
-                 ],
-               ),
-             )
-           ],
-         ),
-       ),
-
-      bottomSheet: CustomBottomBtn(title: 'Checkout', callback: () {
-        Get.to(()=>CheckoutScreen());
-      },)
+      bottomSheet: CustomBottomBtn(
+        title: 'Checkout',
+        callback: () {
+          Get.to(() => CheckoutScreen());
+        },
+      ),
     );
   }
 }

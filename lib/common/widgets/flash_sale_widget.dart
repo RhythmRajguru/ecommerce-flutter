@@ -53,17 +53,14 @@ class FlashSaleWidget extends StatelessWidget {
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10,left: 10,bottom: 10),
-                  child: Card(
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                    child: Column(
+                  child:  Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
                             height: 200,
                             width: 170,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(16),topRight: Radius.circular(16)),
+                                borderRadius: BorderRadius.circular(10),
                                 image: DecorationImage(image: NetworkImage(productModel.productImages[0]),fit: BoxFit.cover)
                             )),
                         SizedBox(height: 5,),
@@ -76,7 +73,7 @@ class FlashSaleWidget extends StatelessWidget {
 
                       ],
                     ),
-                  ),
+                  
                 ),
               );
             },itemCount: snapshot.data!.docs.length,shrinkWrap: true,scrollDirection: Axis.horizontal,),

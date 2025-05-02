@@ -46,7 +46,9 @@ class FavouriteProducts extends StatelessWidget {
           if(snapshot.data!=null){
             return
               Container(
-                  child:ListView.builder(
+                  child:GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,mainAxisSpacing: 0,crossAxisSpacing: 0,mainAxisExtent: 340),
                     itemCount: snapshot.data!.docs.length,
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
@@ -70,57 +72,53 @@ class FavouriteProducts extends StatelessWidget {
 
                       return InkWell(
                         onTap: (){
-                          Get.to(()=>ProductDetail(productModel: productModel));
+                          Get.to(()=>ProductDetail(productModel: productModel,));
                         },
-                        child: Card(
-                          color: Colors.white,
-                          elevation: 5,
-                          child:
-                          Row(
+                        child:   Container(
+                          margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                          child: Column(
+
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                child: SizedBox(
-                                  height: 130,
-                                  width: 100,
-                                  child: Image.network(productModel.productImages[0],fit: BoxFit.cover,),
-                                ),
-                                margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                                  height: 200,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(image: NetworkImage(productModel.productImages[0]),fit: BoxFit.cover)
+                                  )),
+                              SizedBox(height: 5,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                      margin: EdgeInsets.symmetric(horizontal: 5),
+                                      child: Text(productModel.productName,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
+                                  IconButton(onPressed: ()async{
+                                    await FirebaseFirestore.instance.collection('products').doc(
+                                        user!.uid).
+                                    collection('favourite').doc(productModel.productId).delete();
+                                    Get.snackbar('Success', 'Product removed from wishlist',
+                                      snackPosition: SnackPosition.BOTTOM,);
+                                  }, icon: Icon(Icons.favorite,color: Colors.red,)),
+                                ],
                               ),
-                              Flexible(
-                                child: Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 10),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(productModel.productName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: 'Inter'),),
-                                    IconButton(onPressed: ()async{
-                                      await FirebaseFirestore.instance.collection('products').doc(
-                                          user!.uid).
-                                      collection('favourite').doc(productModel.productId).delete();
-                                      Get.snackbar('Success', 'Product removed from wishlist',
-                                          snackPosition: SnackPosition.BOTTOM,);
-                                    }, icon: Icon(Icons.favorite,color: Colors.red,)),
+                              Container(
+                                  alignment: Alignment.centerLeft,
+                                  margin: EdgeInsets.symmetric(horizontal: 5),
+                                  child: Text('₹'+productModel.salePrice,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
+                              Container(
+                                  alignment: Alignment.centerLeft,
+                                  margin: EdgeInsets.symmetric(horizontal: 5),
+                                  child: Text(productModel.productDescription,maxLines:2,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 14,fontFamily: 'Inter',color: Colors.grey),)),
 
-                                    ]
-                                      ),
-                                      SizedBox(height: 10,),
-                                      Text(productModel.productDescription,
-                                        maxLines: 3,
-                                        softWrap: true,
-                                        overflow: TextOverflow.visible,
-                                        style: TextStyle(fontWeight: FontWeight.w600,fontFamily: 'Inter',color: Colors.grey),),
-                                    ],
-                                  ),
-                                ),
-                              )
                             ],
                           ),
                         ),
+
+
                       );
-                    },)
+                    }, )
               );
           }
           return Container();

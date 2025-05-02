@@ -100,6 +100,19 @@ class CustomDrawerWidget extends StatelessWidget {
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
                 title: Text('Products',style: TextStyle(color: Colors.black),),
+                leading: Icon(Icons.shopping_bag,color: Colors.black,),
+
+                onTap: (){
+                  Get.back();
+                  Get.to(AllProducts());
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0,),
+              child: ListTile(
+                titleAlignment: ListTileTitleAlignment.center,
+                title: Text('Sale Products',style: TextStyle(color: Colors.black),),
                 leading: Icon(Icons.production_quantity_limits,color: Colors.black,),
                 
                 onTap: (){

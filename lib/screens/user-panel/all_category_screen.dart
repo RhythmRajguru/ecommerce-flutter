@@ -37,7 +37,7 @@ class AllCategoryScreen extends StatelessWidget {
           if(snapshot.data!=null){
             return GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,mainAxisSpacing: 3,crossAxisSpacing: 3,childAspectRatio: 1.19),
+            crossAxisCount: 2,mainAxisSpacing: 3,crossAxisSpacing: 3,mainAxisExtent: 150),
               itemBuilder: (context, index) {
                 CategoryModel categoryModel=CategoryModel(
                     categoryId: snapshot.data!.docs[index]['categoryId'],
@@ -45,24 +45,32 @@ class AllCategoryScreen extends StatelessWidget {
                     categoryName: snapshot.data!.docs[index]['categoryName'],
                     createdAt: snapshot.data!.docs[index]['createdAt'],
                     updateAt: snapshot.data!.docs[index]['updatedAt']);
-                return Row(
-                    children: [
-                Padding(padding: EdgeInsets.all(8.0),
-                child: InkWell(
+                return InkWell(
                   onTap: (){
                     Get.to(SingleCategoryProduct(categoryId:categoryModel.categoryId,categoryName: categoryModel.categoryName,));
+
                   },
-                  child: Container(
-                  child: FillImageCard(
-                  imageProvider: CachedNetworkImageProvider(categoryModel.categoryImg),
-                  width: Get.width/2.3,
-                  heightImage: Get.height/10,
-                  borderRadius: 20.0,
-                  title: Center(child: Text(categoryModel.categoryName,style: TextStyle(fontSize: 12.0,fontWeight: FontWeight.w800),)),
+                  child:   Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                    child: Column(
+
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                            height: 100,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(image: NetworkImage(categoryModel.categoryImg),fit: BoxFit.cover)
+                            )),
+                        SizedBox(height: 5,),
+                         Text(categoryModel.categoryName,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),),
+
+                      ],
+                    ),
                   ),
-                                ),
-                ),),
-                  ],
+
+
                 );
               },itemCount: snapshot.data!.docs.length,shrinkWrap: true,
             );

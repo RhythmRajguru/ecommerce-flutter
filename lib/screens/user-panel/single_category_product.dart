@@ -40,7 +40,7 @@ class SingleCategoryProduct extends StatelessWidget {
           if(snapshot.data!=null){
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,mainAxisSpacing: 3,crossAxisSpacing: 3,childAspectRatio: 1.19),
+                  crossAxisCount: 2,mainAxisSpacing: 3,crossAxisSpacing: 3,mainAxisExtent: 150),
               itemBuilder: (context, index) {
                 final productData=snapshot.data!.docs[index];
                ProductModel productModel=ProductModel(
@@ -57,25 +57,30 @@ class SingleCategoryProduct extends StatelessWidget {
                    productDescription: productData['productDescription'],
                    createdAt: productData['createdAt'],
                    updatedAt: productData['updatedAt']);
-                return Row(
-                  children: [
-                    GestureDetector(
-                      onTap: (){
-                        Get.to(ProductDetail(productModel: productModel));
+                return InkWell(
+                  onTap: (){
+                    Get.to(()=>ProductDetail(productModel: productModel,));
+                  },
+                  child:   Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                    child: Column(
 
-                      },
-                      child: Padding(padding: EdgeInsets.all(8.0),
-                        child: Container(
-                          child: FillImageCard(
-                            imageProvider: CachedNetworkImageProvider(productModel.productImages[0]),
-                            width: Get.width/2.3,
-                            heightImage: Get.height/10,
-                            borderRadius: 20.0,
-                            title: Center(child: Text(productModel.productName,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12.0,fontWeight: FontWeight.w800),)),
-                          ),
-                        ),),
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                            height: 100,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(image: NetworkImage(productModel.productImages[0]),fit: BoxFit.cover)
+                            )),
+                        SizedBox(height: 5,),
+                         Text(productModel.productName,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),),
+                      ],
                     ),
-                  ],
+                  ),
+
+
                 );
               },itemCount: snapshot.data!.docs.length,shrinkWrap: true,
             );

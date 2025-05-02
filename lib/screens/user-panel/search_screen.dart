@@ -52,85 +52,84 @@ class _SearchScreenState extends State<SearchScreen> {
               return Text('Some Error');
             }
             return Expanded(
-              child: ListView(
-                children: snapshot.data!.docs.where((doc) {
+              child: GridView.builder(
+                padding: EdgeInsets.zero,
+                physics: BouncingScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 0,
+                  crossAxisSpacing: 0,
+                  mainAxisExtent: 310, // You can adjust this height to your needs
+                ),
+                itemCount: snapshot.data!.docs.where((doc) {
                   final name = doc['productName'].toString().toLowerCase();
-
                   final query = searchController.text.toLowerCase();
                   return name.contains(query);
-                }).map((doc) {
-                  ProductModel productModel=ProductModel(
-                      productId: doc['productId'],
-                      categoryId: doc['categoryId'],
-                      productName: doc['productName'],
-                      categoryName: doc['categoryName'],
-                      salePrice: doc['salePrice'],
-                      fullPrice: doc['fullPrice'],
-                      sizes: doc['sizes'],
-                      productImages: doc['productImages'],
-                      deliveryTime: doc['deliveryTime'],
-                      isSale: doc['isSale'],
-                      productDescription: doc['productDescription'],
-                      createdAt: doc['createdAt'],
-                      updatedAt: doc['updatedAt']);
+                }).length,
+                itemBuilder: (context, index) {
+                  final doc = snapshot.data!.docs.where((doc) {
+                    final name = doc['productName'].toString().toLowerCase();
+                    final query = searchController.text.toLowerCase();
+                    return name.contains(query);
+                  }).toList()[index];
+
+                  ProductModel productModel = ProductModel(
+                    productId: doc['productId'],
+                    categoryId: doc['categoryId'],
+                    productName: doc['productName'],
+                    categoryName: doc['categoryName'],
+                    salePrice: doc['salePrice'],
+                    fullPrice: doc['fullPrice'],
+                    sizes: doc['sizes'],
+                    productImages: doc['productImages'],
+                    deliveryTime: doc['deliveryTime'],
+                    isSale: doc['isSale'],
+                    productDescription: doc['productDescription'],
+                    createdAt: doc['createdAt'],
+                    updatedAt: doc['updatedAt'],
+                  );
+
                   return InkWell(
                     onTap: (){
-                      Get.to(ProductDetail(productModel: productModel));
+                      Get.to(()=>ProductDetail(productModel: productModel,));
                     },
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: Card(
-                        color: Colors.white,
-                        elevation: 5,
-                        child:
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              child: SizedBox(
-                                height: 130,
-                                width: 100,
-                                child: Image.network(productModel.productImages[0],fit: BoxFit.cover,),
-                              ),
-                              margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                            ),
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 10),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(height: 20,),
-                                    Text(productModel.productName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
-                                    SizedBox(height: 10,),
-                                    productModel.isSale
-                                        ?Row(
-                                        children: [
-                                          Text("₹ "+productModel.salePrice,style: TextStyle(fontWeight: FontWeight.bold),),
-                                          SizedBox(width: 10,),
-                                          Text(productModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.red,fontWeight: FontWeight.bold))
-                                        ]
-                                    )
-                                        :Text(productModel.fullPrice,),
-                                    SizedBox(height: 10,),
-                                    Text(productModel.productDescription,maxLines: 3,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 14,fontFamily: 'Inter',color: Colors.grey),),
+                    child:   Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                      child: Column(
 
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                              height: 200,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(image: NetworkImage(productModel.productImages[0]),fit: BoxFit.cover)
+                              )),
+                          SizedBox(height: 5,),
+                          Container(
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.symmetric(horizontal: 5),
+                              child: Text(productModel.productName,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
+                          Container(
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.symmetric(horizontal: 5),
+                              child: Text('₹'+productModel.salePrice,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
+                          Container(
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.symmetric(horizontal: 5),
+                              child: Text(productModel.productDescription,maxLines:2,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 14,fontFamily: 'Inter',color: Colors.grey),)),
 
-
-
+                        ],
                       ),
                     ),
+
+
                   );
-                }).toList(),
-    ),
+                },
+              ),
             );
+
           },),
       ],
     )

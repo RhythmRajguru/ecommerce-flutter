@@ -47,7 +47,9 @@ class AllOrderScreen extends StatelessWidget {
           if(snapshot.data!=null){
             return
               Container(
-                  child:ListView.builder(
+                  child:GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,mainAxisSpacing: 0,crossAxisSpacing: 0,mainAxisExtent: 350),
                     itemCount: snapshot.data!.docs.length,
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
@@ -80,87 +82,88 @@ class AllOrderScreen extends StatelessWidget {
                       //calculate price
                       cartPriceController.fetchProductPrice();
 
-                      return  InkWell(
+                      return InkWell(
                         onTap: (){
+
                         },
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          child: Card(
-                            color: Colors.white,
-                            elevation: 5,
-                            child:
-                            Column(
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                        child:   Container(
+                          margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                          child: Column(
+
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                  height: 200,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(image: NetworkImage(orderModel.productImages[0]),fit: BoxFit.cover)
+                                  )),
+                              SizedBox(height: 5,),
+                              Container(
+                                  alignment: Alignment.centerLeft,
+                                  margin: EdgeInsets.symmetric(horizontal: 5),
+                                  child: Text(orderModel.productName,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
+                              SizedBox(height: 2,),
+                              orderModel.isSale
+                                  ?Row(
                                   children: [
                                     Container(
-                                      child: SizedBox(
-                                        height: 130,
-                                        width: 100,
-                                        child: Image.network(orderModel.productImages[0],fit: BoxFit.cover,),
+                                        margin: EdgeInsets.symmetric(horizontal: 5),
+                                        child: Text("₹ "+orderModel.salePrice,style: TextStyle(fontWeight: FontWeight.w600,fontFamily: 'Inter'),)),
+                                    SizedBox(width: 10,),
+                                    Text(orderModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.red,fontWeight: FontWeight.w600,fontFamily: 'Inter'))
+                                  ]
+                              )
+                                  :Container(
+                                alignment: Alignment.centerLeft,
+                                  margin: EdgeInsets.symmetric(horizontal: 5),
+                                  child: Text("₹ "+orderModel.fullPrice,style: TextStyle(fontWeight: FontWeight.w600,fontFamily: 'Inter'))),
+                              Row(
+                                children: [
+                                  Container(
+                                      margin: EdgeInsets.symmetric(horizontal: 5),
+                                      child: Text('Status:',style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w600,fontFamily: 'Inter'),)),
+                                  SizedBox(width: 5,),
+                                  orderModel.status!=true
+                                      ?Text('Pending..',style: TextStyle(color: Colors.red,fontFamily: 'Inter',fontWeight: FontWeight.w600),)
+                                      :Text('Delivered..',style: TextStyle(color: Colors.green,fontFamily: 'Inter',fontWeight: FontWeight.w600),),
+                                ],
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: InkWell(
+                                  onTap: (){
+                                    if(orderModel.status==true){
+                                      Get.to(()=>AddReviewScreen(orderModel:orderModel));
+                                    }else{
+                                      Get.snackbar('Error', 'Order is not delivered yet\nyou cannot write Review',snackPosition: SnackPosition.BOTTOM);
+                                    }
+
+                                  },
+                                  child: Container(
+                                    height: 30,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+
+                                      border: Border.all(
+                                        color: AppConstant.appMainColor,
+                                        width: 1
                                       ),
-                                      margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                                      borderRadius: BorderRadius.circular(10)
                                     ),
-                                    SizedBox(height: 10,),
-                                    Container(
-                                      margin: EdgeInsets.symmetric(horizontal: 10),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(height: 20,),
-                                          Text(orderModel.productName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,fontFamily: 'Inter'),),
-                                          SizedBox(height: 10,),
-                                          orderModel.isSale
-                                              ?Row(
-                                              children: [
-                                                Text("₹ "+orderModel.salePrice,style: TextStyle(fontWeight: FontWeight.w600,fontFamily: 'Inter'),),
-                                                SizedBox(width: 10,),
-                                                Text(orderModel.fullPrice,style: TextStyle(decoration: TextDecoration.lineThrough,color: Colors.red,fontWeight: FontWeight.w600,fontFamily: 'Inter'))
-                                              ]
-                                          )
-                                              :Text(orderModel.fullPrice,),
-                                          SizedBox(height: 10,),
-                                        Row(
-                                          children: [
-                                            Text('Status:',style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w600,fontFamily: 'Inter'),),
-                                            SizedBox(width: 5,),
-                                            orderModel.status!=true
-                                                ?Text('Pending..',style: TextStyle(color: Colors.red,fontFamily: 'Inter',fontWeight: FontWeight.w600),)
-                                                :Text('Delivered..',style: TextStyle(color: Colors.green,fontFamily: 'Inter',fontWeight: FontWeight.w600),),
-                                          ],
-                                        ),
-
-
-                                        ],
-                                      ),
-                                    )
-                                  ],
-
+                                    child: Center(child: Text('Review',style: TextStyle(color: AppConstant.appMainColor,fontFamily: 'Inter',fontWeight: FontWeight.bold),)),
+                                  ),
                                 ),
-                                                InkWell(
-                          onTap:(){
-                            if(orderModel.status==true){
-                              Get.to(()=>AddReviewScreen(orderModel:orderModel));
-                            }else{
-                              Get.snackbar('Error', 'Order is not delivered yet\nyou cannot write Review',snackPosition: SnackPosition.BOTTOM);
-                            }
-                          },
-                          child: Container(
-                          height: 30,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: AppConstant.appMainColor
-                          ),
-                          child: Center(child: Text('Review',style: TextStyle(color: Colors.white),)),),
-                                                )
-                              ],
-                            ),
-
+                              )
+                            ],
                           ),
                         ),
+
+
                       );
-                    },)
+                    }, )
 
               );
           }
