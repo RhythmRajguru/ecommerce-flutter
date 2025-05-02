@@ -99,14 +99,12 @@ class AllReviewsPerproductScreen extends StatelessWidget {
                                           ],
                                         )
                                     ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
+
                                         Container(
+                                          alignment: Alignment.centerLeft,
                                             margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                                             child: Text(reviewModel.feedback,style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold,fontSize: 12),)),
-                                      ],
-                                    )
+
                                   ],
                                 )
                             );

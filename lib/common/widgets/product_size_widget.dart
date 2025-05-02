@@ -13,17 +13,16 @@ class ProductSizeWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: SizedBox(
-        height: 60,
+        height: 50,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: productModel.sizes.length,
           itemBuilder: (context, index) {
             final size = productModel.sizes[index];
             return Container(
-              margin: EdgeInsets.symmetric(horizontal: 10), // space between items
-              height: 50,
-              width: 70,
-              padding: EdgeInsets.symmetric(horizontal: 16), // make width dynamic
+              margin: EdgeInsets.symmetric(horizontal: 5), // space between items
+              height: 40,
+              width: 50,
               decoration: BoxDecoration(
                 color: Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(16),
@@ -35,7 +34,9 @@ class ProductSizeWidget extends StatelessWidget {
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Inter',
+                    fontSize: 14,
                   ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             );

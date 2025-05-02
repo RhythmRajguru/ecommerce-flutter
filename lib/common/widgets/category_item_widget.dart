@@ -57,7 +57,7 @@ class CategoryItemWidget extends StatelessWidget {
                          image: DecorationImage(image: NetworkImage(categoryModel.categoryImg),fit: BoxFit.cover)
                        )),
                       SizedBox(height: 5,),
-                      Text(categoryModel.categoryName,style: TextStyle(fontSize: 16,fontFamily: 'Inter',fontWeight: FontWeight.w600),),
+                      Text(categoryModel.categoryName,style: TextStyle(fontSize: 16,fontFamily: 'Inter'),),
                     ],
                   ),
                 ),

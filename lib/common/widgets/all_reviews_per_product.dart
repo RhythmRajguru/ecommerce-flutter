@@ -32,8 +32,7 @@ class AllReviewsPerProduct extends StatelessWidget {
         if(snapshot.data!=null){
           return
             Container(
-                child:Expanded(
-                  child: ListView.builder(
+                child:ListView.builder(
                     itemCount: snapshot.data!.docs.length,
                     physics: BouncingScrollPhysics(),
                     shrinkWrap: true,
@@ -91,19 +90,16 @@ class AllReviewsPerProduct extends StatelessWidget {
                                   ],
                                 )
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-                                    child: Text(reviewModel.feedback,style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold,fontSize: 12),)),
-                              ],
-                            )
-                          ],
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        margin: EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(reviewModel.feedback,maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold,fontSize: 12),)),
+
+                      ],
                         )
                       );
                     },),
-                )
+
 
             );
         }

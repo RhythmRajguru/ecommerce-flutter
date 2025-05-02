@@ -20,6 +20,8 @@ class OrderController extends GetxController{
   var addressController = ''.obs;
   var addressErrorText = RxnString(); // nullable observable string
 
+  RxBool saveAddress=false.obs;
+
   bool validateUsernameInput() {
     if (usernameController.value.isEmpty) {
       usernameErrorText.value = 'Please enter something';

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecom/common/widgets/address_widget.dart';
 import 'package:ecom/common/widgets/custom_bottom_btn.dart';
 import 'package:ecom/contollers/cart_price_controller.dart';
 import 'package:ecom/contollers/order_controller.dart';
@@ -26,16 +27,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   final CartPriceController cartPriceController=Get.put(CartPriceController());
 
-  Razorpay _razorpay=Razorpay();
-
-  OrderController orderController=Get.put(OrderController());
-
   @override
   Widget build(BuildContext context) {
 
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -64,7 +59,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               Column(
                 children: [
                   Container(
-                      height: MediaQuery.of(context).size.height - 330,
+                      height: MediaQuery.of(context).size.height - 430,
                       child:ListView.builder(
                         itemCount: snapshot.data!.docs.length,
                         shrinkWrap: true,
@@ -143,6 +138,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
                   ),
                   SizedBox(height: 5,),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Delivery Address',style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'Inter',fontSize: 16),),
+                        Icon(Icons.arrow_forward_ios,size: 20,)
+                      ],
+                    ),
+                  ),
+                  AddressWidget(),
+                  SizedBox(height: 5,),
                   Column(
                     children: [
                       Container(
@@ -192,183 +199,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         },),
 
       bottomSheet: CustomBottomBtn(title: 'Confirm Order', callback: ()async{
-        // showCustomBottomSheet(context);
-        // GetServerKey getServerKey=GetServerKey();
-        // String accessToken=await getServerKey.getServerKeyToken();
+
         Get.to(()=>ConfirmOrderDetail());
       })
     );
   }
 
-  void showCustomBottomSheet(BuildContext context) {
-    Get.bottomSheet(
-      Container(height: 435,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
-      ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 10,),
-              Container(
-                width: 100,
-                  child: Divider(height: 7,color: Colors.grey,thickness: 4,)),
-              SizedBox(height: 20,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
-                child: Obx(()=>TextFormField(
-                    maxLines: 1,
-                    keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
-                      labelText: 'Name',
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                      hintStyle: TextStyle(fontSize: 12),
-                      errorText: orderController.usernameErrorText.value
-                    ),
-                  onChanged: (value) {
-                    orderController.usernameController.value=value;
-                    orderController.validateUsernameInput();
-                  },
-                  )),
-
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0,),
-                child: Obx(()=> TextFormField(
-                  maxLines: 1,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                    hintStyle: TextStyle(fontSize: 12),
-                      errorText: orderController.emailErrorText.value
-                  ),
-                  onChanged: (value){
-                    orderController.emailController.value=value;
-                    orderController.validateEmailInput();
-                  },
-                )),
-
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
-                child: Obx(()=> TextFormField(
-                    maxLines: 1,
-                    maxLength: 10,
-                    keyboardType: TextInputType.phone,
-                    textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
-                      labelText: 'Phone',
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                      hintStyle: TextStyle(fontSize: 12),
-                        errorText: orderController.phoneErrorText.value
-                    ),
-                  onChanged: (value){
-                    orderController.phoneController.value=value;
-                    orderController.validatePhoneInput();
-                  },
-                  )),
-
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 0,left: 20,right: 20,bottom: 20),
-                child:Obx(()=> TextFormField(
-                    maxLines: 3,
-                    keyboardType: TextInputType.streetAddress,
-                    textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
-                      labelText: 'Address',
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
-                      hintStyle: TextStyle(fontSize: 12),
-                        errorText: orderController.addressErrorText.value
-                    ),
-                  onChanged: (value){
-                    orderController.addressController.value=value;
-                    orderController.validateAddressInput();
-                  },
-                  )),
-
-              ),
-            InkWell(
-                  onTap: ()async{
-                    bool isUsernameValid=orderController.validateUsernameInput();
-                    bool isEmailValid=orderController.validateEmailInput();
-                    bool isPhoneValid=orderController.validatePhoneInput();
-                    bool isAddressValid=orderController.validateAddressInput();
-
-
-                      if(isUsernameValid && isEmailValid && isPhoneValid && isAddressValid){
-                        String customerToken=await getCustomerDeviceToken();
-
-                        var options={
-                          'key':AppConstant.Razorpay_API_Key,
-                          'amount':(cartPriceController.totalPrice.value * 100).toInt(),
-                          'currency':'INR',
-                          'name':orderController.usernameController.value.toString(),
-                          'description':'E-commerce app payment',
-                          'prefill':{
-                            'contact':orderController.phoneController.value.toString(),
-                            'email':orderController.emailController.value.toString()
-                          }
-                        };
-
-                        _razorpay.open(options);
-                      }
-                      else{
-                        Get.snackbar("Validation Failed", "Fix Errors",snackPosition: SnackPosition.BOTTOM,colorText: Colors.black);
-                      }
-
-
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(top:10),
-                    height: 60,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: AppConstant.appMainColor,
-                    ),
-                    child: Center(child: Text('Place Order',style: TextStyle(color: Colors.white,fontFamily: 'Inter',fontWeight: FontWeight.bold),)),
-                  ),
-                ),
-
-            ],
-          ),
-        ),
-      ),
-      backgroundColor: Colors.transparent,
-      isDismissible: true,
-      enableDrag: true,
-      elevation: 6,
-      shape: RoundedRectangleBorder()
-    );
   }
 
-  void _handlePaymentSuccess(PaymentSuccessResponse response)async{
 
-    String customerToken=await getCustomerDeviceToken();
-    placeOrder(
-      context:context,
-      customerName:orderController.usernameController.value.toString(),
-      customerPhone:orderController.phoneController.value.toString(),
-      customerAddress:orderController.addressController.value.toString(),
-      customerDeviceToken:customerToken,
-    );
-  }
-
-  void _handlePaymentError(PaymentFailureResponse response){
-
-  }
-
-  void _handleExternalWallet(ExternalWalletResponse response){
-
-  }
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _razorpay.clear();
-  }
-}

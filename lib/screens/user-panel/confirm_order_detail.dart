@@ -234,12 +234,12 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
                       alignment: Alignment.centerLeft,
                       margin: EdgeInsets.symmetric(horizontal: 20),
                       child: Text('Save as primary address',style: TextStyle(fontFamily: 'Inter',fontWeight: FontWeight.w600,fontSize: 16),)),
-                Container(
+                Obx(()=>Container(
                   margin: EdgeInsets.symmetric(horizontal: 20),
-                  child: CupertinoSwitch(value: true, onChanged: (value) {
-
+                  child: CupertinoSwitch(value: orderController.saveAddress.value, onChanged: (value) {
+                      orderController.saveAddress.value=value;
                   },),
-                )
+                ))
                 ],
               )
             ],
@@ -288,7 +288,7 @@ class _ConfirmOrderDetailState extends State<ConfirmOrderDetail> {
       context:context,
       customerName:orderController.usernameController.value.toString(),
       customerPhone:orderController.phoneController.value.toString(),
-      customerAddress:orderController.addressController.value.toString()+orderController.stateController.value.toString()+orderController.countryController.value.toString(),
+      customerAddress:orderController.addressController.value.toString()+' '+orderController.stateController.value.toString()+' '+orderController.countryController.value.toString(),
       customerDeviceToken:customerToken,
     );
   }
