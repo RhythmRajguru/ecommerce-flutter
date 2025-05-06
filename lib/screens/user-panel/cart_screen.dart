@@ -85,6 +85,7 @@ class CartScreen extends StatelessWidget {
                               productImages: cartData['productImages'],
                               deliveryTime: cartData['deliveryTime'],
                               isSale: cartData['isSale'],
+                              size: cartData['size'],
                               productDescription:
                                   cartData['productDescription'],
                               createdAt: cartData['createdAt'],
@@ -157,6 +158,7 @@ class CartScreen extends StatelessWidget {
                                                   fontFamily: 'Inter',
                                                 ),
                                               ),
+
                                               SizedBox(height: 30),
                                               Row(
                                                 children: [

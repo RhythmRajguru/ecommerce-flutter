@@ -8,6 +8,7 @@ class OrderModel{
   final List productImages;
   final String deliveryTime;
   final bool isSale;
+  final String size;
   final String productDescription;
   final dynamic createdAt;
   final dynamic updatedAt;
@@ -23,7 +24,7 @@ class OrderModel{
 
   OrderModel({
     required this.productId,required this.categoryId,required this.productName,required this.categoryName,required this.salePrice,
-    required this.fullPrice,required this.productImages,required this.deliveryTime,required this.isSale,required this.productDescription,
+    required this.fullPrice,required this.productImages,required this.deliveryTime,required this.isSale,required this.size,required this.productDescription,
     required this.createdAt,required this.updatedAt,required this.productQuantity,required this.productTotalPrice,required this.customerId,
     required this.status,required this.customerName,required this.customerPhone,required this.customerAddress,required this.customerDeviceToken,
   });
@@ -39,6 +40,7 @@ class OrderModel{
       "productImages":productImages,
       "deliveryTime":deliveryTime,
       "isSale":isSale,
+      "size":size,
       "productDescription":productDescription,
       "createdAt":createdAt,
       "updatedAt":updatedAt,
@@ -65,6 +67,7 @@ class OrderModel{
       productImages: json['productImages'],
       deliveryTime: json['deliveryTime'],
       isSale: json['isSale'],
+      size: json['size'],
       productDescription: json['productDescription'],
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],

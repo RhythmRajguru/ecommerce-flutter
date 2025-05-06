@@ -66,6 +66,7 @@ class AllOrderScreen extends StatelessWidget {
                           productImages: orderData['productImages'],
                           deliveryTime: orderData['deliveryTime'],
                           isSale: orderData['isSale'],
+                          size: orderData['size'],
                           productDescription: orderData['productDescription'],
                           createdAt: orderData['createdAt'],
                           updatedAt: orderData['updatedAt'],

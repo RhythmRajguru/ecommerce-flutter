@@ -30,6 +30,8 @@ class ProductDetail extends StatefulWidget {
   ProductModel productModel;
   ProductDetail({required this.productModel});
 
+
+
   @override
   State<ProductDetail> createState() => _ProductDetailState();
 
@@ -55,7 +57,7 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   User? user=FirebaseAuth.instance.currentUser;
-  
+  String? size;
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +176,9 @@ class _ProductDetailState extends State<ProductDetail> {
                               Text('Size Guide',style: TextStyle(fontFamily: 'Inter',fontSize: 14,color: Colors.grey),),
                             ],
                           )),
-                      ProductSizeWidget(productModel: widget.productModel),
+                      ProductSizeWidget(productModel: widget.productModel, sizes: widget.productModel.sizes, onSelected: (String selectedSize) {
+                        size=selectedSize;
+                      },),
 
                       Padding(
                         padding: const EdgeInsets.all(10.0),
@@ -315,8 +319,13 @@ class _ProductDetailState extends State<ProductDetail> {
                 ),
                 child: InkWell(
                   onTap: ()async{
-                    await checkProductExistence(uId:user!.uid);
-                    Get.snackbar('Success', 'Product successfully added to cart',snackPosition: SnackPosition.BOTTOM);
+                    if(size != null && size!.isNotEmpty){
+                      await checkProductExistence(uId:user!.uid);
+                      Get.snackbar('Success', 'Product successfully added to cart',snackPosition: SnackPosition.BOTTOM);
+                    }else{
+                      Get.snackbar('Error', 'Please select at least one size',snackPosition: SnackPosition.BOTTOM);
+                    }
+
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -366,6 +375,7 @@ class _ProductDetailState extends State<ProductDetail> {
               productImages: widget.productModel.productImages,
               deliveryTime: widget.productModel.deliveryTime,
               isSale: widget.productModel.isSale,
+              size: size.toString(),
               productDescription: widget.productModel.productDescription,
               createdAt: DateTime.now(),
               updatedAt: DateTime.now(),

@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecom/models/order_model.dart';
 import 'package:ecom/screens/user-panel/confirm_order_screen.dart';
-import 'package:ecom/screens/user-panel/main_screen.dart';
 import 'package:ecom/services/orderid_generator_service.dart';
-import 'package:ecom/utils/constants/app_constraint.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -42,6 +40,7 @@ if(user!=null){
           productImages: data['productImages'],
           deliveryTime: data['deliveryTime'],
           isSale: data['isSale'],
+          size: data['size'],
           productDescription: data['productDescription'],
           createdAt: data['createdAt'],
           updatedAt: data['updatedAt'],

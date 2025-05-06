@@ -77,11 +77,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               productImages: cartData['productImages'],
                               deliveryTime: cartData['deliveryTime'],
                               isSale: cartData['isSale'],
+                              size: cartData['size'],
                               productDescription: cartData['productDescription'],
                               createdAt: cartData['createdAt'],
                               updatedAt: cartData['updatedAt'],
                               productQuantity: cartData['productQuantity'],
                               productTotalPrice: cartData['productTotalPrice']);
+
 
                           //calculate price
                           cartPriceController.fetchProductPrice();
@@ -142,6 +144,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                               ),
                                             ),
                                             SizedBox(height: 5),
+
+                                            Text(
+                                              'Size: '+cartModel.size.toString(),
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontFamily: 'Inter',
+                                              ),
+                                            ),
                                             Text(cartModel.productDescription,maxLines: 3,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 14,fontFamily: 'Inter',color: Colors.grey),),
                                           ],
                                         ),

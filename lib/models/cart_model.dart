@@ -8,6 +8,7 @@ class CartModel{
   final List productImages;
   final String deliveryTime;
   final bool isSale;
+  final String size;
   final String productDescription;
   final dynamic createdAt;
   final dynamic updatedAt;
@@ -16,7 +17,7 @@ class CartModel{
 
   CartModel({required this.productId,required this.categoryId,required this.productName,
     required this.categoryName,required this.salePrice,required this.fullPrice,required this.productImages,
-    required this.deliveryTime,required this.isSale,required this.productDescription,required this.createdAt,
+    required this.deliveryTime,required this.isSale,required this.size,required this.productDescription,required this.createdAt,
     required this.updatedAt,required this.productQuantity,required this.productTotalPrice});
 
   Map<String,dynamic> toMap(){
@@ -30,6 +31,7 @@ class CartModel{
       "productImages":productImages,
       "deliveryTime":deliveryTime,
       "isSale":isSale,
+      "size":size,
       "productDescription":productDescription,
       "createdAt":createdAt,
       "updatedAt":updatedAt,
@@ -50,6 +52,7 @@ class CartModel{
         productImages: json['productImages'],
         deliveryTime: json['deliveryTime'],
         isSale: json['isSale'],
+        size: json['size'],
         productDescription: json['productDescription'],
         createdAt: json['createdAt'],
         updatedAt: json['updatedAt'],
