@@ -70,11 +70,11 @@ class AllProductWidget extends StatelessWidget {
                           SizedBox(height: 5,),
                           Container(
                             alignment: Alignment.centerLeft,
-                              margin: EdgeInsets.symmetric(horizontal: 20),
+                              margin: EdgeInsets.symmetric(horizontal: 10),
                               child: Text(productModel.productName,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
                           Container(
                               alignment: Alignment.centerLeft,
-                              margin: EdgeInsets.symmetric(horizontal: 20),
+                              margin: EdgeInsets.symmetric(horizontal: 10),
                               child: Text('₹'+productModel.salePrice,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
 
                         ],

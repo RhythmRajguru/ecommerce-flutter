@@ -43,9 +43,6 @@ class _MainScreenState extends State<MainScreen> {
         title: Text(AppConstant.appMainName,style: TextStyle(color: Colors.black),),
         actions: [
           IconButton(onPressed: (){
-            Get.to(SearchScreen());
-          }, icon: Icon(Icons.search)),
-          IconButton(onPressed: (){
             Get.to(CartScreen());
           }, icon: Icon(Icons.shopping_cart)),
           IconButton(onPressed: (){
