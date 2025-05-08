@@ -33,7 +33,7 @@ class ConfirmOrderScreen extends StatelessWidget {
                 color: Colors.grey.shade300,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Center(child: Text('Go to Orders',style: TextStyle(fontFamily: 'Inter'),),),
+              child: Center(child: Text('Go to Orders',style: TextStyle(fontFamily: 'Inter',color: Colors.black),),),
             ),
           )
         ],

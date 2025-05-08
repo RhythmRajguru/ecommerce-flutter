@@ -25,7 +25,7 @@ class FavouriteProducts extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Favourite Products',style: TextStyle(color: Colors.black),),
+        title: Text('Favourite Products',style: TextStyle(),),
 
       ),
       body: StreamBuilder(

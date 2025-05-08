@@ -37,7 +37,7 @@ class ProfileScreen extends StatelessWidget {
                   child: InkWell(
                     child: Row(
                       children: [
-                        Icon(Icons.delete, color: Colors.black),
+                        Icon(Icons.delete),
                         SizedBox(width: 8),
                         Text("Delete Account"),
                       ],
@@ -53,7 +53,7 @@ class ProfileScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Text("New Password",style: TextStyle(fontSize: 22,color: Colors.black,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+          Text("New Password",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
           Column(
             children: [
               Padding(
@@ -66,7 +66,6 @@ class ProfileScreen extends StatelessWidget {
                   readOnly: true,
                   decoration: InputDecoration(
                     labelText: 'Email',
-                    prefixIcon: Icon(Icons.email),
                     contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
                     hintStyle: TextStyle(fontSize: 12),
                   ),
@@ -83,7 +82,6 @@ class ProfileScreen extends StatelessWidget {
                         obscureText: profileController.isPasswordVisible.value,
                         decoration: InputDecoration(
                           labelText: 'Old Password',
-                          prefixIcon: Icon(Icons.password),
                           errorText: profileController.oldPasswordErrorText.value,
                           suffixIcon: InkWell(
                             onTap: (){
@@ -111,7 +109,6 @@ class ProfileScreen extends StatelessWidget {
                     obscureText: profileController.isPasswordVisible.value,
                     decoration: InputDecoration(
                       labelText: 'New Password',
-                      prefixIcon: Icon(Icons.password),
                       errorText: profileController.newPasswordErrorText.value,
                       suffixIcon: InkWell(
                         onTap: (){

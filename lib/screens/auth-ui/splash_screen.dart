@@ -68,7 +68,6 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Text(
                 'Powered by Rhythm',
                 style: TextStyle(
-                  color: Colors.white,
                   fontSize: 12.0,
                   fontWeight: FontWeight.bold,
                     fontFamily: 'Inter'

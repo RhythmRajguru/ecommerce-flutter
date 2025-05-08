@@ -17,7 +17,7 @@ class AllReviewsPerproductScreen extends StatelessWidget {
     return  Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Reviews",style: TextStyle(fontSize: 20,color: Colors.black,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+        title: Text("Reviews",style: TextStyle(fontSize: 20,fontFamily: 'Inter'),),
 
       ),
       body: Column(

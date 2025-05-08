@@ -24,12 +24,10 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           'Cart',
           style: TextStyle(
-            color: Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
@@ -37,7 +35,7 @@ class CartScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: Container(
-        color: Colors.white,
+
         child: Column(
           children: [
             StreamBuilder(
@@ -268,7 +266,6 @@ class CartScreen extends StatelessWidget {
               },
             ),
             Container(
-              color: Colors.white,
               width: double.infinity,
               child: Column(
                 children: [

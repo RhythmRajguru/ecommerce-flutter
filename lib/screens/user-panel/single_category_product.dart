@@ -19,7 +19,7 @@ class SingleCategoryProduct extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(categoryName,style: TextStyle(color: Colors.black),),
+        title: Text(categoryName,style: TextStyle(),),
 
       ),
       body: FutureBuilder(

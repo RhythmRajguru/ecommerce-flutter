@@ -26,7 +26,7 @@ class AllOrderScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('All Orders',style: TextStyle(color: Colors.black),),
+        title: Text('All Orders',style: TextStyle(),),
 
       ),
       body: StreamBuilder(

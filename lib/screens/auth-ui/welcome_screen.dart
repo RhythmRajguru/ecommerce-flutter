@@ -22,7 +22,7 @@ class WelcomeScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text("Let's get Started",style: TextStyle(fontSize: 22,color: Colors.black,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+              Text("Let's get Started",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
 
              Column(
                children: [
@@ -63,12 +63,12 @@ class WelcomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Already have an account?',style: TextStyle(color: Colors.grey,fontFamily: 'Inter'),),
-                  SizedBox(width: 2,),
+                  SizedBox(width: 5,),
                   InkWell(
                       onTap: (){
                         Get.to(()=>LoginScreen());
                       },
-                      child: Text('Login',style: TextStyle(color: Colors.black,fontFamily: 'Inter'),)),
+                      child: Text('Login',style: TextStyle(fontFamily: 'Inter'),)),
                 ],
               )
             ],

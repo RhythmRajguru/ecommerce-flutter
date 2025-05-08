@@ -33,10 +33,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
 
     return Scaffold(
-      backgroundColor: Colors.white,
+
       appBar: AppBar(
 
-        title: Text('Checkout',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),),
+        title: Text('Checkout',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
         centerTitle: true,
       ),
       body: StreamBuilder(

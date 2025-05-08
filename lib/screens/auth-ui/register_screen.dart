@@ -31,7 +31,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text("Sign Up",style: TextStyle(fontSize: 22,color: Colors.black,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+                Text("Sign Up",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
                Column(
                  children: [
                    Obx(()=>Container(

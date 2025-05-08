@@ -18,7 +18,7 @@ class AllFlashSaleProduct extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('All Flash Sale Products',style: TextStyle(color: Colors.black),),
+        title: Text('All Flash Sale Products',style: TextStyle(),),
         iconTheme: IconThemeData(color: AppConstant.appTextColor),
       ),
       body: FutureBuilder(

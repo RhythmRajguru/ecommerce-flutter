@@ -16,7 +16,7 @@ class AllCategoryScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('All Categories',style: TextStyle(color: Colors.black),),
+        title: Text('All Categories',style: TextStyle(),),
 
       ),
       body: FutureBuilder(

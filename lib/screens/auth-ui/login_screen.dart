@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Column(
                 children: [
-                  Text("Welcome",style: TextStyle(fontSize: 22,color: Colors.black,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
+                  Text("Welcome",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,fontFamily: 'Inter'),),
                   Text("Please enter your data to continue",style: TextStyle(fontSize: 14,color: Colors.grey,fontFamily: 'Inter'),),
                 ],
               ),

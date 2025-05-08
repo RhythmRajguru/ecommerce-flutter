@@ -16,7 +16,7 @@ class AllProducts extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('All Products',style: TextStyle(color: Colors.black),),
+        title: Text('All Products',style: TextStyle(),),
       ),
       body: FutureBuilder(
         future: FirebaseFirestore.instance.collection('products').where('isSale',isEqualTo: false).get(),

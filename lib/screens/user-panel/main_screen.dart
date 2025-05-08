@@ -40,7 +40,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppConstant.appMainName,style: TextStyle(color: Colors.black),),
+        title: Text(AppConstant.appMainName,style: TextStyle(fontSize: 20,fontFamily: 'Inter'),),
         actions: [
           IconButton(onPressed: (){
             Get.to(CartScreen());
@@ -79,7 +79,7 @@ class _MainScreenState extends State<MainScreen> {
                   },
                   decoration: InputDecoration(
                       hintText: 'Search products here',
-                      prefixIcon: Icon(Icons.search,color: Colors.black,),
+                      prefixIcon: Icon(Icons.search),
                       filled: true,
                       fillColor: Colors.grey[250],
                       border: OutlineInputBorder(

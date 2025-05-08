@@ -35,7 +35,7 @@ class _SearchScreenState extends State<SearchScreen> {
           decoration: InputDecoration(
               hintText: 'Search products here',
               contentPadding: EdgeInsets.all(10.0),
-              prefixIcon: Icon(Icons.search,color: Colors.black,),
+              prefixIcon: Icon(Icons.search),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20.0)
               )

@@ -35,17 +35,17 @@ class CustomDrawerWidget extends StatelessWidget {
                 titleAlignment: ListTileTitleAlignment.center,
 
                 title: (user!.displayName !=null && user!.displayName.toString().isNotEmpty)
-                    ?Text(user!.displayName.toString(),style: TextStyle(color: Colors.black),)
-                    :Text(user!.email.toString(),style: TextStyle(color: Colors.black),),
+                    ?Text(user!.displayName.toString(),style: TextStyle(),)
+                    :Text(user!.email.toString(),style: TextStyle(),),
 
-                subtitle: Text('Version 1.0.1',style: TextStyle(color: Colors.black),),
+                subtitle: Text('Version 1.0.1',style: TextStyle(),),
                 leading: CircleAvatar(
                   radius: 22.0,
                   backgroundColor: AppConstant.appMainColor,
 
                   child: (user!.photoURL!=null && user!.photoURL.toString().isNotEmpty)
                   ?Image.network(user!.photoURL.toString(),fit: BoxFit.cover)
-                :Text(user!.email.toString().substring(0,1).toUpperCase(),style: TextStyle(color: Colors.white),),
+                :Text(user!.email.toString().substring(0,1).toUpperCase(),style: TextStyle(),),
                 ),
               ),
             ),
@@ -53,8 +53,8 @@ class CustomDrawerWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20.0,),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
-                title: Text('Dark Mode',style: TextStyle(color: Colors.black),),
-                leading: Icon(Icons.sunny,color: Colors.black,),
+                title: Text('Dark Mode',style: TextStyle(),),
+                leading: Icon(Icons.sunny),
                 trailing: Obx(()=>CupertinoSwitch(
                   value: themeController.isDarkMode.value,
                   onChanged: (value) {
@@ -76,8 +76,8 @@ class CustomDrawerWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20.0,),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
-                title: Text('Home',style: TextStyle(color: Colors.black),),
-                leading: Icon(Icons.home,color: Colors.black,),
+                title: Text('Home',style: TextStyle(),),
+                leading: Icon(Icons.home,),
 
                 onTap: (){
                   Navigator.pop(context);
@@ -88,8 +88,8 @@ class CustomDrawerWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20.0,),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
-                title: Text('Profile',style: TextStyle(color: Colors.black),),
-                leading: Icon(Icons.person_search_rounded,color: Colors.black,),
+                title: Text('Profile',style: TextStyle(),),
+                leading: Icon(Icons.person_search_rounded,),
                 
                 onTap: (){
                 Get.to(ProfileScreen());
@@ -100,8 +100,8 @@ class CustomDrawerWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20.0,),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
-                title: Text('Products',style: TextStyle(color: Colors.black),),
-                leading: Icon(Icons.shopping_bag,color: Colors.black,),
+                title: Text('Products',style: TextStyle(),),
+                leading: Icon(Icons.shopping_bag),
 
                 onTap: (){
                   Get.back();
@@ -113,8 +113,8 @@ class CustomDrawerWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20.0,),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
-                title: Text('Sale Products',style: TextStyle(color: Colors.black),),
-                leading: Icon(Icons.production_quantity_limits,color: Colors.black,),
+                title: Text('Sale Products',style: TextStyle(),),
+                leading: Icon(Icons.production_quantity_limits),
                 
                 onTap: (){
                   Get.back();
@@ -126,8 +126,8 @@ class CustomDrawerWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20.0,),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
-                title: Text('Orders',style: TextStyle(color: Colors.black),),
-                leading: Icon(Icons.shopping_bag,color: Colors.black,),
+                title: Text('Orders',style: TextStyle(),),
+                leading: Icon(Icons.shopping_bag),
                 
                 onTap: (){
                   Get.back();
@@ -139,8 +139,8 @@ class CustomDrawerWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20.0,),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
-                title: Text('Contact',style: TextStyle(color: Colors.black),),
-                leading: Icon(Icons.help,color: Colors.black,),
+                title: Text('Contact',style: TextStyle(),),
+                leading: Icon(Icons.help),
                 
                 onTap: (){
                   Get.back();
@@ -170,7 +170,7 @@ class CustomDrawerWidget extends StatelessWidget {
             ),
           ],
         ),
-              backgroundColor: Colors.white,
+
     ),
     );
   }

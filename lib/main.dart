@@ -30,8 +30,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: themeController.isDarkMode.value
-      ?ThemeMode.dark
-      :ThemeMode.light,
+            ? ThemeMode.dark
+            : ThemeMode.light,
+
       builder: EasyLoading.init(),
       home: SplashScreen(),
     ));
