@@ -79,7 +79,7 @@ class AllFlashSaleProduct extends StatelessWidget {
                       Container(
                           alignment: Alignment.centerLeft,
                           margin: EdgeInsets.symmetric(horizontal: 5),
-                          child: Text(productModel.productName,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
+                          child: Text(productModel.productName,maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
                       Container(
                           alignment: Alignment.centerLeft,
                           margin: EdgeInsets.symmetric(horizontal: 5),

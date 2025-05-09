@@ -69,9 +69,10 @@ class AllProductWidget extends StatelessWidget {
                               )),
                           SizedBox(height: 5,),
                           Container(
+
                             alignment: Alignment.centerLeft,
                               margin: EdgeInsets.symmetric(horizontal: 10),
-                              child: Text(productModel.productName,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
+                              child: Text(productModel.productName,maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
                           Container(
                               alignment: Alignment.centerLeft,
                               margin: EdgeInsets.symmetric(horizontal: 10),

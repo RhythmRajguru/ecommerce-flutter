@@ -48,34 +48,49 @@ class FlashSaleWidget extends StatelessWidget {
                   createdAt: productData['createdAt'],
                   updatedAt: productData['updatedAt']);
               return InkWell(
-                onTap: (){
-                  Get.to(()=>ProductDetail(productModel: productModel,));
+                onTap: () {
+                  Get.to(() => ProductDetail(productModel: productModel));
                 },
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 10,left: 10,bottom: 10),
-                  child:  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                            height: 200,
-                            width: 170,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(image: NetworkImage(productModel.productImages[0]),fit: BoxFit.cover)
-                            )),
-                        SizedBox(height: 5,),
-                        Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(productModel.productName,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
-                        Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text('₹'+productModel.salePrice,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
-
-                      ],
-                    ),
-                  
+                  padding: const EdgeInsets.only(top: 10, left: 10, bottom: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 200,
+                        width: 170,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                            image: NetworkImage(productModel.productImages[0]),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Container(
+                        width: 160, // or double.infinity if within Expanded/Flexible
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        child: Text(
+                          productModel.productName,
+                          style: TextStyle(fontSize: 14, fontFamily: 'Inter'),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        child: Text(
+                          '₹' + productModel.salePrice,
+                          style: TextStyle(fontSize: 14, fontFamily: 'Inter'),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
+
+
             },itemCount: snapshot.data!.docs.length,shrinkWrap: true,scrollDirection: Axis.horizontal,),
           );
         }

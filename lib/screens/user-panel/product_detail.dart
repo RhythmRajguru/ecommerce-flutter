@@ -116,10 +116,12 @@ class _ProductDetailState extends State<ProductDetail> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
+                                Expanded(
+                                  child: Container(
 
-                                alignment: Alignment.topLeft,
-                                  child:Text(widget.productModel.productName,style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'Inter',fontSize: 16),)),
+                                  alignment: Alignment.topLeft,
+                                    child:Text(widget.productModel.productName,maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'Inter',fontSize: 16),)),
+                                ),
                                   Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(6),

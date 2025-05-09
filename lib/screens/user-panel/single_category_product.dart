@@ -75,7 +75,7 @@ class SingleCategoryProduct extends StatelessWidget {
                                 image: DecorationImage(image: NetworkImage(productModel.productImages[0]),fit: BoxFit.cover)
                             )),
                         SizedBox(height: 5,),
-                         Text(productModel.productName,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),),
+                         Text(productModel.productName,maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),),
                       ],
                     ),
                   ),

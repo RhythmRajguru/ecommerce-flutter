@@ -104,7 +104,7 @@ class AllOrderScreen extends StatelessWidget {
                               Container(
                                   alignment: Alignment.centerLeft,
                                   margin: EdgeInsets.symmetric(horizontal: 5),
-                                  child: Text(orderModel.productName,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
+                                  child: Text(orderModel.productName,maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
                               SizedBox(height: 2,),
                               orderModel.isSale
                                   ?Row(

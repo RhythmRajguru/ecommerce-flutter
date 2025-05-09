@@ -91,9 +91,11 @@ class FavouriteProducts extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Container(
-                                      margin: EdgeInsets.symmetric(horizontal: 5),
-                                      child: Text(productModel.productName,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
+                                  Flexible(
+                                    child: Container(
+                                        margin: EdgeInsets.symmetric(horizontal: 5),
+                                        child: Text(productModel.productName,maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 14,fontFamily: 'Inter'),)),
+                                  ),
                                   IconButton(onPressed: ()async{
                                     await FirebaseFirestore.instance.collection('products').doc(
                                         user!.uid).
