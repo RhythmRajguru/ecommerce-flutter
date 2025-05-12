@@ -203,7 +203,7 @@ class _ProductDetailState extends State<ProductDetail> {
                   margin: EdgeInsets.only(left: 20,top: 10),
                   child: Text('Delivery & Services',style: TextStyle(fontFamily: 'Inter',fontSize: 14,fontWeight: FontWeight.bold),)),
               Container(
-                margin: EdgeInsets.only(top: 10,right: 20,left: 20,bottom: 10),
+                margin: EdgeInsets.only(top: 10,right: 20,left: 20,bottom: 20),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
@@ -223,7 +223,7 @@ class _ProductDetailState extends State<ProductDetail> {
                    dense: true,
                    minVerticalPadding: 5,
                    visualDensity: VisualDensity(vertical: -4),
-                   leading: Image.asset('assets/icons/truck.png'),
+                   leading: Image.asset('assets/icons/delivery_free.png'),
                    title: Text('Enjoy Free Delivery',style: TextStyle(fontFamily: 'Inter',fontSize: 14,fontWeight: FontWeight.bold),),
                    subtitle: Row(
                      children: [
@@ -243,6 +243,21 @@ class _ProductDetailState extends State<ProductDetail> {
                      leading: Image.asset('assets/icons/money.png'),
                      title: Text('Pay on Delivery us Available',style: TextStyle(fontFamily: 'Inter',fontSize: 14,fontWeight: FontWeight.bold),),
                      subtitle: Text('₹10 additional fee applicable',style: TextStyle(fontFamily: 'Inter',fontSize: 14,)),
+                   ),
+                 ),
+                 Container(
+                   margin: EdgeInsets.symmetric(horizontal: 10),
+                   child: ListTile(
+                     dense: true,
+                     minVerticalPadding: 5,
+                     visualDensity: VisualDensity(vertical: -4),
+                     leading: Image.asset('assets/icons/delivery_time.png'),
+                     title: Text('Expected Delivery Time',style: TextStyle(fontFamily: 'Inter',fontSize: 14,fontWeight: FontWeight.bold),),
+                     subtitle: Row(
+                       children: [
+                         Text(widget.productModel.deliveryTime,style: TextStyle(fontFamily: 'Inter',fontSize: 14)),
+                       ],
+                     ),
                    ),
                  ),
                  Container(
