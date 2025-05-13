@@ -8,9 +8,16 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../common/widgets/custom_admin_drawer_widget.dart';
+import '../../contollers/add_product_controller.dart';
 
-class AdminMainScreen extends StatelessWidget {
-  const AdminMainScreen({super.key});
+class AdminMainScreen extends StatefulWidget {
+
+  @override
+  State<AdminMainScreen> createState() => _AdminMainScreenState();
+}
+
+class _AdminMainScreenState extends State<AdminMainScreen> {
+  AddProductController addProductController=Get.put(AddProductController());
 
   @override
   Widget build(BuildContext context) {
@@ -21,4 +28,5 @@ class AdminMainScreen extends StatelessWidget {
       drawer: CustomAdminDrawerWidget(),
     );
   }
+
 }

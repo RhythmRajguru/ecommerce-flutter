@@ -176,22 +176,27 @@ class AddCategoryScreen extends StatelessWidget {
 
 
         if(isNameValid && isImgValid ){
-          try {
-            await FirebaseFirestore.instance
-                .collection('categories')
-                .doc(addCategoryController.categoryIdController.text.toString()) // Setting custom doc ID
-                .set({
-              'categoryId': addCategoryController.categoryIdController.text.toString(),
-              'categoryName': addCategoryController.categoryNameController.value.toString(),
-              'categoryImg': addCategoryController.categoryImgController.value.toString(),
-              'createdAt': addCategoryController.dateTimeController.text.toString(),
-              'updatedAt': addCategoryController.dateTimeController.text.toString(),
-            });
-            Get.snackbar('Success', 'Category added with ID: ${addCategoryController.categoryIdController.text.toString()}',snackPosition: SnackPosition.BOTTOM);
-            Get.offAll(()=>AdminMainScreen());
-          } catch (e) {
-            Get.snackbar('Error', 'Error adding category: $e',snackPosition: SnackPosition.BOTTOM);
-          }
+    if(addCategoryController.categoryIdController.text.toString().isNotEmpty && addCategoryController.dateTimeController.text.toString().isNotEmpty) {
+      try {
+        await FirebaseFirestore.instance
+            .collection('categories')
+            .doc(addCategoryController.categoryIdController.text.toString()) // Setting custom doc ID
+            .set({
+          'categoryId': addCategoryController.categoryIdController.text.toString(),
+          'categoryName': addCategoryController.categoryNameController.value.toString(),
+          'categoryImg': addCategoryController.categoryImgController.value.toString(),
+          'createdAt': addCategoryController.dateTimeController.text.toString(),
+          'updatedAt': addCategoryController.dateTimeController.text.toString(),
+        });
+        Get.snackbar('Success', 'Category added with ID: ${addCategoryController.categoryIdController.text.toString()}',snackPosition: SnackPosition.BOTTOM);
+        Get.offAll(()=>AdminMainScreen());
+      } catch (e) {
+        Get.snackbar('Error', 'Error adding category: $e',snackPosition: SnackPosition.BOTTOM);
+      }
+    }else{
+      Get.snackbar('Error', 'Please fill all details',snackPosition: SnackPosition.BOTTOM);
+    }
+
         }else{
           Get.snackbar('Error', 'Please fill all details',snackPosition: SnackPosition.BOTTOM);
         }

@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../screens/admin-panel/add_product_screen.dart';
+
 class CustomAdminDrawerWidget extends StatelessWidget {
 
   User? user=FirebaseAuth.instance.currentUser;
@@ -120,7 +122,7 @@ class CustomAdminDrawerWidget extends StatelessWidget {
 
                 onTap: (){
                   Get.back();
-                  Get.to(MainScreen());
+                  Get.to(AddProductScreen());
                 },
               ),
             ),
