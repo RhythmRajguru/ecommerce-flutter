@@ -1,5 +1,6 @@
 import 'package:ecom/contollers/theme_controller.dart';
 import 'package:ecom/screens/admin-panel/add_category_screen.dart';
+import 'package:ecom/screens/admin-panel/admin_orders_screen.dart';
 import 'package:ecom/screens/auth-ui/welcome_screen.dart';
 import 'package:ecom/screens/user-panel/all_flash_sale_product.dart';
 import 'package:ecom/screens/user-panel/all_order_screen.dart';
@@ -104,6 +105,19 @@ class CustomAdminDrawerWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20.0,),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
+                title: Text('All Orders',style: TextStyle(),),
+                leading: Icon(Icons.shopping_bag),
+
+                onTap: (){
+                  Get.back();
+                  Get.to(AdminOrdersScreen());
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0,),
+              child: ListTile(
+                titleAlignment: ListTileTitleAlignment.center,
                 title: Text('Add Category',style: TextStyle(),),
                 leading: Icon(Icons.category),
 
@@ -126,6 +140,7 @@ class CustomAdminDrawerWidget extends StatelessWidget {
                 },
               ),
             ),
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 50.0),
               child: InkWell(
@@ -146,6 +161,7 @@ class CustomAdminDrawerWidget extends StatelessWidget {
                 ),
               ),
             ),
+
           ],
         ),
 
